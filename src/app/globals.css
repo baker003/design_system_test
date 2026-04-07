@@ -4,70 +4,166 @@
 /* 2. 다크모드 class 전략 */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 3. Brand 팔레트 — SOCAR Blue (#00B8FF) 기반 */
+/* 3. SOCAR FRAME 2.0 Palette */
 :root {
-  --brand-50: #E5F7FF;
-  --brand-100: #B3EAFF;
-  --brand-200: #80DDFF;
-  --brand-300: #4DD0FF;
-  --brand-400: #26C5FF;
-  --brand-500: #00B8FF;
-  --brand-600: #00A3E6;
-  --brand-700: #0082B8;
-  --brand-800: #00618A;
-  --brand-900: #00405C;
+  /* Gray */
+  --gray-50: #F9F9FB; --gray-100: #F2F3F8; --gray-200: #E5E8EF; --gray-300: #CBD1DC;
+  --gray-400: #B4BBCB; --gray-500: #99A1B1; --gray-600: #697383; --gray-700: #4A5667;
+  --gray-800: #354153; --gray-900: #262F3C; --gray-1000: #141A24;
+
+  /* Blue (Primary) */
+  --blue-50: #EBF5FF; --blue-100: #D6EBFF; --blue-200: #99CEFF; --blue-300: #6BB5FF;
+  --blue-400: #3393FF; --blue-500: #0078FF; --blue-600: #0069FF; --blue-700: #0052E0;
+  --blue-800: #0042C7; --blue-900: #0033A9;
+
+  /* Red */
+  --red-50: #FFF0F3; --red-100: #FFDBDF; --red-200: #FFA1AC; --red-300: #FF7686;
+  --red-400: #FF576A; --red-500: #FF3A5B; --red-600: #F51441; --red-700: #E60532;
+  --red-800: #D30831; --red-900: #C10027;
+
+  /* Orange */
+  --orange-50: #FFF8E6; --orange-100: #FFF3CC; --orange-200: #FFDD99; --orange-300: #FFC566;
+  --orange-400: #FFA940; --orange-500: #FF8800; --orange-600: #FA7900; --orange-700: #F56A00;
+  --orange-800: #EC5704; --orange-900: #DD4600;
+
+  /* Green */
+  --green-50: #E6FEF0; --green-500: #04CA81; --green-600: #00BB83;
+
+  /* LightBlue */
+  --lightblue-50: #EBFAFF; --lightblue-100: #D6F4FF; --lightblue-200: #8FDFFF;
+  --lightblue-300: #54C9FF; --lightblue-400: #33BEFF; --lightblue-500: #00AEFF;
+  --lightblue-600: #00A2FA; --lightblue-700: #0094F7; --lightblue-800: #0086EC;
+  --lightblue-900: #006DDF;
+
+  /* Purple */
+  --purple-50: #F5F0FF; --purple-500: #956BFF; --purple-600: #8355FF;
+
+  /* Indigo */
+  --indigo-50: #ECEFFE; --indigo-500: #4B68FF; --indigo-700: #2C46F0;
+
+  /* Magenta */
+  --magenta-50: #FFF0F7; --magenta-500: #FF4397;
+
+  /* Cyan */
+  --cyan-50: #E5FFFC; --cyan-500: #01C9D7;
+
+  /* Lime */
+  --lime-50: #F2FFD4; --lime-500: #8AD510;
+
+  /* RedOrange */
+  --redorange-50: #FFF5EB; --redorange-500: #FF7017;
 }
 
-/* 4. Semantic Tokens — Light (기본) */
+/* 4. Semantic Tokens */
 :root {
-  --background: var(--color-neutral-50);
-  --surface: var(--color-white);
-  --primary: var(--brand-500);
-  --primary-hover: var(--brand-600);
-  --secondary: var(--color-neutral-100);
-  --secondary-hover: var(--color-neutral-200);
-  --foreground: var(--color-neutral-900);
-  --border: var(--color-neutral-200);
-  --ring: var(--brand-300);
-  --error: var(--color-red-500);
-  --warning: var(--color-yellow-500);
-  --success: var(--color-green-500);
-  --destructive: var(--color-red-600);
-  --muted: var(--color-neutral-500);
+  /* Text */
+  --text-strong: var(--gray-1000);
+  --text-primary: var(--gray-800);
+  --text-secondary: var(--gray-600);
+  --text-tertiary: var(--gray-500);
+  --text-disabled: var(--gray-400);
+
+  /* Primary */
+  --primary-regular: var(--blue-500);
+  --primary-strong: var(--blue-600);
+  --primary-heavy: var(--blue-700);
+
+  /* Status */
+  --status-info-light: var(--blue-50);
+  --status-info-regular: var(--blue-500);
+  --status-info-strong: var(--blue-600);
+  --status-positive-weak: var(--green-50);
+  --status-positive-regular: var(--green-500);
+  --status-positive-strong: var(--green-600);
+  --status-caution-weak: var(--orange-50);
+  --status-caution-regular: var(--orange-500);
+  --status-caution-strong: var(--orange-600);
+  --status-negative-weak: var(--red-50);
+  --status-negative-regular: var(--red-500);
+  --status-negative-strong: var(--red-600);
+
+  /* Accent */
+  --accent-red: var(--red-500);
+  --accent-orange: var(--orange-500);
+  --accent-green: var(--green-500);
+  --accent-light-blue: var(--lightblue-500);
+  --accent-purple: var(--purple-500);
+  --accent-red-orange: var(--redorange-500);
+  --accent-indigo: var(--indigo-500);
+  --accent-magenta: var(--magenta-500);
+  --accent-lime: var(--lime-500);
+  --accent-cyan: var(--cyan-500);
+
+  /* Background */
+  --background-regular: var(--gray-100);
+
+  /* Border */
+  --border-weak: var(--gray-100);
+  --border-regular: var(--gray-200);
+
+  /* Divider */
+  --divider-weak: var(--gray-100);
+  --divider-regular: var(--gray-200);
+
+  /* Dimmed */
+  --dimmed-regular: rgba(0, 0, 0, 0.44);
+
+  /* Pressed */
+  --pressed-dark-weak: rgba(20, 26, 36, 0.06);
+
+  /* Notification */
+  --notification-red: var(--red-500);
+
+  /* Service */
+  --service-socar: var(--blue-500);
+  --service-business: var(--blue-900);
+
+  /* Location */
+  --location-return: var(--indigo-700);
 }
 
-/* 5. Semantic Tokens — Dark */
-.dark {
-  --background: var(--color-neutral-900);
-  --surface: var(--color-neutral-800);
-  --primary: var(--brand-400);
-  --primary-hover: var(--brand-300);
-  --secondary: var(--color-neutral-800);
-  --secondary-hover: var(--color-neutral-700);
-  --foreground: var(--color-neutral-100);
-  --border: var(--color-neutral-700);
-  --ring: var(--brand-500);
-  --error: var(--color-red-400);
-  --warning: var(--color-yellow-400);
-  --success: var(--color-green-400);
-  --destructive: var(--color-red-500);
-  --muted: var(--color-neutral-400);
-}
-
-/* 6. Tailwind 테마 등록 */
+/* 5. Tailwind 테마 등록 */
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-foreground: var(--foreground);
-  --color-border: var(--border);
-  --color-ring: var(--ring);
-  --color-error: var(--error);
-  --color-warning: var(--warning);
-  --color-success: var(--success);
-  --color-destructive: var(--destructive);
-  --color-muted: var(--muted);
+  /* Text */
+  --color-text-strong: var(--text-strong);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-disabled: var(--text-disabled);
+
+  /* Primary */
+  --color-primary-regular: var(--primary-regular);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-heavy: var(--primary-heavy);
+
+  /* Background / Border / Divider */
+  --color-background: var(--background-regular);
+  --color-border: var(--border-regular);
+  --color-border-weak: var(--border-weak);
+  --color-divider: var(--divider-regular);
+
+  /* Status */
+  --color-status-info: var(--status-info-regular);
+  --color-status-positive: var(--status-positive-regular);
+  --color-status-caution: var(--status-caution-regular);
+  --color-status-negative: var(--status-negative-regular);
+  --color-status-negative-strong: var(--status-negative-strong);
+
+  /* Pressed */
+  --color-pressed-dark-weak: var(--pressed-dark-weak);
+
+  /* Gray (direct palette) */
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+
+  /* Accent */
+  --color-accent-red: var(--accent-red);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-green: var(--accent-green);
+  --color-accent-light-blue: var(--accent-light-blue);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-indigo: var(--accent-indigo);
+  --color-accent-magenta: var(--accent-magenta);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-lime: var(--accent-lime);
 }

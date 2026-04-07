@@ -1,6 +1,21 @@
 {
   "version": 1,
   "skills": {
+    "accessibility-expert": {
+      "source": "cin12211/orca-q",
+      "sourceType": "github",
+      "computedHash": "58857e8de3a97df6cbd3c243c0309ea8315cbb688bec438c77076396e93dc035"
+    },
+    "design-system": {
+      "source": "anthropics/knowledge-work-plugins",
+      "sourceType": "github",
+      "computedHash": "83a5c0b188fd242ee36817e0fd18c603654b2bd5227bf1ba5fc80af1d706ff8f"
+    },
+    "design-system-creation": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "aa090361eaab91ad7a54ca31c2a26ef24aee95b10759b88535da7e5d41a6efb5"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
