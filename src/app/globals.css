@@ -156,6 +156,12 @@
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
 
+  /* Notification */
+  --color-notification-red: var(--notification-red);
+
+  /* White */
+  --color-white: #FFFFFF;
+
   /* Accent */
   --color-accent-red: var(--accent-red);
   --color-accent-orange: var(--accent-orange);
