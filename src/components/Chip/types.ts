@@ -1,5 +1,5 @@
 export type ChipType = 'outlined' | 'filled';
-export type ChipSize = 'md' | 'sm' | 'xs';
+export type ChipSize = 'lg' | 'md' | 'sm' | 'xs';
 export type ChipFontStyle = 'title' | 'body';
 export type ChipGroupLayout = 'carousel' | 'multiline';
 

@@ -64,7 +64,7 @@ interface TagProps {
   /** 컨테이너 스타일 */
   type?: 'fill-light' | 'fill-dark' | 'fill' | 'outlined' | 'text';
   /** 크기 */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   /** Bold 여부 (폰트 가중치 변경) */
   bold?: boolean;
   /** 아이콘 색상 / 강조 색상 */
@@ -85,9 +85,10 @@ interface TagProps {
 
 | Size | Figma 명칭 | Height | Padding (H x V) | Font (Regular) | Font (Bold) | Icon Size | Corner Radius |
 |------|-----------|--------|------------------|----------------|-------------|-----------|---------------|
-| sm | Small | 20px | 2px | Caption4 (10px/16px, Regular 400) | Caption3 (10px/16px, SemiBold 600) | 12px | 9999px (pill) |
-| md | Medium | 24px | 2px | Caption2 (12px/18px, Medium 500) | Caption1 (12px/18px, SemiBold 600) | 12px | 9999px (pill) |
-| lg | Large | 28px | 2px | Body4 (13px/20px, Regular 400) | Title4 (13px/20px, SemiBold 600) | 14px | 9999px (pill) |
+| xs | X-Small | 20px | 2px | Caption4 (10px/16px, Regular 400) | Caption3 (10px/16px, SemiBold 600) | 12px | 9999px (pill) |
+| sm | Small | 24px | 2px | Caption2 (12px/18px, Medium 500) | Caption1 (12px/18px, SemiBold 600) | 12px | 9999px (pill) |
+| md | Medium | 28px | 2px | Body4 (13px/20px, Regular 400) | Title4 (13px/20px, SemiBold 600) | 14px | 9999px (pill) |
+| lg | Large | 32px | 2px | Body3 (14px/22px, Regular 400) | Title3 (14px/22px, SemiBold 600) | 16px | 9999px (pill) |
 
 > 참고: 아이콘과 레이블 사이 간격(gutter)은 4px. 아이콘 비활성 시 간격 0px.
 
@@ -95,9 +96,10 @@ interface TagProps {
 
 | Size | 아이콘 있을 때 (pl) | 텍스트만 있을 때 (pl) | 우측 패딩 (pr) |
 |------|-------------------|---------------------|--------------|
-| sm | 6px | 8px | 8px |
-| md | 8px | 10px | 10px |
-| lg | 10px | 12px | 12px |
+| xs | 6px | 8px | 8px |
+| sm | 8px | 10px | 10px |
+| md | 10px | 12px | 12px |
+| lg | 12px | 14px | 14px |
 
 > 아이콘이 있을 때 좌측 패딩이 사이즈별로 2px 더 좁아짐. 아이콘 자체가 시각적 여백을 만들기 때문.
 
@@ -205,7 +207,7 @@ interface TagGroupProps {
 
 ### 기능 요구사항
 - [ ] Tag의 모든 type (fill, outlined, text)이 올바른 스타일로 렌더링된다
-- [ ] 3개 size (sm, md, lg)가 각각 올바른 높이/폰트/패딩으로 렌더링된다
+- [ ] 4개 size (xs, sm, md, lg)가 각각 올바른 높이/폰트/패딩으로 렌더링된다
 - [ ] bold prop에 따라 font-weight가 Regular(400)/Medium(500) 또는 SemiBold(600)로 전환된다
 - [ ] 12가지 color prop이 올바른 accent 색상으로 아이콘/텍스트를 렌더링한다
 - [ ] leadingIcon 전달 시 올바른 위치/크기에 아이콘이 렌더링된다

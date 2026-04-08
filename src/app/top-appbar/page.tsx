@@ -57,16 +57,16 @@ export default function TopAppbarPage() {
   return (
     <div className="min-h-screen bg-background p-6 space-y-8">
       <h1 className="text-[24px] leading-[34px] font-bold text-text-strong">
-        Top Appbar Preview
+        Top Appbar 프리뷰
       </h1>
 
       {/* Theme comparison */}
-      <Section title="Theme">
+      <Section title="테마">
         <Label text="white" />
         <TopAppbar
           theme="white"
           leading={<LeadingButton variant="back" />}
-          instant={<TopAppbarInstant variant="heading" title="White Theme" />}
+          instant={<TopAppbarInstant variant="heading" title="화이트 테마" />}
           trailing={
             <TrailingButton
               variant="iconButtons"
@@ -80,7 +80,7 @@ export default function TopAppbarPage() {
           <TopAppbar
             theme="transparent"
             leading={<LeadingButton variant="back" />}
-            instant={<TopAppbarInstant variant="heading" title="Transparent Theme" />}
+            instant={<TopAppbarInstant variant="heading" title="투명 테마" />}
             trailing={
               <TrailingButton
                 variant="iconButtons"
@@ -94,7 +94,7 @@ export default function TopAppbarPage() {
         <TopAppbar
           theme="dark"
           leading={<LeadingButton variant="back" />}
-          instant={<TopAppbarInstant variant="heading" title="Dark Theme" />}
+          instant={<TopAppbarInstant variant="heading" title="다크 테마" />}
           trailing={
             <TrailingButton
               variant="iconButtons"
@@ -105,7 +105,7 @@ export default function TopAppbarPage() {
       </Section>
 
       {/* Leading variants */}
-      <Section title="Leading Variants">
+      <Section title="좌측 버튼 변형">
         <Label text="back" />
         <TopAppbar
           leading={<LeadingButton variant="back" />}
@@ -124,14 +124,14 @@ export default function TopAppbarPage() {
           instant={<TopAppbarInstant variant="label" title="홈으로" />}
         />
 
-        <Label text="none (no leading)" />
+        <Label text="없음" />
         <TopAppbar
-          instant={<TopAppbarInstant variant="heading" title="Leading 없음" />}
+          instant={<TopAppbarInstant variant="heading" title="좌측 버튼 없음" />}
         />
       </Section>
 
       {/* Instant variants */}
-      <Section title="Instant Variants">
+      <Section title="중앙 콘텐츠 변형">
         <Label text="heading" />
         <TopAppbar
           leading={<LeadingButton variant="back" />}
@@ -193,8 +193,8 @@ export default function TopAppbarPage() {
       </Section>
 
       {/* Trailing variants */}
-      <Section title="Trailing Variants">
-        <Label text="iconButtons (1 button)" />
+      <Section title="우측 버튼 변형">
+        <Label text="아이콘 버튼 (1개)" />
         <TopAppbar
           leading={<LeadingButton variant="back" />}
           instant={<TopAppbarInstant variant="heading" title="상세 페이지" />}
@@ -206,7 +206,7 @@ export default function TopAppbarPage() {
           }
         />
 
-        <Label text="iconButtons (3 buttons)" />
+        <Label text="아이콘 버튼 (3개)" />
         <TopAppbar
           leading={<LeadingButton variant="back" />}
           instant={<TopAppbarInstant variant="heading" title="상세 페이지" />}
@@ -222,7 +222,7 @@ export default function TopAppbarPage() {
           }
         />
 
-        <Label text="textButton" />
+        <Label text="텍스트 버튼" />
         <TopAppbar
           leading={<LeadingButton variant="close" />}
           instant={<TopAppbarInstant variant="heading" title="예약 확인" />}
@@ -235,15 +235,15 @@ export default function TopAppbarPage() {
           }
         />
 
-        <Label text="none (no trailing)" />
+        <Label text="없음" />
         <TopAppbar
           leading={<LeadingButton variant="back" />}
-          instant={<TopAppbarInstant variant="heading" title="Trailing 없음" />}
+          instant={<TopAppbarInstant variant="heading" title="우측 버튼 없음" />}
         />
       </Section>
 
       {/* Loading states */}
-      <Section title="Loading States">
+      <Section title="로딩 상태">
         <Label text={`determinate (${progress}%)`} />
         <TopAppbar
           loading
@@ -260,14 +260,14 @@ export default function TopAppbarPage() {
           className="w-full"
         />
 
-        <Label text="indeterminate" />
+        <Label text="무한 로딩" />
         <TopAppbar
           loading
           leading={<LeadingButton variant="back" />}
           instant={<TopAppbarInstant variant="heading" title="로딩 중..." />}
         />
 
-        <Label text="dark + indeterminate" />
+        <Label text="다크 + 무한 로딩" />
         <TopAppbar
           theme="dark"
           loading
@@ -277,14 +277,14 @@ export default function TopAppbarPage() {
       </Section>
 
       {/* Full combination: dark + trailing icons + loading */}
-      <Section title="Full Combination">
-        <Label text="dark + back + heading + 3 icon buttons + loading" />
+      <Section title="전체 조합">
+        <Label text="다크 + 뒤로가기 + 헤딩 + 아이콘 버튼 3개 + 로딩" />
         <TopAppbar
           theme="dark"
           loading
           progress={75}
           leading={<LeadingButton variant="back" />}
-          instant={<TopAppbarInstant variant="heading" title="운행 화면" />}
+          instant={<TopAppbarInstant variant="heading" title="내 예약" />}
           trailing={
             <TrailingButton
               variant="iconButtons"
@@ -297,7 +297,7 @@ export default function TopAppbarPage() {
           }
         />
 
-        <Label text="dark + close + textButton trailing" />
+        <Label text="다크 + 닫기 + 텍스트 버튼" />
         <TopAppbar
           theme="dark"
           leading={<LeadingButton variant="close" />}

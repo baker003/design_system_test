@@ -74,10 +74,10 @@ export default function ButtonPage() {
   return (
     <div className="min-h-screen bg-white p-8 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold text-text-strong mb-2">
-        SOCAR FRAME 2.0 -- Button Components
+        SOCAR FRAME 2.0 -- Button 컴포넌트
       </h1>
       <p className="text-text-secondary mb-10">
-        All variant / size / state combinations for the Button component family.
+        Button 컴포넌트 패밀리의 모든 variant / 사이즈 / 상태 조합입니다.
       </p>
 
       {/* ── ActionButton ── */}
@@ -85,7 +85,7 @@ export default function ButtonPage() {
         {actionTypes.map((type) => (
           <div key={type} className="mb-8">
             <h3 className="text-base font-semibold text-text-primary mb-4 capitalize">
-              Type: {type}
+              타입: {type}
             </h3>
             {actionVariants.map((variant) => (
               <SubSection key={variant} title={`${type} / ${variant}`}>
@@ -99,33 +99,33 @@ export default function ButtonPage() {
           </div>
         ))}
 
-        <SubSection title="With Icons">
-          <ActionButton leftIcon={<PlusIcon />}>Left Icon</ActionButton>
-          <ActionButton rightIcon={<ChevronRight />}>Right Icon</ActionButton>
+        <SubSection title="아이콘 포함">
+          <ActionButton leftIcon={<PlusIcon />}>왼쪽 아이콘</ActionButton>
+          <ActionButton rightIcon={<ChevronRight />}>오른쪽 아이콘</ActionButton>
           <ActionButton leftIcon={<PlusIcon />} rightIcon={<ChevronRight />}>
-            Both Icons
+            양쪽 아이콘
           </ActionButton>
         </SubSection>
 
-        <SubSection title="Full Width">
+        <SubSection title="전체 너비">
           <div className="w-full">
-            <ActionButton fullWidth>Full Width Button</ActionButton>
+            <ActionButton fullWidth>전체 너비 버튼</ActionButton>
           </div>
         </SubSection>
 
-        <SubSection title="Loading State">
+        <SubSection title="로딩 상태">
           {actionTypes.map((type) => (
             <ActionButton key={type} type={type} loading>
-              Loading
+              로딩
             </ActionButton>
           ))}
         </SubSection>
 
-        <SubSection title="Disabled State">
+        <SubSection title="비활성 상태">
           {actionTypes.map((type) =>
             actionVariants.map((variant) => (
               <ActionButton key={`${type}-${variant}`} type={type} variant={variant} disabled>
-                Disabled
+                비활성
               </ActionButton>
             )),
           )}
@@ -135,7 +135,7 @@ export default function ButtonPage() {
       {/* ── TextButton ── */}
       <Section title="2. TextButton">
         {textVariants.map((variant) => (
-          <SubSection key={variant} title={`Variant: ${variant}`}>
+          <SubSection key={variant} title={`변형: ${variant}`}>
             {sizes.map((size) => (
               <TextButton key={size} variant={variant} size={size}>
                 {size.toUpperCase()}
@@ -144,15 +144,15 @@ export default function ButtonPage() {
           </SubSection>
         ))}
 
-        <SubSection title="With Icons">
-          <TextButton leftIcon={<PlusIcon />}>Left Icon</TextButton>
-          <TextButton rightIcon={<ChevronRight />}>Right Icon</TextButton>
+        <SubSection title="아이콘 포함">
+          <TextButton leftIcon={<PlusIcon />}>왼쪽 아이콘</TextButton>
+          <TextButton rightIcon={<ChevronRight />}>오른쪽 아이콘</TextButton>
         </SubSection>
 
-        <SubSection title="Disabled">
+        <SubSection title="비활성">
           {textVariants.map((variant) => (
             <TextButton key={variant} variant={variant} disabled>
-              Disabled {variant}
+              비활성 {variant}
             </TextButton>
           ))}
         </SubSection>
@@ -168,25 +168,25 @@ export default function ButtonPage() {
                 type={type}
                 size={size}
                 icon={<CloseIcon />}
-                aria-label={`Close (${size})`}
+                aria-label={`닫기 (${size})`}
               />
             ))}
           </SubSection>
         ))}
 
-        <SubSection title="Circle Shape">
+        <SubSection title="원형">
           {sizes.map((size) => (
             <IconButton
               key={size}
               shape="circle"
               size={size}
               icon={<HeartIcon />}
-              aria-label={`Like (${size})`}
+              aria-label={`좋아요 (${size})`}
             />
           ))}
         </SubSection>
 
-        <SubSection title="Circle + Fill">
+        <SubSection title="원형 + 채움">
           {sizes.map((size) => (
             <IconButton
               key={size}
@@ -194,19 +194,19 @@ export default function ButtonPage() {
               type="fill"
               size={size}
               icon={<HeartIcon />}
-              aria-label={`Like (${size})`}
+              aria-label={`좋아요 (${size})`}
             />
           ))}
         </SubSection>
 
-        <SubSection title="Disabled">
+        <SubSection title="비활성">
           {iconTypes.map((type) => (
             <IconButton
               key={type}
               type={type}
               disabled
               icon={<CloseIcon />}
-              aria-label={`Close (disabled ${type})`}
+              aria-label={`닫기 (비활성 ${type})`}
             />
           ))}
         </SubSection>
@@ -214,22 +214,22 @@ export default function ButtonPage() {
 
       {/* ── LinkTextButton ── */}
       <Section title="4. LinkTextButton">
-        <SubSection title="Sizes">
+        <SubSection title="사이즈">
           {sizes.map((size) => (
             <LinkTextButton key={size} size={size}>
-              Link {size.toUpperCase()}
+              링크 {size.toUpperCase()}
             </LinkTextButton>
           ))}
         </SubSection>
 
-        <SubSection title="As Anchor (<a>)">
-          <LinkTextButton href="https://socar.kr">Visit SOCAR</LinkTextButton>
+        <SubSection title="앵커 태그 (<a>)">
+          <LinkTextButton href="https://socar.kr">SOCAR 방문</LinkTextButton>
         </SubSection>
 
-        <SubSection title="Disabled">
-          <LinkTextButton disabled>Disabled Link</LinkTextButton>
+        <SubSection title="비활성">
+          <LinkTextButton disabled>비활성 링크</LinkTextButton>
           <LinkTextButton href="https://socar.kr" disabled>
-            Disabled Anchor
+            비활성 앵커
           </LinkTextButton>
         </SubSection>
       </Section>

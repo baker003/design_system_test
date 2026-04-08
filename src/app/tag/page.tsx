@@ -11,7 +11,7 @@ function StarIcon() {
 }
 
 const types: TagType[] = ['fill-light', 'fill-dark', 'fill', 'outlined', 'text'];
-const sizes: TagSize[] = ['sm', 'md', 'lg'];
+const sizes: TagSize[] = ['xs', 'sm', 'md', 'lg'];
 const colors: TagColor[] = [
   'indigo', 'blue', 'red', 'orange', 'green', 'lightblue',
   'purple', 'magenta', 'cyan', 'lime', 'redorange', 'gray',
@@ -22,12 +22,12 @@ export default function TagPage() {
   return (
     <div className="min-h-screen bg-white p-8 space-y-12">
       <h1 className="text-[24px] font-bold leading-[34px] text-text-strong">
-        Tag Component
+        Tag 컴포넌트
       </h1>
 
       {/* ── 1. Type 비교 ── */}
       <section className="space-y-4">
-        <h2 className="text-[18px] font-semibold text-text-strong">1. Types</h2>
+        <h2 className="text-[18px] font-semibold text-text-strong">1. 타입</h2>
         <div className="flex flex-wrap items-center gap-3">
           {types.map((t) => (
             <Tag key={t} type={t} label={t} color="indigo" leadingIcon={<StarIcon />} />
@@ -37,26 +37,26 @@ export default function TagPage() {
 
       {/* ── 2. Size 비교 ── */}
       <section className="space-y-4">
-        <h2 className="text-[18px] font-semibold text-text-strong">2. Sizes</h2>
+        <h2 className="text-[18px] font-semibold text-text-strong">2. 사이즈</h2>
         {sizes.map((s) => (
           <div key={s} className="flex flex-wrap items-center gap-3 mb-2">
             <span className="w-8 text-[12px] text-text-secondary font-medium">{s}</span>
-            <Tag size={s} label="Label" leadingIcon={<StarIcon />} />
-            <Tag size={s} label="No Icon" showLeadingIcon={false} />
-            <Tag size={s} label="Bold" bold leadingIcon={<StarIcon />} />
+            <Tag size={s} label="라벨" leadingIcon={<StarIcon />} />
+            <Tag size={s} label="아이콘 없음" showLeadingIcon={false} />
+            <Tag size={s} label="굵게" bold leadingIcon={<StarIcon />} />
           </div>
         ))}
       </section>
 
       {/* ── 3. Bold 비교 ── */}
       <section className="space-y-4">
-        <h2 className="text-[18px] font-semibold text-text-strong">3. Bold</h2>
+        <h2 className="text-[18px] font-semibold text-text-strong">3. 굵기</h2>
         <div className="space-y-2">
           {sizes.map((s) => (
             <div key={s} className="flex items-center gap-3">
               <span className="w-8 text-[12px] text-text-secondary font-medium">{s}</span>
-              <Tag size={s} label="Regular" bold={false} />
-              <Tag size={s} label="Bold" bold />
+              <Tag size={s} label="기본" bold={false} />
+              <Tag size={s} label="굵게" bold />
             </div>
           ))}
         </div>
@@ -64,7 +64,7 @@ export default function TagPage() {
 
       {/* ── 4. All Colors x Types ── */}
       <section className="space-y-4">
-        <h2 className="text-[18px] font-semibold text-text-strong">4. Colors x Types</h2>
+        <h2 className="text-[18px] font-semibold text-text-strong">4. 컬러 x 타입</h2>
         <div className="space-y-6">
           {types.map((t) => (
             <div key={t} className="space-y-2">
@@ -88,12 +88,12 @@ export default function TagPage() {
       {/* ── 5. Icon 유무 ── */}
       <section className="space-y-4">
         <h2 className="text-[18px] font-semibold text-text-strong">
-          5. Leading Icon (show / hide)
+          5. 아이콘 (표시 / 숨김)
         </h2>
         <div className="flex flex-wrap items-center gap-3">
-          <Tag label="With Icon" leadingIcon={<StarIcon />} showLeadingIcon />
-          <Tag label="Hidden Icon" leadingIcon={<StarIcon />} showLeadingIcon={false} />
-          <Tag label="No Icon Prop" />
+          <Tag label="아이콘 표시" leadingIcon={<StarIcon />} showLeadingIcon />
+          <Tag label="아이콘 숨김" leadingIcon={<StarIcon />} showLeadingIcon={false} />
+          <Tag label="아이콘 없음" />
         </div>
       </section>
 
@@ -103,14 +103,14 @@ export default function TagPage() {
 
         {/* Group types */}
         <div className="space-y-4">
-          <h3 className="text-[14px] font-medium text-text-secondary">Group Types</h3>
+          <h3 className="text-[14px] font-medium text-text-secondary">그룹 타입</h3>
           {groupTypes.map((gt) => (
             <div key={gt} className="space-y-1">
               <p className="text-[12px] text-text-tertiary">type=&quot;{gt}&quot;</p>
               <TagGroup type={gt}>
-                <Tag label="Tag 1" color="indigo" leadingIcon={<StarIcon />} />
-                <Tag label="Tag 2" color="blue" leadingIcon={<StarIcon />} />
-                <Tag label="Tag 3" color="red" leadingIcon={<StarIcon />} />
+                <Tag label="태그 1" color="indigo" leadingIcon={<StarIcon />} />
+                <Tag label="태그 2" color="blue" leadingIcon={<StarIcon />} />
+                <Tag label="태그 3" color="red" leadingIcon={<StarIcon />} />
               </TagGroup>
             </div>
           ))}
@@ -118,21 +118,21 @@ export default function TagPage() {
 
         {/* Divider */}
         <div className="space-y-4">
-          <h3 className="text-[14px] font-medium text-text-secondary">Divider</h3>
+          <h3 className="text-[14px] font-medium text-text-secondary">구분자</h3>
           <div className="space-y-2">
-            <p className="text-[12px] text-text-tertiary">dot divider</p>
+            <p className="text-[12px] text-text-tertiary">점(·) 구분자</p>
             <TagGroup type="fill" showDivider dividerStyle="dot">
-              <Tag label="Seoul" color="indigo" />
-              <Tag label="Jeju" color="blue" />
-              <Tag label="Busan" color="red" />
+              <Tag label="서울" color="indigo" />
+              <Tag label="제주" color="blue" />
+              <Tag label="부산" color="red" />
             </TagGroup>
           </div>
           <div className="space-y-2">
-            <p className="text-[12px] text-text-tertiary">slash divider</p>
+            <p className="text-[12px] text-text-tertiary">슬래시(/) 구분자</p>
             <TagGroup type="basic" showDivider dividerStyle="slash">
-              <Tag label="Seoul" color="indigo" />
-              <Tag label="Jeju" color="blue" />
-              <Tag label="Busan" color="red" />
+              <Tag label="서울" color="indigo" />
+              <Tag label="제주" color="blue" />
+              <Tag label="부산" color="red" />
             </TagGroup>
           </div>
         </div>

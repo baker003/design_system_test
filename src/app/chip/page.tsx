@@ -48,31 +48,31 @@ function SubSection({ title, children }: { title: string; children: React.ReactN
 }
 
 const types: ChipType[] = ['outlined', 'filled'];
-const sizes: ChipSize[] = ['md', 'sm', 'xs'];
+const sizes: ChipSize[] = ['lg', 'md', 'sm', 'xs'];
 
 export default function ChipPage() {
   return (
     <div className="min-h-screen bg-white p-8 space-y-10 max-w-3xl mx-auto">
       <h1 className="text-[24px] font-bold text-text-strong">
-        Chip Component Preview
+        Chip 컴포넌트 프리뷰
       </h1>
 
       {/* 1. Type x State 매트릭스 */}
-      <Section title="1. Type x State">
+      <Section title="1. 타입 x 상태">
         {types.map((type) => (
           <SubSection key={type} title={`type="${type}"`}>
             <div className="flex flex-wrap gap-3 items-center">
-              <Chip type={type} label="Unselected" />
-              <Chip type={type} label="Selected" selected />
-              <Chip type={type} label="Disabled" disabled />
-              <Chip type={type} label="Selected+Disabled" selected disabled />
+              <Chip type={type} label="미선택" />
+              <Chip type={type} label="선택됨" selected />
+              <Chip type={type} label="비활성" disabled />
+              <Chip type={type} label="선택됨+비활성" selected disabled />
             </div>
           </SubSection>
         ))}
       </Section>
 
       {/* 2. Size 비교 */}
-      <Section title="2. Sizes">
+      <Section title="2. 사이즈">
         {types.map((type) => (
           <SubSection key={type} title={`type="${type}"`}>
             <div className="flex flex-wrap gap-3 items-center">
@@ -81,7 +81,7 @@ export default function ChipPage() {
                   key={size}
                   type={type}
                   size={size}
-                  label={`Size ${size}`}
+                  label={`사이즈 ${size}`}
                   selected
                 />
               ))}
@@ -91,44 +91,44 @@ export default function ChipPage() {
       </Section>
 
       {/* 3. 아이콘 조합 */}
-      <Section title="3. Icons">
+      <Section title="3. 아이콘">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="Leading" leadingIcon={<StarIcon />} />
-          <Chip label="Trailing" trailingIcon={<ChevronDownIcon />} />
+          <Chip label="앞쪽" leadingIcon={<StarIcon />} />
+          <Chip label="뒤쪽" trailingIcon={<ChevronDownIcon />} />
           <Chip
-            label="Both"
+            label="양쪽"
             leadingIcon={<StarIcon />}
             trailingIcon={<CloseIcon />}
           />
           <Chip
-            label="Leading hidden"
+            label="앞쪽 숨김"
             leadingIcon={<StarIcon />}
             showLeadingIcon={false}
           />
           <Chip
-            label="Trailing hidden"
+            label="뒤쪽 숨김"
             trailingIcon={<ChevronDownIcon />}
             showTrailingIcon={false}
           />
         </div>
-        <SubSection title="Selected with icons">
+        <SubSection title="선택됨 + 아이콘">
           <div className="flex flex-wrap gap-3 items-center">
             <Chip
-              label="Outlined"
+              label="아웃라인"
               type="outlined"
               selected
               leadingIcon={<StarIcon />}
               trailingIcon={<ChevronDownIcon />}
             />
             <Chip
-              label="Filled"
+              label="채움"
               type="filled"
               selected
               leadingIcon={<StarIcon />}
               trailingIcon={<ChevronDownIcon />}
             />
             <Chip
-              label="Disabled"
+              label="비활성"
               type="filled"
               disabled
               leadingIcon={<StarIcon />}
@@ -139,7 +139,7 @@ export default function ChipPage() {
       </Section>
 
       {/* 4. Icon sizes per chip size */}
-      <Section title="4. Icon Sizes per Chip Size">
+      <Section title="4. Chip 사이즈별 아이콘 크기">
         <div className="flex flex-wrap gap-3 items-center">
           {sizes.map((size) => (
             <Chip
@@ -155,41 +155,41 @@ export default function ChipPage() {
       </Section>
 
       {/* 5. Count 뱃지 */}
-      <Section title="5. Count Badge">
+      <Section title="5. 카운트 뱃지">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="Filter" selected count={3} />
-          <Chip label="Filter" selected count={12} type="filled" />
-          <Chip label="No count (unselected)" count={5} />
+          <Chip label="필터" selected count={3} />
+          <Chip label="필터" selected count={12} type="filled" />
+          <Chip label="카운트 없음 (미선택)" count={5} />
         </div>
       </Section>
 
       {/* 6. NEW 뱃지 */}
-      <Section title="6. NEW Badge (빨간 점)">
+      <Section title="6. NEW 뱃지 (빨간 점)">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="New!" showNewBadge />
-          <Chip label="Selected New" showNewBadge selected />
-          <Chip label="Filled New" showNewBadge type="filled" />
-          <Chip label="Disabled New" showNewBadge disabled />
+          <Chip label="새로운!" showNewBadge />
+          <Chip label="선택됨 새로운" showNewBadge selected />
+          <Chip label="채움 새로운" showNewBadge type="filled" />
+          <Chip label="비활성 새로운" showNewBadge disabled />
         </div>
       </Section>
 
       {/* 7. fontStyle */}
-      <Section title="7. fontStyle Prop">
+      <Section title="7. fontStyle 속성">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="Auto (unselected=body)" />
-          <Chip label="Auto (selected=title)" selected />
-          <Chip label="Force title" fontStyle="title" />
-          <Chip label="Force body" fontStyle="body" selected />
+          <Chip label="자동 (미선택=body)" />
+          <Chip label="자동 (선택됨=title)" selected />
+          <Chip label="강제 title" fontStyle="title" />
+          <Chip label="강제 body" fontStyle="body" selected />
         </div>
       </Section>
 
       {/* 8. ChipGroup -- Carousel */}
-      <Section title="8. ChipGroup - Carousel">
+      <Section title="8. ChipGroup - 캐러셀">
         <ChipGroup layout="carousel">
           {Array.from({ length: 12 }, (_, i) => (
             <Chip
               key={i}
-              label={`Chip ${i + 1}`}
+              label={`칩 ${i + 1}`}
               selected={i === 0}
               type={i % 2 === 0 ? 'outlined' : 'filled'}
             />
@@ -198,7 +198,7 @@ export default function ChipPage() {
       </Section>
 
       {/* 9. ChipGroup -- Multiline */}
-      <Section title="9. ChipGroup - Multiline">
+      <Section title="9. ChipGroup - 멀티라인">
         <ChipGroup layout="multiline">
           {['전체', '대형', '중형', '소형', 'SUV', '전기차', '하이브리드', '수소차'].map(
             (name, i) => (
@@ -214,19 +214,19 @@ export default function ChipPage() {
       </Section>
 
       {/* 10. ChipGroup -- Custom gap */}
-      <Section title="10. ChipGroup - Custom Gap (12px)">
+      <Section title="10. ChipGroup - 커스텀 간격 (12px)">
         <ChipGroup layout="multiline" gap={12}>
-          <Chip label="Gap 12" />
-          <Chip label="Between" />
-          <Chip label="Chips" />
+          <Chip label="간격 12" />
+          <Chip label="사이" />
+          <Chip label="칩들" />
         </ChipGroup>
       </Section>
 
       {/* 11. 종합 -- 다양한 조합 */}
-      <Section title="11. Full Combination">
+      <Section title="11. 전체 조합">
         <ChipGroup layout="multiline">
           <Chip
-            label="Filter"
+            label="필터"
             type="outlined"
             selected
             count={5}
@@ -235,21 +235,21 @@ export default function ChipPage() {
             showNewBadge
           />
           <Chip
-            label="Filled"
+            label="채움"
             type="filled"
             selected
             size="sm"
             leadingIcon={<StarIcon />}
           />
           <Chip
-            label="XS Body"
+            label="XS 본문"
             type="outlined"
             size="xs"
             fontStyle="body"
             trailingIcon={<CloseIcon />}
           />
           <Chip
-            label="Disabled"
+            label="비활성"
             type="filled"
             disabled
             leadingIcon={<StarIcon />}

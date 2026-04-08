@@ -162,6 +162,11 @@
   /* Notification */
   --color-notification-red: var(--notification-red);
 
+  /* Surface */
+  --color-surface: #FFFFFF;
+  --color-on-primary: #FFFFFF;
+  --color-on-surface: var(--text-strong);
+
   /* White */
   --color-white: #FFFFFF;
 
@@ -201,3 +206,19 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(350%); }
 }
+
+/* ── Typography Tokens ── */
+@utility typo-heading-1 { font-size: 28px; line-height: 38px; }
+@utility typo-heading-2 { font-size: 24px; line-height: 34px; }
+@utility typo-heading-3 { font-size: 22px; line-height: 30px; }
+@utility typo-title-1 { font-size: 20px; line-height: 28px; }
+@utility typo-title-2 { font-size: 18px; line-height: 26px; }
+@utility typo-title-3 { font-size: 16px; line-height: 24px; }
+@utility typo-subtitle-1 { font-size: 16px; line-height: 24px; }
+@utility typo-subtitle-2 { font-size: 14px; line-height: 22px; }
+@utility typo-subtitle-3 { font-size: 13px; line-height: 20px; }
+@utility typo-body-1 { font-size: 16px; line-height: 24px; }
+@utility typo-body-2 { font-size: 14px; line-height: 22px; }
+@utility typo-body-3 { font-size: 13px; line-height: 20px; }
+@utility typo-caption-1 { font-size: 12px; line-height: 18px; }
+@utility typo-caption-2 { font-size: 11px; line-height: 16px; }

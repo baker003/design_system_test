@@ -5,11 +5,11 @@ import clsx from 'clsx';
 import type { TextButtonProps, ButtonSize, TextButtonVariant } from './types';
 
 const sizeClasses: Record<ButtonSize, string> = {
-  xs: 'h-8 text-[12px] leading-[18px] font-medium rounded-lg',
-  sm: 'h-9 text-[13px] leading-[20px] font-semibold rounded-lg',
-  md: 'h-10 text-[14px] leading-[22px] font-semibold rounded-[10px]',
-  lg: 'h-12 text-[16px] leading-[24px] font-semibold rounded-xl',
-  xl: 'h-14 text-[18px] leading-[26px] font-semibold rounded-xl',
+  xs: 'h-8 typo-caption-1 font-medium rounded-lg',
+  sm: 'h-9 typo-body-3 font-semibold rounded-lg',
+  md: 'h-10 typo-body-2 font-semibold rounded-[10px]',
+  lg: 'h-12 typo-title-3 font-semibold rounded-xl',
+  xl: 'h-14 typo-title-2 font-semibold rounded-xl',
 };
 
 const variantClasses: Record<TextButtonVariant, string> = {
@@ -48,7 +48,7 @@ export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
         aria-disabled={disabled || undefined}
         onClick={disabled ? undefined : onClick}
         className={clsx(
-          'inline-flex items-center justify-center gap-1.5',
+          'inline-flex items-center justify-center gap-[6px]',
           'bg-transparent px-2',
           'whitespace-nowrap',
           'transition-transform duration-150 ease-in-out',
@@ -61,10 +61,18 @@ export const TextButton = forwardRef<HTMLButtonElement, TextButtonProps>(
           className,
         )}
       >
-        <span className={clsx('flex items-center gap-1.5', iconSizeClasses[size])}>
-          {leftIcon}
-          {children}
-          {rightIcon}
+        <span className="flex items-center gap-[6px]">
+          {leftIcon && (
+            <span className={clsx('flex-shrink-0 flex items-center', iconSizeClasses[size])}>
+              {leftIcon}
+            </span>
+          )}
+          <span className="leading-[1]">{children}</span>
+          {rightIcon && (
+            <span className={clsx('flex-shrink-0 flex items-center', iconSizeClasses[size])}>
+              {rightIcon}
+            </span>
+          )}
         </span>
       </button>
     );

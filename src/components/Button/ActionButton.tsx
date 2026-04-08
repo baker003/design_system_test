@@ -6,18 +6,18 @@ import type { ActionButtonProps, ButtonSize } from './types';
 import { Spinner } from './Spinner';
 
 const sizeClasses: Record<ButtonSize, string> = {
-  xs: 'h-8 px-3 text-[12px] leading-[18px] font-medium rounded-lg',
-  sm: 'h-9 px-3.5 text-[13px] leading-[20px] font-semibold rounded-lg',
-  md: 'h-10 px-4 text-[14px] leading-[22px] font-semibold rounded-[10px]',
-  lg: 'h-12 px-5 text-[16px] leading-[24px] font-semibold rounded-xl',
-  xl: 'h-14 px-6 text-[18px] leading-[26px] font-semibold rounded-xl',
+  xs: 'h-8 px-[12px] typo-caption-1 font-medium rounded-lg',
+  sm: 'h-9 px-[14px] typo-body-3 font-semibold rounded-lg',
+  md: 'h-10 px-4 typo-body-2 font-semibold rounded-[10px]',
+  lg: 'h-12 px-5 typo-title-3 font-semibold rounded-xl',
+  xl: 'h-14 px-6 typo-title-2 font-semibold rounded-xl',
 };
 
 const typeVariantClasses: Record<string, string> = {
-  'fill-primary': 'bg-primary-strong text-white hover:brightness-95',
+  'fill-primary': 'bg-primary-strong text-on-primary hover:brightness-95',
   'fill-secondary': 'bg-gray-200 text-text-primary hover:brightness-95',
   'fill-tertiary': 'bg-gray-100 text-text-secondary hover:brightness-95',
-  'fill-destructive': 'bg-status-negative-strong text-white hover:brightness-95',
+  'fill-destructive': 'bg-status-negative-strong text-on-primary hover:brightness-95',
   'outline-primary': 'bg-transparent text-primary-strong border border-primary-strong hover:bg-pressed-dark-weak',
   'outline-secondary': 'bg-transparent text-text-primary border border-border hover:bg-pressed-dark-weak',
   'outline-tertiary': 'bg-transparent text-text-secondary border border-border hover:bg-pressed-dark-weak',
@@ -65,7 +65,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
         aria-busy={loading || undefined}
         onClick={isDisabledOrLoading ? undefined : onClick}
         className={clsx(
-          'relative inline-flex items-center justify-center gap-1.5',
+          'relative inline-flex items-center justify-center gap-[6px]',
           'font-semibold whitespace-nowrap',
           'transition-transform duration-150 ease-in-out',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-strong focus-visible:ring-offset-2',
@@ -86,14 +86,21 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
         )}
         <span
           className={clsx(
-            'flex items-center gap-1.5',
-            iconSizeClasses[size],
+            'flex items-center gap-[6px]',
             loading && 'invisible',
           )}
         >
-          {leftIcon}
-          {children}
-          {rightIcon}
+          {leftIcon && (
+            <span className={clsx('flex-shrink-0 flex items-center', iconSizeClasses[size])}>
+              {leftIcon}
+            </span>
+          )}
+          <span className="leading-[1]">{children}</span>
+          {rightIcon && (
+            <span className={clsx('flex-shrink-0 flex items-center', iconSizeClasses[size])}>
+              {rightIcon}
+            </span>
+          )}
         </span>
       </button>
     );

@@ -38,43 +38,47 @@ const accentBg: Record<TagColor, string> = {
 
 /* ── Size 클래스 (height + font-size + line-height + vertical padding) ── */
 const sizeClasses: Record<TagSize, string> = {
-  sm: 'h-5 py-[2px] text-[10px] leading-[16px]',
-  md: 'h-6 py-[2px] text-[12px] leading-[18px]',
-  lg: 'h-7 py-[2px] text-[13px] leading-[20px]',
+  xs: 'h-5 py-[2px] text-[10px] leading-[16px]',
+  sm: 'h-6 py-[2px] typo-caption-1',
+  md: 'h-7 py-[2px] typo-body-3',
+  lg: 'h-8 py-[2px] typo-body-2',
 };
 
 /* ── Font weight: size x bold ── */
 const fontWeight: Record<TagSize, Record<'regular' | 'bold', string>> = {
-  sm: { regular: 'font-normal', bold: 'font-semibold' },
-  md: { regular: 'font-medium', bold: 'font-semibold' },
+  xs: { regular: 'font-normal', bold: 'font-semibold' },
+  sm: { regular: 'font-medium', bold: 'font-semibold' },
+  md: { regular: 'font-normal', bold: 'font-semibold' },
   lg: { regular: 'font-normal', bold: 'font-semibold' },
 };
 
 /* ── Padding: size x showIcon ── */
 const paddingClasses: Record<TagSize, Record<'icon' | 'text', string>> = {
-  sm: { icon: 'pl-[6px] pr-2', text: 'pl-2 pr-2' },
-  md: { icon: 'pl-2 pr-[10px]', text: 'pl-[10px] pr-[10px]' },
-  lg: { icon: 'pl-[10px] pr-3', text: 'pl-3 pr-3' },
+  xs: { icon: 'pl-[6px] pr-2', text: 'pl-2 pr-2' },
+  sm: { icon: 'pl-2 pr-[10px]', text: 'pl-[10px] pr-[10px]' },
+  md: { icon: 'pl-[10px] pr-3', text: 'pl-3 pr-3' },
+  lg: { icon: 'pl-3 pr-[14px]', text: 'pl-[14px] pr-[14px]' },
 };
 
-/* ── Icon size ── */
+/* ── Icon size (line-height 기준: ~20px→16, 20~26→20, 26~32→24, 32+→32) ── */
 const iconSizeClasses: Record<TagSize, string> = {
-  sm: '[&>svg]:w-3 [&>svg]:h-3',
-  md: '[&>svg]:w-3 [&>svg]:h-3',
-  lg: '[&>svg]:w-3.5 [&>svg]:h-3.5',
+  xs: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 16px → 아이콘 16px */
+  sm: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 18px → 아이콘 16px */
+  md: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 20px → 아이콘 16px */
+  lg: '[&>svg]:w-5 [&>svg]:h-5',       /* leading 22px → 아이콘 20px */
 };
 
 /* ── Type x Color 스타일 (bg, text, border) ── */
 function getTypeClasses(type: TagType, color: TagColor): string {
   switch (type) {
     case 'fill-light':
-      return clsx('bg-white', accentText[color]);
+      return clsx('bg-surface', accentText[color]);
     case 'fill-dark':
-      return clsx(accentBg[color], 'text-white');
+      return clsx(accentBg[color], 'text-on-primary');
     case 'fill':
       return clsx('bg-gray-100', accentText[color]);
     case 'outlined':
-      return 'bg-white border border-divider text-text-primary';
+      return 'bg-surface border border-divider text-text-primary';
     case 'text':
       return 'bg-transparent text-text-primary';
   }
@@ -130,7 +134,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(
         {showIcon && (
           <span
             className={clsx(
-              'flex-shrink-0 mr-1',
+              'flex-shrink-0 flex items-center mr-1',
               iconSizeClasses[size],
               getIconAccentClass(type, color),
             )}
@@ -141,7 +145,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(
         )}
 
         {/* Label */}
-        <span>{label}</span>
+        <span className="leading-[1]">{label}</span>
       </span>
     );
   },

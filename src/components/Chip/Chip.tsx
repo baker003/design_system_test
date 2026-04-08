@@ -4,25 +4,20 @@ import { forwardRef } from 'react';
 import clsx from 'clsx';
 import type { ChipProps, ChipSize } from './types';
 
-/* ── Size 클래스 ── */
+/* ── Size 클래스 (높이 + 폰트 사이즈 + line-height) ── */
 const sizeClasses: Record<ChipSize, string> = {
-  md: 'h-10 text-[16px] leading-[24px]',
-  sm: 'h-9 text-[14px] leading-[22px]',
-  xs: 'h-8 text-[13px] leading-[20px]',
+  lg: 'h-10 typo-body-1',
+  md: 'h-9 typo-body-2',
+  sm: 'h-8 typo-body-3',
+  xs: 'h-7 typo-caption-1',
 };
 
-/* ── Leading Icon 크기 ── */
-const leadingIconSizeClasses: Record<ChipSize, string> = {
-  md: '[&>svg]:w-5 [&>svg]:h-5',
-  sm: '[&>svg]:w-[18px] [&>svg]:h-[18px]',
-  xs: '[&>svg]:w-4 [&>svg]:h-4',
-};
-
-/* ── Trailing Icon 크기 ── */
-const trailingIconSizeClasses: Record<ChipSize, string> = {
-  md: '[&>svg]:w-4 [&>svg]:h-4',
-  sm: '[&>svg]:w-3.5 [&>svg]:h-3.5',
-  xs: '[&>svg]:w-3 [&>svg]:h-3',
+/* ── Icon 크기 (Figma 실측 기준: 모든 사이즈 16px, lg만 20px) ── */
+const iconSizeClasses: Record<ChipSize, string> = {
+  lg: '[&>svg]:w-5 [&>svg]:h-5',       /* leading 24px → 아이콘 20px */
+  md: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 22px → 아이콘 16px */
+  sm: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 20px → 아이콘 16px */
+  xs: '[&>svg]:w-4 [&>svg]:h-4',       /* leading 18px → 아이콘 16px */
 };
 
 /* ── Type x State: 배경/텍스트/보더 ── */
@@ -33,16 +28,16 @@ function getStyleClasses(
 ): string {
   if (disabled) {
     return type === 'outlined'
-      ? 'bg-white border border-border text-text-disabled'
+      ? 'bg-surface border border-border text-text-disabled'
       : 'bg-background text-text-disabled';
   }
   if (selected) {
     return type === 'outlined'
-      ? 'bg-white border border-primary-strong text-primary-strong'
-      : 'bg-primary-strong text-white';
+      ? 'bg-surface border border-primary-strong text-primary-strong'
+      : 'bg-primary-strong text-on-primary';
   }
   return type === 'outlined'
-    ? 'bg-white border border-border text-text-primary'
+    ? 'bg-surface border border-border text-text-primary'
     : 'bg-background text-text-primary';
 }
 
@@ -54,7 +49,7 @@ function getIconColorClass(
 ): string {
   if (disabled) return 'text-text-disabled';
   if (selected) {
-    return type === 'filled' ? 'text-white' : 'text-primary-strong';
+    return type === 'filled' ? 'text-on-primary' : 'text-primary-strong';
   }
   return 'text-text-secondary';
 }
@@ -106,12 +101,14 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         onClick={disabled ? undefined : onClick}
         className={clsx(
           /* base */
-          'inline-flex items-center justify-center',
-          'gap-1.5 rounded-full min-w-[56px]',
+          'relative inline-flex items-center justify-center',
+          'gap-[6px] rounded-full min-w-[56px]',
+          'whitespace-nowrap flex-shrink-0',
           'transition-transform duration-150 ease-in-out',
           'focus-visible:outline-none focus-visible:ring-2',
           'focus-visible:ring-primary-strong focus-visible:ring-offset-2',
           'disabled:cursor-not-allowed disabled:pointer-events-none',
+          'overflow-visible',
           /* size */
           sizeClasses[size],
           /* padding */
@@ -131,8 +128,8 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         {hasLeading && (
           <span
             className={clsx(
-              'flex-shrink-0',
-              leadingIconSizeClasses[size],
+              'flex-shrink-0 flex items-center',
+              iconSizeClasses[size],
               iconColor,
             )}
           >
@@ -140,24 +137,13 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
           </span>
         )}
 
-        {/* Label + NEW Badge */}
-        <span className="relative inline-flex items-center">
+        {/* Label */}
+        <span className="inline-flex items-center leading-[1]">
           {label}
 
           {/* Count Badge */}
           {selected && count != null && (
-            <span className="ml-0.5 text-current">{count}</span>
-          )}
-
-          {/* NEW Badge (빨간 점) */}
-          {showNewBadge && (
-            <span
-              className={clsx(
-                'absolute -top-0.5 -right-2',
-                'w-1.5 h-1.5 rounded-full',
-                disabled ? 'bg-text-disabled' : 'bg-notification-red',
-              )}
-            />
+            <span className="ml-[2px] text-current">{count}</span>
           )}
         </span>
 
@@ -165,12 +151,27 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         {hasTrailing && (
           <span
             className={clsx(
-              'flex-shrink-0',
-              trailingIconSizeClasses[size],
+              'flex-shrink-0 flex items-center',
+              iconSizeClasses[size],
               iconColor,
             )}
           >
             {trailingIcon}
+          </span>
+        )}
+
+        {/* NEW Badge — 버튼의 가장 오른쪽 상단에 돌출 */}
+        {showNewBadge && (
+          <span
+            className={clsx(
+              'absolute -top-[6px] -right-[6px]',
+              'flex items-center justify-center',
+              'w-4 h-4 rounded-full',
+              'text-[9px] font-bold text-on-primary leading-none',
+              disabled ? 'bg-text-disabled' : 'bg-notification-red',
+            )}
+          >
+            N
           </span>
         )}
       </button>

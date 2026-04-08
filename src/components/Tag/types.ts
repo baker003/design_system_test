@@ -1,5 +1,5 @@
 export type TagType = 'fill-light' | 'fill-dark' | 'fill' | 'outlined' | 'text';
-export type TagSize = 'sm' | 'md' | 'lg';
+export type TagSize = 'xs' | 'sm' | 'md' | 'lg';
 export type TagColor =
   | 'indigo'
   | 'blue'
@@ -26,7 +26,7 @@ export type DividerStyle = 'dot' | 'slash';
 export interface TagProps {
   /** 컨테이너 스타일 */
   type?: TagType;
-  /** 크기 (높이 20/24/28px) */
+  /** 크기 (높이 20/24/28/32px) */
   size?: TagSize;
   /** Bold 여부 -- true 시 SemiBold(600) */
   bold?: boolean;

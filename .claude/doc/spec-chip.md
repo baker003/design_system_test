@@ -62,7 +62,7 @@ interface ChipProps {
   /** 칩 배경 스타일 */
   type?: 'outlined' | 'filled';
   /** 크기 */
-  size?: 'md' | 'sm' | 'xs';
+  size?: 'lg' | 'md' | 'sm' | 'xs';
   /** 선택 상태 */
   selected?: boolean;
   /** 비활성 상태 */
@@ -94,9 +94,10 @@ interface ChipProps {
 
 | Size | Figma 명칭 | Height | Padding (H x V) | Font Size | Line Height | Font Weight | Icon Size (Leading) | Icon Size (Trailing) | Border Radius |
 |------|-----------|--------|------------------|-----------|-------------|-------------|--------------------|--------------------|---------------|
-| md | Medium(Title2) / Body2 | 40px | 12px x 8px | 16px | 24px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 20px | 16px | 9999px (pill) |
-| sm | Small(Title3) / Body3 | 36px | 12px x 8px | 14px | 22px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 18px | 14px | 9999px (pill) |
-| xs | X-Small(Title4) / Body4 | 32px | 12px x 8px | 13px | 20px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 16px | 12px | 9999px (pill) |
+| lg | Large(Title2) / Body2 | 40px | 12px x 8px | 16px | 24px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 20px | 16px | 9999px (pill) |
+| md | Medium(Title3) / Body3 | 36px | 12px x 8px | 14px | 22px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 18px | 14px | 9999px (pill) |
+| sm | Small(Title4) / Body4 | 32px | 12px x 8px | 13px | 20px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 16px | 12px | 9999px (pill) |
+| xs | X-Small(Caption) | 28px | 12px x 8px | 12px | 18px | Regular 400 (Unselected) / SemiBold 600 (Selected) | 14px | 10px | 9999px (pill) |
 
 > 참고: 아이콘 포함 시 내부 패딩은 8px로 변경됨. 기본(텍스트만)은 12px.
 
@@ -176,7 +177,7 @@ interface ChipGroupProps {
 
 ### 기능 요구사항
 - [ ] Chip의 모든 type (outlined, filled) x state (unselected, pressed, selected, disabled) 조합이 올바른 스타일로 렌더링된다
-- [ ] 3개 size (md, sm, xs)가 각각 올바른 높이/폰트/패딩으로 렌더링된다
+- [ ] 4개 size (lg, md, sm, xs)가 각각 올바른 높이/폰트/패딩으로 렌더링된다
 - [ ] selected prop에 따라 텍스트 font-weight가 Regular(400) / SemiBold(600)로 전환된다
 - [ ] selected 상태에서 count prop이 있으면 라벨 옆에 카운트 뱃지가 표시된다
 - [ ] disabled 상태에서 클릭 이벤트가 발생하지 않으며, 시각적으로 비활성 상태가 표현된다

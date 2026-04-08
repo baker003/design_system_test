@@ -6,8 +6,8 @@ import type { TopAppbarProps, TopAppbarTheme } from './types';
 import { ProgressBar } from './ProgressBar';
 
 const themeClasses: Record<TopAppbarTheme, string> = {
-  white: 'bg-white text-text-strong',
-  transparent: 'bg-transparent text-text-strong',
+  white: 'bg-surface text-on-surface',
+  transparent: 'bg-transparent text-on-surface',
   dark: 'bg-gray-900 text-white',
 };
 

@@ -59,6 +59,11 @@ PM -> (승인) -> Designer -> (승인) -> Frontend -> Reviewer
 - **동기화 규칙**: 토큰이나 위젯을 변경하면 `.claude/doc/design-system.md`와 `src/app/globals.css`를 반드시 함께 업데이트
 - 상세: .claude/doc/design-system.md
 
+## Figma Workflow
+- Figma MCP로 바로 작업하지 않는다
+- **순서**: HTML 프리뷰 페이지 작성 → 브라우저에서 확인 → 사용자 승인 → Figma MCP로 옮기기
+- Figma MCP 호출을 최소화하여 rate limit을 절약한다
+
 ## Figma Reference
 - SOCAR FRAME 2.0: https://www.figma.com/design/9BojhdnvhQSi1wpWpLwPnH/SOCAR-FRAME-2.0-V.0.0.21~/
 - 디자인 시스템 프리뷰: https://www.figma.com/design/NBWB7adDg8Bz38tcZLpHok/

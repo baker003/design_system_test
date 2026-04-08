@@ -1,64 +1,230 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const colors = {
+  gray: [
+    { name: "50", hex: "#F9F9FB" }, { name: "100", hex: "#F2F3F8" }, { name: "200", hex: "#E5E8EF" },
+    { name: "300", hex: "#CBD1DC" }, { name: "400", hex: "#B4BBCB" }, { name: "500", hex: "#99A1B1" },
+    { name: "600", hex: "#697383" }, { name: "700", hex: "#4A5667" }, { name: "800", hex: "#354153" },
+    { name: "900", hex: "#262F3C" }, { name: "1000", hex: "#141A24" },
+  ],
+  blue: [
+    { name: "50", hex: "#EBF5FF" }, { name: "100", hex: "#D6EBFF" }, { name: "200", hex: "#99CEFF" },
+    { name: "300", hex: "#6BB5FF" }, { name: "400", hex: "#3393FF" }, { name: "500", hex: "#0078FF" },
+    { name: "600", hex: "#0069FF" }, { name: "700", hex: "#0052E0" }, { name: "800", hex: "#0042C7" },
+    { name: "900", hex: "#0033A9" },
+  ],
+  red: [
+    { name: "50", hex: "#FFF0F3" }, { name: "100", hex: "#FFDBDF" }, { name: "200", hex: "#FFA1AC" },
+    { name: "300", hex: "#FF7686" }, { name: "400", hex: "#FF576A" }, { name: "500", hex: "#FF3A5B" },
+    { name: "600", hex: "#F51441" }, { name: "700", hex: "#E60532" }, { name: "800", hex: "#D30831" },
+    { name: "900", hex: "#C10027" },
+  ],
+  orange: [
+    { name: "50", hex: "#FFF8E6" }, { name: "100", hex: "#FFF3CC" }, { name: "200", hex: "#FFDD99" },
+    { name: "300", hex: "#FFC566" }, { name: "400", hex: "#FFA940" }, { name: "500", hex: "#FF8800" },
+    { name: "600", hex: "#FA7900" }, { name: "700", hex: "#F56A00" }, { name: "800", hex: "#EC5704" },
+    { name: "900", hex: "#DD4600" },
+  ],
+  green: [
+    { name: "50", hex: "#E6FEF0" }, { name: "500", hex: "#04CA81" }, { name: "600", hex: "#00BB83" },
+  ],
+  lightBlue: [
+    { name: "50", hex: "#EBFAFF" }, { name: "500", hex: "#00AEFF" }, { name: "600", hex: "#00A2FA" },
+  ],
+  purple: [
+    { name: "50", hex: "#F5F0FF" }, { name: "500", hex: "#956BFF" }, { name: "600", hex: "#8355FF" },
+  ],
+  indigo: [
+    { name: "50", hex: "#ECEFFE" }, { name: "500", hex: "#4B68FF" }, { name: "600", hex: "#3554F8" },
+    { name: "700", hex: "#2C46F0" },
+  ],
+  magenta: [
+    { name: "50", hex: "#FFF0F7" }, { name: "500", hex: "#FF4397" },
+  ],
+  cyan: [
+    { name: "50", hex: "#E5FFFC" }, { name: "500", hex: "#01C9D7" },
+  ],
+  lime: [
+    { name: "50", hex: "#F2FFD4" }, { name: "500", hex: "#8AD510" },
+  ],
+  redOrange: [
+    { name: "50", hex: "#FFF5EB" }, { name: "500", hex: "#FF7017" },
+  ],
+};
+
+const semanticTokens = [
+  { group: "Text", tokens: [
+    { name: "strong", hex: "#141A24" }, { name: "primary", hex: "#354153" },
+    { name: "secondary", hex: "#697383" }, { name: "tertiary", hex: "#99A1B1" },
+    { name: "disabled", hex: "#B4BBCB" },
+  ]},
+  { group: "Primary", tokens: [
+    { name: "regular", hex: "#0078FF" }, { name: "strong", hex: "#0069FF" },
+    { name: "heavy", hex: "#0052E0" },
+  ]},
+  { group: "Status", tokens: [
+    { name: "info", hex: "#0078FF" }, { name: "positive", hex: "#04CA81" },
+    { name: "caution", hex: "#FF8800" }, { name: "negative", hex: "#FF3A5B" },
+  ]},
+  { group: "Accent", tokens: [
+    { name: "red", hex: "#FF3A5B" }, { name: "orange", hex: "#FF8800" },
+    { name: "green", hex: "#04CA81" }, { name: "lightblue", hex: "#00AEFF" },
+    { name: "purple", hex: "#956BFF" }, { name: "indigo", hex: "#4B68FF" },
+    { name: "magenta", hex: "#FF4397" }, { name: "cyan", hex: "#01C9D7" },
+    { name: "lime", hex: "#8AD510" }, { name: "redorange", hex: "#FF7017" },
+  ]},
+];
+
+const typography = [
+  { category: "Heading", weight: "Bold (700)", items: [
+    { name: "Heading 1", size: "28px", lh: "38px" },
+    { name: "Heading 2", size: "24px", lh: "34px" },
+    { name: "Heading 3", size: "22px", lh: "30px" },
+  ]},
+  { category: "Title", weight: "Semi Bold (600)", items: [
+    { name: "Title 1", size: "20px", lh: "28px" },
+    { name: "Title 2", size: "18px", lh: "26px" },
+    { name: "Title 3", size: "16px", lh: "24px" },
+  ]},
+  { category: "Subtitle", weight: "Medium (500)", items: [
+    { name: "Subtitle 1", size: "16px", lh: "24px" },
+    { name: "Subtitle 2", size: "14px", lh: "22px" },
+    { name: "Subtitle 3", size: "13px", lh: "20px" },
+  ]},
+  { category: "Body", weight: "Regular (400)", items: [
+    { name: "Body 1", size: "16px", lh: "24px" },
+    { name: "Body 2", size: "14px", lh: "22px" },
+    { name: "Body 3", size: "13px", lh: "20px" },
+  ]},
+  { category: "Caption", weight: "Light (300)", items: [
+    { name: "Caption 1", size: "12px", lh: "18px" },
+    { name: "Caption 2", size: "11px", lh: "16px" },
+  ]},
+];
+
+const components = [
+  { name: "Button", href: "/button", desc: "ActionButton, TextButton, IconButton, LinkTextButton" },
+  { name: "Chip", href: "/chip", desc: "Chip, ChipGroup (Carousel / Multiline)" },
+  { name: "Tag", href: "/tag", desc: "Tag, TagGroup (Divider 포함)" },
+  { name: "Top Appbar", href: "/top-appbar", desc: "TopAppbar, LeadingButton, TrailingButton, Instant, ProgressBar" },
+];
+
+function ColorSwatch({ hex, name }: { hex: string; name: string }) {
+  const isDark = parseInt(hex.slice(1), 16) < 0x888888;
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div
+        className="w-12 h-12 rounded-lg border border-gray-200"
+        style={{ backgroundColor: hex }}
+      />
+      <span className="text-[10px] text-text-secondary font-mono">{name}</span>
+      <span className="text-[9px] text-text-tertiary font-mono">{hex}</span>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="border-b border-gray-200 px-8 py-6">
+        <h1 className="text-3xl font-bold text-text-strong">SOCAR FRAME_2</h1>
+        <p className="mt-1 text-base text-text-secondary">디자인 시스템 — Next.js + Tailwind CSS</p>
+      </header>
+
+      <main className="max-w-[1200px] mx-auto px-8 py-10 flex flex-col gap-16">
+
+        {/* Components */}
+        <section>
+          <h2 className="text-2xl font-bold text-text-strong mb-6">컴포넌트</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {components.map((c) => (
+              <Link
+                key={c.name}
+                href={c.href}
+                className="border border-gray-200 rounded-xl p-5 hover:border-primary-strong hover:bg-blue-50 transition-colors"
+              >
+                <h3 className="text-lg font-semibold text-text-strong">{c.name}</h3>
+                <p className="mt-1 text-sm text-text-tertiary">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Palette */}
+        <section>
+          <h2 className="text-2xl font-bold text-text-strong mb-6">컬러 팔레트</h2>
+          <div className="flex flex-col gap-6">
+            {Object.entries(colors).map(([name, swatches]) => (
+              <div key={name}>
+                <h3 className="text-sm font-semibold text-text-secondary mb-3 capitalize">{name}</h3>
+                <div className="flex flex-wrap gap-3">
+                  {swatches.map((s) => (
+                    <ColorSwatch key={`${name}-${s.name}`} hex={s.hex} name={s.name} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Semantic Tokens */}
+        <section>
+          <h2 className="text-2xl font-bold text-text-strong mb-6">시맨틱 토큰</h2>
+          <div className="flex flex-col gap-6">
+            {semanticTokens.map((group) => (
+              <div key={group.group}>
+                <h3 className="text-sm font-semibold text-text-secondary mb-3">{group.group}</h3>
+                <div className="flex flex-wrap gap-3">
+                  {group.tokens.map((t) => (
+                    <ColorSwatch key={`${group.group}-${t.name}`} hex={t.hex} name={t.name} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Typography */}
+        <section>
+          <h2 className="text-2xl font-bold text-text-strong mb-6">타이포그래피</h2>
+          <p className="text-sm text-text-tertiary mb-6">폰트: Inter (Pretendard Variable 폴백)</p>
+          <div className="flex flex-col gap-8">
+            {typography.map((cat) => (
+              <div key={cat.category}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-semibold text-primary-strong px-2 py-0.5 bg-blue-50 rounded">
+                    {cat.category}
+                  </span>
+                  <span className="text-xs text-text-tertiary">{cat.weight}</span>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {cat.items.map((item) => (
+                    <div key={item.name} className="flex items-baseline gap-6">
+                      <span
+                        className="text-text-strong"
+                        style={{
+                          fontSize: item.size,
+                          lineHeight: item.lh,
+                          fontWeight: cat.weight.includes("Bold") ? 700
+                            : cat.weight.includes("Semi") ? 600
+                            : cat.weight.includes("Medium") ? 500
+                            : cat.weight.includes("Light") ? 300 : 400,
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                      <span className="text-xs text-text-tertiary font-mono whitespace-nowrap">
+                        {item.size} / {item.lh}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
       </main>
     </div>
   );

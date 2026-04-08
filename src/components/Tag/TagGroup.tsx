@@ -47,7 +47,7 @@ export const TagGroup = forwardRef<HTMLDivElement, TagGroupProps>(
                   items.push(
                     <span
                       key={`divider-${i}`}
-                      className="text-text-tertiary text-[12px] leading-[18px] select-none"
+                      className="text-text-tertiary typo-caption-1 select-none"
                       aria-hidden="true"
                     >
                       {dividerChar}

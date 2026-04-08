@@ -8,9 +8,9 @@
 | TextButton | `@/components/Button` | 보조 텍스트 버튼 (취소, 보조 액션) | variant, size, disabled, leftIcon, rightIcon |
 | IconButton | `@/components/Button` | 아이콘 전용 버튼 (닫기, 메뉴) | size, shape, type, icon, aria-label |
 | LinkTextButton | `@/components/Button` | 인라인 링크 텍스트 버튼 | size, href, disabled |
-| Chip | `@/components/Chip` | 개별 칩 아이템 (필터, 태그, 선택) | type, size, selected, disabled, label, fontStyle, count, leadingIcon, trailingIcon, showNewBadge |
+| Chip | `@/components/Chip` | 개별 칩 아이템 (필터, 태그, 선택) | type, size(lg/md/sm/xs), selected, disabled, label, fontStyle, count, leadingIcon, trailingIcon, showNewBadge |
 | ChipGroup | `@/components/Chip` | 칩 그룹 레이아웃 컨테이너 (Carousel/Multiline) | layout, gap |
-| Tag | `@/components/Tag` | 읽기 전용 라벨 (상태 표시, 카테고리, 속성 강조) | type, size, bold, color, label, leadingIcon, showLeadingIcon |
+| Tag | `@/components/Tag` | 읽기 전용 라벨 (상태 표시, 카테고리, 속성 강조) | type, size(xs/sm/md/lg), bold, color, label, leadingIcon, showLeadingIcon |
 | TagGroup | `@/components/Tag` | Tag 그룹 컨테이너 (Divider 포함) | type, showDivider, dividerStyle, gap |
 | TopAppbar | `@/components/TopAppbar` | 상단 앱바 컨테이너 (네비게이션 + 타이틀 + 액션) | theme, loading, progress, leading, instant, trailing, sticky |
 | LeadingButton | `@/components/TopAppbar` | 좌측 네비게이션 버튼 (뒤로가기, 닫기, 홈) | variant, onClick, aria-label |
@@ -190,20 +190,40 @@ Figma에서 추출한 Semantic 토큰:
 | --status-positive-regular | 성공 (green-500) |
 | --dimmed-regular | 딤 배경 (black 44%) |
 
+### Surface / On-Surface 토큰
+
+| Tailwind 클래스 | CSS 변수 | 값 | 용도 |
+|-----------------|----------|------|------|
+| bg-surface | --color-surface | #FFFFFF | 카드/칩/태그 등 흰색 배경 (bg-white 대체) |
+| text-on-primary | --color-on-primary | #FFFFFF | primary 색상 배경 위 텍스트 (text-white 대체) |
+| text-on-surface | --color-on-surface | var(--text-strong) | surface 위 텍스트 |
+
 ## 3. Typography
 
 Pretendard Variable 폰트를 사용합니다. (사용 불가 시 대체 폰트 확인 후 진행)
 
 SOCAR FRAME 2.0 타이포그래피 시스템:
 
-| Token | Font | Weight | Size | Line Height |
-|-------|------|--------|------|-------------|
-| Heading/1 | Pretendard Variable | Bold (700) | 24 | 34 |
-| Heading/3 | Pretendard Variable | Bold (700) | 22 | 30 |
-| Title/1 | Pretendard Variable | SemiBold (600) | 18 | 26 |
-| Title/2 | Pretendard Variable | SemiBold (600) | 16 | 24 |
-| Body/3 | Pretendard Variable | Regular (400) | 14 | 22 |
-| Caption/2 | Pretendard Variable | Medium (500) | 12 | 18 |
+| Token | Tailwind 클래스 | Size | Line Height |
+|-------|-----------------|------|-------------|
+| Heading/1 | `typo-heading-1` | 28 | 38 |
+| Heading/2 | `typo-heading-2` | 24 | 34 |
+| Heading/3 | `typo-heading-3` | 22 | 30 |
+| Title/1 | `typo-title-1` | 20 | 28 |
+| Title/2 | `typo-title-2` | 18 | 26 |
+| Title/3 | `typo-title-3` | 16 | 24 |
+| Subtitle/1 | `typo-subtitle-1` | 16 | 24 |
+| Subtitle/2 | `typo-subtitle-2` | 14 | 22 |
+| Subtitle/3 | `typo-subtitle-3` | 13 | 20 |
+| Body/1 | `typo-body-1` | 16 | 24 |
+| Body/2 | `typo-body-2` | 14 | 22 |
+| Body/3 | `typo-body-3` | 13 | 20 |
+| Caption/1 | `typo-caption-1` | 12 | 18 |
+| Caption/2 | `typo-caption-2` | 11 | 16 |
+
+> `typo-*` 클래스는 font-size + line-height만 포함합니다. font-weight는 별도 Tailwind 클래스(`font-bold`, `font-semibold`, `font-medium`, `font-normal` 등)로 적용하세요.
+>
+> 예시: `typo-body-2 font-semibold`, `typo-caption-1 font-medium`
 
 ## 4. Tailwind 테마 등록 (Tailwind v4)
 
@@ -233,16 +253,43 @@ SOCAR FRAME 2.0 타이포그래피 시스템:
   --color-pressed-dark-weak: var(--pressed-dark-weak);
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
+
+  /* Surface */
+  --color-surface: #FFFFFF;
+  --color-on-primary: #FFFFFF;
+  --color-on-surface: var(--text-strong);
 }
 ```
 
-## 5. 금지사항
+## 5. 아이콘-텍스트 사이즈 규칙 (Carbon Design System 기준)
+
+**기본 원칙**
+- 아이콘 기본 사이즈는 16px
+- 아이콘 사이즈는 텍스트 font-size가 아니라 line-height 기준으로 맞춤
+- 텍스트가 커질 때만 아이콘도 키움 (16px → 20px → 24px → 32px)
+- 아이콘과 텍스트는 베이스라인 정렬이 아니라 center 정렬
+- 아이콘 사이즈를 임의로 변경하지 않음
+
+**텍스트별 아이콘 사이즈**
+
+| 텍스트 Line Height | 아이콘 사이즈 |
+|---|---|
+| ~20px 이하 | 16px |
+| 20px ~ 26px | 20px |
+| 26px ~ 32px | 24px |
+| 32px 이상 | 32px |
+
+**정렬**
+- 아이콘과 텍스트는 항상 align-items: center
+- 아이콘 색상은 텍스트 색상과 동일하게 맞춤
+
+## 6. 금지사항
 - 색상 하드코딩 금지 -- 반드시 시맨틱 토큰(Tailwind 클래스) 사용
 - `bg-[#FF0000]` 같은 arbitrary value 금지
 - Core Widgets에 등재된 위젯을 중복 구현 금지
 - `tailwind.config.ts` 파일 생성 금지 -- Tailwind v4는 CSS 기반 설정만 사용
 
-## 6. Figma 참조
+## 7. Figma 참조
 
 ### 디자인 시스템
 - SOCAR FRAME 2.0: https://www.figma.com/design/9BojhdnvhQSi1wpWpLwPnH/SOCAR-FRAME-2.0-V.0.0.21~/
