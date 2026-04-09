@@ -228,8 +228,7 @@ export default function Home() {
                           letterSpacing: item.ls,
                           fontWeight: cat.weight.includes("Bold") ? 700
                             : cat.weight.includes("Semi") ? 600
-                            : cat.weight.includes("Medium") ? 500
-                            : cat.weight.includes("Light") ? 300 : 400,
+                            : cat.weight.includes("Medium") ? 500 : 400,
                         }}
                       >
                         {item.name}

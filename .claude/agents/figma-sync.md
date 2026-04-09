@@ -55,7 +55,10 @@ Figma에 반영하기 전 아래 규칙을 반드시 확인:
 
 **토큰 바인딩**
 - 컬러: Semantic/Palette Variable 바인딩 (fills의 boundVariables로)
-- 텍스트: Text Style 바인딩 (fontSize/lineHeight 일치 시)
+- 텍스트: Text Style 바인딩 — **weight별 별도 Text Style** 사용 (예: `14/Regular`, `14/Semi Bold`)
+- Text Style 바인딩 시 `style.fontName = node.fontName` 금지 — fontSize + lineHeight + weight 조합으로 정확한 스타일을 찾아 바인딩
+- 하나의 Text Style을 여러 weight에 공유하면 이전 바인딩이 해제됨 — 절대 금지
+- 바인딩 후 미적용 텍스트 0개 확인 필수 (특수 텍스트 제외)
 
 **NEW Badge (Chip)**
 - 16x16px, cornerRadius 8, absolute position
