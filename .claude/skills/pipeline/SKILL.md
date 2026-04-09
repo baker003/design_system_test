@@ -1,7 +1,6 @@
 ---
 name: pipeline
-description: 사용자의 컴포넌트/기능 요청을 받아 에이전트 팀(PM → Designer → Frontend → Reviewer)을 순서대로 조율하는 Pipeline Orchestrator
-trigger: 새로운 컴포넌트 개발, 기능 요청, "OO 컴포넌트 만들어줘", "OO 추가해줘" 등의 요청 시
+description: 사용자의 컴포넌트/기능 요청을 받아 에이전트 팀을 순서대로 조율하는 Pipeline Orchestrator. 아이콘 요청 시 icon-designer 에이전트를 호출합니다.
 ---
 
 # Pipeline Orchestrator

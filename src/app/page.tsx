@@ -1,4 +1,27 @@
-import Link from "next/link";
+'use client';
+
+import { useState } from 'react';
+import Sidebar from '@/components/Sidebar';
+import {
+  ActionButton,
+  TextButton,
+  IconButton,
+  LinkTextButton,
+} from '@/components/Button';
+import { Chip, ChipGroup } from '@/components/Chip';
+import type { ChipType, ChipSize } from '@/components/Chip';
+import { Tag, TagGroup } from '@/components/Tag';
+import type { TagType, TagSize, TagColor, TagGroupType } from '@/components/Tag';
+import {
+  TopAppbar,
+  LeadingButton,
+  TrailingButton,
+  TopAppbarInstant,
+} from '@/components/TopAppbar';
+
+/* ────────────────────────────────────────
+   Foundation Data
+   ──────────────────────────────────────── */
 
 const colors = {
   gray: [
@@ -121,19 +144,117 @@ const contrastPairs = [
   { fg: "text-tertiary-high-contrast", fgHex: "#697383", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.79, aaPass: true, aaLargePass: true },
 ];
 
-const components = [
-  { name: "Button", href: "/button", desc: "ActionButton, TextButton, IconButton, LinkTextButton" },
-  { name: "Chip", href: "/chip", desc: "Chip, ChipGroup (Carousel / Multiline)" },
-  { name: "Tag", href: "/tag", desc: "Tag, TagGroup (Divider 포함)" },
-  { name: "Top Appbar", href: "/top-appbar", desc: "TopAppbar, LeadingButton, TrailingButton, Instant, ProgressBar" },
-];
+/* ────────────────────────────────────────
+   Shared Icons
+   ──────────────────────────────────────── */
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ChevronRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function HeartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path
+        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ChipStarIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.176 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.063 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+    </svg>
+  );
+}
+
+function ChipChevronDownIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 6l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ChipCloseIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 4l8 8M12 4l-8 8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TagStarIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 1l2.09 4.26L15 6.27l-3.5 3.42.83 4.81L8 12.26 3.67 14.5l.83-4.81L1 6.27l4.91-.71L8 1z" />
+    </svg>
+  );
+}
+
+function AppbarStarIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+    </svg>
+  );
+}
+
+function MoreIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
+    </svg>
+  );
+}
+
+/* ────────────────────────────────────────
+   Shared Section wrappers
+   ──────────────────────────────────────── */
 
 function ColorSwatch({ hex, name }: { hex: string; name: string }) {
-  const isDark = parseInt(hex.slice(1), 16) < 0x888888;
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className="w-12 h-12 rounded-lg border border-gray-200"
+        className="w-12 h-12 rounded-lg border border-border"
         style={{ backgroundColor: hex }}
       />
       <span className="text-[10px] text-text-secondary font-mono">{name}</span>
@@ -142,36 +263,92 @@ function ColorSwatch({ hex, name }: { hex: string; name: string }) {
   );
 }
 
-export default function Home() {
+function SectionWrapper({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200 px-8 py-6">
-        <h1 className="text-3xl font-bold text-text-strong">DS_2</h1>
-        <p className="mt-1 text-base text-text-secondary">디자인 시스템 — Next.js + Tailwind CSS</p>
-      </header>
+    <section className="mb-12">
+      <h2 className="text-xl font-bold text-text-strong mb-6 border-b border-border pb-2">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
 
-      <main className="max-w-[1200px] mx-auto px-8 py-10 flex flex-col gap-16">
+function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mb-8">
+      <h3 className="text-sm font-semibold text-text-secondary mb-3">{title}</h3>
+      <div className="flex flex-wrap items-center gap-3">{children}</div>
+    </div>
+  );
+}
 
-        {/* Components */}
-        <section>
-          <h2 className="text-2xl font-bold text-text-strong mb-6">컴포넌트</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {components.map((c) => (
-              <Link
-                key={c.name}
-                href={c.href}
-                className="border border-gray-200 rounded-xl p-5 hover:border-primary-strong hover:bg-blue-50 transition-colors"
-              >
-                <h3 className="text-lg font-semibold text-text-strong">{c.name}</h3>
-                <p className="mt-1 text-sm text-text-tertiary">{c.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+function ChipSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="space-y-3">
+      <h2 className="typo-title-2 font-semibold text-text-strong">{title}</h2>
+      {children}
+    </section>
+  );
+}
 
-        {/* Palette */}
-        <section>
+function ChipSubSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-2">
+      <h3 className="typo-body-2 font-medium text-text-secondary">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function AppbarLabel({ text }: { text: string }) {
+  return <p className="typo-caption-1 font-medium text-text-secondary">{text}</p>;
+}
+
+/* ────────────────────────────────────────
+   Button constants
+   ──────────────────────────────────────── */
+
+const btnSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+const actionTypes = ['fill', 'outline', 'ghost'] as const;
+const actionVariants = ['primary', 'secondary', 'tertiary', 'destructive'] as const;
+const textVariants = ['primary', 'secondary', 'tertiary'] as const;
+const iconTypes = ['fill', 'outline', 'ghost'] as const;
+
+/* ────────────────────────────────────────
+   Chip constants
+   ──────────────────────────────────────── */
+
+const chipTypes: ChipType[] = ['outlined', 'filled'];
+const chipSizes: ChipSize[] = ['lg', 'md', 'sm', 'xs'];
+
+/* ────────────────────────────────────────
+   Tag constants
+   ──────────────────────────────────────── */
+
+const tagTypes: TagType[] = ['fill-light', 'fill-dark', 'fill', 'outlined', 'text'];
+const tagSizes: TagSize[] = ['xs', 'sm', 'md', 'lg'];
+const tagColors: TagColor[] = [
+  'indigo', 'blue', 'red', 'orange', 'green', 'lightblue',
+  'purple', 'magenta', 'cyan', 'lime', 'redorange', 'gray',
+];
+const groupTypes: TagGroupType[] = ['fill-light', 'fill-dark', 'fill', 'outlined', 'basic'];
+
+/* ════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════ */
+
+export default function Home() {
+  const [progress, setProgress] = useState(60);
+
+  return (
+    <div className="min-h-screen bg-surface">
+      <Sidebar />
+
+      <main className="ml-[240px] max-w-[1200px] px-8 py-10 flex flex-col gap-16">
+
+        {/* ═══════════ Foundation: Color Palette ═══════════ */}
+        <section id="color-palette" className="scroll-mt-6">
           <h2 className="text-2xl font-bold text-text-strong mb-6">컬러 팔레트</h2>
           <div className="flex flex-col gap-6">
             {Object.entries(colors).map(([name, swatches]) => (
@@ -187,8 +364,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Semantic Tokens */}
-        <section>
+        {/* ═══════════ Foundation: Semantic Tokens ═══════════ */}
+        <section id="semantic-tokens" className="scroll-mt-6">
           <h2 className="text-2xl font-bold text-text-strong mb-6">시맨틱 토큰</h2>
           <div className="flex flex-col gap-6">
             {semanticTokens.map((group) => (
@@ -204,15 +381,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Typography */}
-        <section>
+        {/* ═══════════ Foundation: Typography ═══════════ */}
+        <section id="typography" className="scroll-mt-6">
           <h2 className="text-2xl font-bold text-text-strong mb-6">타이포그래피</h2>
           <p className="text-sm text-text-tertiary mb-6">폰트: Inter (Pretendard Variable 폴백)</p>
           <div className="flex flex-col gap-8">
             {typography.map((cat) => (
               <div key={cat.category}>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-semibold text-primary-strong px-2 py-0.5 bg-blue-50 rounded">
+                  <span className="text-xs font-semibold text-primary-strong px-2 py-0.5 bg-bg-primary rounded">
                     {cat.category}
                   </span>
                   <span className="text-xs text-text-tertiary">{cat.weight}</span>
@@ -244,16 +421,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Accessibility Contrast */}
-        <section>
+        {/* ═══════════ Foundation: Accessibility Contrast ═══════════ */}
+        <section id="accessibility" className="scroll-mt-6">
           <h2 className="text-2xl font-bold text-text-strong mb-2">접근성 대비</h2>
           <p className="text-sm text-text-secondary mb-6">
-            WCAG AA 기준 — 일반 텍스트 4.5:1 / 대형 텍스트(18px bold 또는 24px 이상) 3:1
+            WCAG AA 기준 -- 일반 텍스트 4.5:1 / 대형 텍스트(18px bold 또는 24px 이상) 3:1
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 text-text-secondary font-semibold">전경 (Foreground)</th>
                   <th className="text-left py-3 px-4 text-text-secondary font-semibold">배경 (Background)</th>
                   <th className="text-center py-3 px-4 text-text-secondary font-semibold">미리보기</th>
@@ -264,7 +441,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {contrastPairs.map((pair, idx) => (
-                  <tr key={idx} className="border-b border-gray-100">
+                  <tr key={idx} className="border-b border-border-weak">
                     <td className="py-3 px-4">
                       <span className="font-mono text-xs">{pair.fg}</span>
                       <br />
@@ -277,7 +454,7 @@ export default function Home() {
                     </td>
                     <td className="py-3 px-4">
                       <div
-                        className="flex items-center justify-center rounded-lg px-4 py-2 border border-gray-200"
+                        className="flex items-center justify-center rounded-lg px-4 py-2 border border-border"
                         style={{ backgroundColor: pair.bgHex }}
                       >
                         <span className="font-semibold text-sm" style={{ color: pair.fgHex }}>
@@ -292,8 +469,8 @@ export default function Home() {
                       <span
                         className={`inline-block rounded-full px-3 py-0.5 text-xs font-semibold ${
                           pair.aaPass
-                            ? "bg-green-50 text-[#00BB83]"
-                            : "bg-red-50 text-[#FF3A5B]"
+                            ? "bg-status-positive/10 text-status-positive"
+                            : "bg-status-negative/10 text-status-negative"
                         }`}
                       >
                         {pair.aaPass ? "PASS" : "FAIL"}
@@ -303,8 +480,8 @@ export default function Home() {
                       <span
                         className={`inline-block rounded-full px-3 py-0.5 text-xs font-semibold ${
                           pair.aaLargePass
-                            ? "bg-green-50 text-[#00BB83]"
-                            : "bg-red-50 text-[#FF3A5B]"
+                            ? "bg-status-positive/10 text-status-positive"
+                            : "bg-status-negative/10 text-status-negative"
                         }`}
                       >
                         {pair.aaLargePass ? "PASS" : "FAIL"}
@@ -318,10 +495,569 @@ export default function Home() {
           <div className="mt-6 p-4 bg-bg-tertiary rounded-xl">
             <h3 className="text-sm font-semibold text-text-strong mb-2">접근성 강화 토큰</h3>
             <p className="text-xs text-text-secondary leading-relaxed">
-              <code className="bg-gray-200 px-1 rounded">text-tertiary-high-contrast</code> (gray-600, 4.79:1) — text-tertiary 대비 부족 시 대체 사용
+              <code className="bg-gray-200 px-1 rounded">text-tertiary-high-contrast</code> (gray-600, 4.79:1) -- text-tertiary 대비 부족 시 대체 사용
               <br />
-              <code className="bg-gray-200 px-1 rounded">text-disabled</code> (gray-500, 2.60:1) — 비활성 요소는 WCAG 대비 요구사항 면제
+              <code className="bg-gray-200 px-1 rounded">text-disabled</code> (gray-500, 2.60:1) -- 비활성 요소는 WCAG 대비 요구사항 면제
             </p>
+          </div>
+        </section>
+
+        {/* ═══════════ Component: Button ═══════════ */}
+        <section id="button" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-2">Button</h2>
+          <p className="text-text-secondary mb-10">
+            Button 컴포넌트 패밀리의 모든 variant / 사이즈 / 상태 조합입니다.
+          </p>
+
+          <SectionWrapper title="1. ActionButton">
+            {actionTypes.map((type) => (
+              <div key={type} className="mb-8">
+                <h3 className="text-base font-semibold text-text-primary mb-4 capitalize">
+                  타입: {type}
+                </h3>
+                {actionVariants.map((variant) => (
+                  <SubSection key={variant} title={`${type} / ${variant}`}>
+                    {btnSizes.map((size) => (
+                      <ActionButton key={size} type={type} variant={variant} size={size}>
+                        {size.toUpperCase()}
+                      </ActionButton>
+                    ))}
+                  </SubSection>
+                ))}
+              </div>
+            ))}
+
+            <SubSection title="아이콘 포함">
+              <ActionButton leftIcon={<PlusIcon />}>왼쪽 아이콘</ActionButton>
+              <ActionButton rightIcon={<ChevronRight />}>오른쪽 아이콘</ActionButton>
+              <ActionButton leftIcon={<PlusIcon />} rightIcon={<ChevronRight />}>
+                양쪽 아이콘
+              </ActionButton>
+            </SubSection>
+
+            <SubSection title="전체 너비">
+              <div className="w-full">
+                <ActionButton fullWidth>전체 너비 버튼</ActionButton>
+              </div>
+            </SubSection>
+
+            <SubSection title="로딩 상태">
+              {actionTypes.map((type) => (
+                <ActionButton key={type} type={type} loading>
+                  로딩
+                </ActionButton>
+              ))}
+            </SubSection>
+
+            <SubSection title="비활성 상태">
+              {actionTypes.map((type) =>
+                actionVariants.map((variant) => (
+                  <ActionButton key={`${type}-${variant}`} type={type} variant={variant} disabled>
+                    비활성
+                  </ActionButton>
+                )),
+              )}
+            </SubSection>
+          </SectionWrapper>
+
+          <SectionWrapper title="2. TextButton">
+            {textVariants.map((variant) => (
+              <SubSection key={variant} title={`변형: ${variant}`}>
+                {btnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size}>
+                    {size.toUpperCase()}
+                  </TextButton>
+                ))}
+              </SubSection>
+            ))}
+
+            <SubSection title="아이콘 포함">
+              <TextButton leftIcon={<PlusIcon />}>왼쪽 아이콘</TextButton>
+              <TextButton rightIcon={<ChevronRight />}>오른쪽 아이콘</TextButton>
+            </SubSection>
+
+            <SubSection title="비활성">
+              {textVariants.map((variant) => (
+                <TextButton key={variant} variant={variant} disabled>
+                  비활성 {variant}
+                </TextButton>
+              ))}
+            </SubSection>
+          </SectionWrapper>
+
+          <SectionWrapper title="3. IconButton">
+            {iconTypes.map((type) => (
+              <SubSection key={type} title={`Type: ${type}`}>
+                {btnSizes.map((size) => (
+                  <IconButton
+                    key={size}
+                    type={type}
+                    size={size}
+                    icon={<CloseIcon />}
+                    aria-label={`닫기 (${size})`}
+                  />
+                ))}
+              </SubSection>
+            ))}
+
+            <SubSection title="원형">
+              {btnSizes.map((size) => (
+                <IconButton
+                  key={size}
+                  shape="circle"
+                  size={size}
+                  icon={<HeartIcon />}
+                  aria-label={`좋아요 (${size})`}
+                />
+              ))}
+            </SubSection>
+
+            <SubSection title="원형 + 채움">
+              {btnSizes.map((size) => (
+                <IconButton
+                  key={size}
+                  shape="circle"
+                  type="fill"
+                  size={size}
+                  icon={<HeartIcon />}
+                  aria-label={`좋아요 (${size})`}
+                />
+              ))}
+            </SubSection>
+
+            <SubSection title="비활성">
+              {iconTypes.map((type) => (
+                <IconButton
+                  key={type}
+                  type={type}
+                  disabled
+                  icon={<CloseIcon />}
+                  aria-label={`닫기 (비활성 ${type})`}
+                />
+              ))}
+            </SubSection>
+          </SectionWrapper>
+
+          <SectionWrapper title="4. LinkTextButton">
+            <SubSection title="사이즈">
+              {btnSizes.map((size) => (
+                <LinkTextButton key={size} size={size}>
+                  링크 {size.toUpperCase()}
+                </LinkTextButton>
+              ))}
+            </SubSection>
+
+            <SubSection title="앵커 태그 (<a>)">
+              <LinkTextButton href="https://socar.kr">사이트 방문</LinkTextButton>
+            </SubSection>
+
+            <SubSection title="비활성">
+              <LinkTextButton disabled>비활성 링크</LinkTextButton>
+              <LinkTextButton href="https://socar.kr" disabled>
+                비활성 앵커
+              </LinkTextButton>
+            </SubSection>
+          </SectionWrapper>
+        </section>
+
+        {/* ═══════════ Component: Chip ═══════════ */}
+        <section id="chip" className="scroll-mt-6 space-y-10">
+          <h2 className="text-2xl font-bold text-text-strong">Chip</h2>
+
+          <ChipSection title="1. 타입 x 상태">
+            {chipTypes.map((type) => (
+              <ChipSubSection key={type} title={`type="${type}"`}>
+                <div className="flex flex-wrap gap-3 items-center">
+                  <Chip type={type} label="미선택" />
+                  <Chip type={type} label="선택됨" selected />
+                  <Chip type={type} label="비활성" disabled />
+                  <Chip type={type} label="선택됨+비활성" selected disabled />
+                </div>
+              </ChipSubSection>
+            ))}
+          </ChipSection>
+
+          <ChipSection title="2. 사이즈">
+            {chipTypes.map((type) => (
+              <ChipSubSection key={type} title={`type="${type}"`}>
+                <div className="flex flex-wrap gap-3 items-center">
+                  {chipSizes.map((size) => (
+                    <Chip key={size} type={type} size={size} label={`사이즈 ${size}`} selected />
+                  ))}
+                </div>
+              </ChipSubSection>
+            ))}
+          </ChipSection>
+
+          <ChipSection title="3. 아이콘">
+            <div className="flex flex-wrap gap-3 items-center">
+              <Chip label="앞쪽" leadingIcon={<ChipStarIcon />} />
+              <Chip label="뒤쪽" trailingIcon={<ChipChevronDownIcon />} />
+              <Chip label="양쪽" leadingIcon={<ChipStarIcon />} trailingIcon={<ChipCloseIcon />} />
+              <Chip label="앞쪽 숨김" leadingIcon={<ChipStarIcon />} showLeadingIcon={false} />
+              <Chip label="뒤쪽 숨김" trailingIcon={<ChipChevronDownIcon />} showTrailingIcon={false} />
+            </div>
+            <ChipSubSection title="선택됨 + 아이콘">
+              <div className="flex flex-wrap gap-3 items-center">
+                <Chip label="아웃라인" type="outlined" selected leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
+                <Chip label="채움" type="filled" selected leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
+                <Chip label="비활성" type="filled" disabled leadingIcon={<ChipStarIcon />} trailingIcon={<ChipCloseIcon />} />
+              </div>
+            </ChipSubSection>
+          </ChipSection>
+
+          <ChipSection title="4. Chip 사이즈별 아이콘 크기">
+            <div className="flex flex-wrap gap-3 items-center">
+              {chipSizes.map((size) => (
+                <Chip key={size} size={size} selected label={size} leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
+              ))}
+            </div>
+          </ChipSection>
+
+          <ChipSection title="5. 카운트 뱃지">
+            <div className="flex flex-wrap gap-3 items-center">
+              <Chip label="필터" selected count={3} />
+              <Chip label="필터" selected count={12} type="filled" />
+              <Chip label="카운트 없음 (미선택)" count={5} />
+            </div>
+          </ChipSection>
+
+          <ChipSection title="6. NEW 뱃지 (빨간 점)">
+            <div className="flex flex-wrap gap-3 items-center">
+              <Chip label="새로운!" showNewBadge />
+              <Chip label="선택됨 새로운" showNewBadge selected />
+              <Chip label="채움 새로운" showNewBadge type="filled" />
+              <Chip label="비활성 새로운" showNewBadge disabled />
+            </div>
+          </ChipSection>
+
+          <ChipSection title="7. fontStyle 속성">
+            <div className="flex flex-wrap gap-3 items-center">
+              <Chip label="자동 (미선택=body)" />
+              <Chip label="자동 (선택됨=title)" selected />
+              <Chip label="강제 title" fontStyle="title" />
+              <Chip label="강제 body" fontStyle="body" selected />
+            </div>
+          </ChipSection>
+
+          <ChipSection title="8. ChipGroup - 캐러셀">
+            <ChipGroup layout="carousel">
+              {Array.from({ length: 12 }, (_, i) => (
+                <Chip
+                  key={i}
+                  label={`칩 ${i + 1}`}
+                  selected={i === 0}
+                  type={i % 2 === 0 ? 'outlined' : 'filled'}
+                />
+              ))}
+            </ChipGroup>
+          </ChipSection>
+
+          <ChipSection title="9. ChipGroup - 멀티라인">
+            <ChipGroup layout="multiline">
+              {['전체', '대형', '중형', '소형', 'SUV', '전기차', '하이브리드', '수소차'].map(
+                (name, i) => (
+                  <Chip key={name} label={name} selected={i === 0} type="filled" />
+                ),
+              )}
+            </ChipGroup>
+          </ChipSection>
+
+          <ChipSection title="10. ChipGroup - 커스텀 간격 (12px)">
+            <ChipGroup layout="multiline" gap={12}>
+              <Chip label="간격 12" />
+              <Chip label="사이" />
+              <Chip label="칩들" />
+            </ChipGroup>
+          </ChipSection>
+
+          <ChipSection title="11. 전체 조합">
+            <ChipGroup layout="multiline">
+              <Chip label="필터" type="outlined" selected count={5} leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} showNewBadge />
+              <Chip label="채움" type="filled" selected size="sm" leadingIcon={<ChipStarIcon />} />
+              <Chip label="XS 본문" type="outlined" size="xs" fontStyle="body" trailingIcon={<ChipCloseIcon />} />
+              <Chip label="비활성" type="filled" disabled leadingIcon={<ChipStarIcon />} showNewBadge />
+            </ChipGroup>
+          </ChipSection>
+        </section>
+
+        {/* ═══════════ Component: Tag ═══════════ */}
+        <section id="tag" className="scroll-mt-6 space-y-12">
+          <h2 className="text-2xl font-bold text-text-strong">Tag</h2>
+
+          <section className="space-y-4">
+            <h3 className="typo-title-2 font-semibold text-text-strong">1. 타입</h3>
+            <div className="flex flex-wrap items-center gap-3">
+              {tagTypes.map((t) => (
+                <Tag key={t} type={t} label={t} color="indigo" leadingIcon={<TagStarIcon />} />
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h3 className="typo-title-2 font-semibold text-text-strong">2. 사이즈</h3>
+            {tagSizes.map((s) => (
+              <div key={s} className="flex flex-wrap items-center gap-3 mb-2">
+                <span className="w-8 typo-caption-1 text-text-secondary font-medium">{s}</span>
+                <Tag size={s} label="라벨" leadingIcon={<TagStarIcon />} />
+                <Tag size={s} label="아이콘 없음" showLeadingIcon={false} />
+                <Tag size={s} label="굵게" bold leadingIcon={<TagStarIcon />} />
+              </div>
+            ))}
+          </section>
+
+          <section className="space-y-4">
+            <h3 className="typo-title-2 font-semibold text-text-strong">3. 굵기</h3>
+            <div className="space-y-2">
+              {tagSizes.map((s) => (
+                <div key={s} className="flex items-center gap-3">
+                  <span className="w-8 typo-caption-1 text-text-secondary font-medium">{s}</span>
+                  <Tag size={s} label="기본" bold={false} />
+                  <Tag size={s} label="굵게" bold />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h3 className="typo-title-2 font-semibold text-text-strong">4. 컬러 x 타입</h3>
+            <div className="space-y-6">
+              {tagTypes.map((t) => (
+                <div key={t} className="space-y-2">
+                  <h4 className="typo-body-2 font-medium text-text-secondary">{t}</h4>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {tagColors.map((c) => (
+                      <Tag key={c} type={t} color={c} label={c} leadingIcon={<TagStarIcon />} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h3 className="typo-title-2 font-semibold text-text-strong">5. 아이콘 (표시 / 숨김)</h3>
+            <div className="flex flex-wrap items-center gap-3">
+              <Tag label="아이콘 표시" leadingIcon={<TagStarIcon />} showLeadingIcon />
+              <Tag label="아이콘 숨김" leadingIcon={<TagStarIcon />} showLeadingIcon={false} />
+              <Tag label="아이콘 없음" />
+            </div>
+          </section>
+
+          <section className="space-y-6">
+            <h3 className="typo-title-2 font-semibold text-text-strong">6. TagGroup</h3>
+
+            <div className="space-y-4">
+              <h4 className="typo-body-2 font-medium text-text-secondary">그룹 타입</h4>
+              {groupTypes.map((gt) => (
+                <div key={gt} className="space-y-1">
+                  <p className="typo-caption-1 text-text-tertiary">type=&quot;{gt}&quot;</p>
+                  <TagGroup type={gt}>
+                    <Tag label="태그 1" color="indigo" leadingIcon={<TagStarIcon />} />
+                    <Tag label="태그 2" color="blue" leadingIcon={<TagStarIcon />} />
+                    <Tag label="태그 3" color="red" leadingIcon={<TagStarIcon />} />
+                  </TagGroup>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="typo-body-2 font-medium text-text-secondary">구분자</h4>
+              <div className="space-y-2">
+                <p className="typo-caption-1 text-text-tertiary">점(.) 구분자</p>
+                <TagGroup type="fill" showDivider dividerStyle="dot">
+                  <Tag label="서울" color="indigo" />
+                  <Tag label="제주" color="blue" />
+                  <Tag label="부산" color="red" />
+                </TagGroup>
+              </div>
+              <div className="space-y-2">
+                <p className="typo-caption-1 text-text-tertiary">슬래시(/) 구분자</p>
+                <TagGroup type="basic" showDivider dividerStyle="slash">
+                  <Tag label="서울" color="indigo" />
+                  <Tag label="제주" color="blue" />
+                  <Tag label="부산" color="red" />
+                </TagGroup>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        {/* ═══════════ Component: Top Appbar ═══════════ */}
+        <section id="top-appbar" className="scroll-mt-6 space-y-8">
+          <h2 className="text-2xl font-bold text-text-strong">Top Appbar</h2>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">테마</h3>
+            <div className="space-y-2">
+              <AppbarLabel text="white" />
+              <TopAppbar
+                theme="white"
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="화이트 테마" />}
+                trailing={<TrailingButton variant="iconButtons" buttons={[{ icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' }]} />}
+              />
+
+              <AppbarLabel text="transparent" />
+              <div className="bg-gray-200 rounded-lg">
+                <TopAppbar
+                  theme="transparent"
+                  leading={<LeadingButton variant="back" />}
+                  instant={<TopAppbarInstant variant="heading" title="투명 테마" />}
+                  trailing={<TrailingButton variant="iconButtons" buttons={[{ icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' }]} />}
+                />
+              </div>
+
+              <AppbarLabel text="dark" />
+              <TopAppbar
+                theme="dark"
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="다크 테마" />}
+                trailing={<TrailingButton variant="iconButtons" buttons={[{ icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' }]} />}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">좌측 버튼 변형</h3>
+            <div className="space-y-2">
+              <AppbarLabel text="back" />
+              <TopAppbar leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="label" title="뒤로 가기" />} />
+
+              <AppbarLabel text="close" />
+              <TopAppbar leading={<LeadingButton variant="close" />} instant={<TopAppbarInstant variant="label" title="닫기" />} />
+
+              <AppbarLabel text="home" />
+              <TopAppbar leading={<LeadingButton variant="home" />} instant={<TopAppbarInstant variant="label" title="홈으로" />} />
+
+              <AppbarLabel text="없음" />
+              <TopAppbar instant={<TopAppbarInstant variant="heading" title="좌측 버튼 없음" />} />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">중앙 콘텐츠 변형</h3>
+            <div className="space-y-2">
+              <AppbarLabel text="heading" />
+              <TopAppbar leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="heading" title="페이지 타이틀" />} />
+
+              <AppbarLabel text="label" />
+              <TopAppbar leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="label" title="레이블 텍스트" />} />
+
+              <AppbarLabel text="textButton" />
+              <TopAppbar
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="textButton" label="서울특별시" onClick={() => alert('textButton clicked')} />}
+              />
+
+              <AppbarLabel text="input" />
+              <TopAppbar leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="input" placeholder="검색어를 입력하세요" />} />
+
+              <AppbarLabel text="input (dark)" />
+              <TopAppbar theme="dark" leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="input" placeholder="검색어를 입력하세요" />} />
+
+              <AppbarLabel text="image" />
+              <TopAppbar
+                instant={<TopAppbarInstant variant="image" src="https://placehold.co/120x32/0078FF/FFFFFF?text=DS_2" alt="DS_2 logo" height={32} />}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">우측 버튼 변형</h3>
+            <div className="space-y-2">
+              <AppbarLabel text="아이콘 버튼 (1개)" />
+              <TopAppbar
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="상세 페이지" />}
+                trailing={<TrailingButton variant="iconButtons" buttons={[{ icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' }]} />}
+              />
+
+              <AppbarLabel text="아이콘 버튼 (3개)" />
+              <TopAppbar
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="상세 페이지" />}
+                trailing={
+                  <TrailingButton
+                    variant="iconButtons"
+                    buttons={[
+                      { icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' },
+                      { icon: <ShareIcon />, 'aria-label': '공유' },
+                      { icon: <MoreIcon />, 'aria-label': '더보기' },
+                    ]}
+                  />
+                }
+              />
+
+              <AppbarLabel text="텍스트 버튼" />
+              <TopAppbar
+                leading={<LeadingButton variant="close" />}
+                instant={<TopAppbarInstant variant="heading" title="예약 확인" />}
+                trailing={<TrailingButton variant="textButton" label="완료" onClick={() => alert('완료 clicked')} />}
+              />
+
+              <AppbarLabel text="없음" />
+              <TopAppbar leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="heading" title="우측 버튼 없음" />} />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">로딩 상태</h3>
+            <div className="space-y-2">
+              <AppbarLabel text={`determinate (${progress}%)`} />
+              <TopAppbar
+                loading
+                progress={progress}
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="로딩 중..." />}
+              />
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={progress}
+                onChange={(e) => setProgress(Number(e.target.value))}
+                className="w-full"
+              />
+
+              <AppbarLabel text="무한 로딩" />
+              <TopAppbar loading leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="heading" title="로딩 중..." />} />
+
+              <AppbarLabel text="다크 + 무한 로딩" />
+              <TopAppbar theme="dark" loading leading={<LeadingButton variant="back" />} instant={<TopAppbarInstant variant="heading" title="로딩 중..." />} />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="typo-title-2 font-semibold text-text-strong">전체 조합</h3>
+            <div className="space-y-2">
+              <AppbarLabel text="다크 + 뒤로가기 + 헤딩 + 아이콘 버튼 3개 + 로딩" />
+              <TopAppbar
+                theme="dark"
+                loading
+                progress={75}
+                leading={<LeadingButton variant="back" />}
+                instant={<TopAppbarInstant variant="heading" title="내 예약" />}
+                trailing={
+                  <TrailingButton
+                    variant="iconButtons"
+                    buttons={[
+                      { icon: <AppbarStarIcon />, 'aria-label': '즐겨찾기' },
+                      { icon: <ShareIcon />, 'aria-label': '공유' },
+                      { icon: <MoreIcon />, 'aria-label': '더보기' },
+                    ]}
+                  />
+                }
+              />
+
+              <AppbarLabel text="다크 + 닫기 + 텍스트 버튼" />
+              <TopAppbar
+                theme="dark"
+                leading={<LeadingButton variant="close" />}
+                instant={<TopAppbarInstant variant="label" title="설정" />}
+                trailing={<TrailingButton variant="textButton" label="저장" />}
+              />
+            </div>
           </div>
         </section>
 
