@@ -55,8 +55,8 @@ const colors = {
 const semanticTokens = [
   { group: "Text", tokens: [
     { name: "strong", hex: "#141A24" }, { name: "primary", hex: "#354153" },
-    { name: "secondary", hex: "#697383" }, { name: "tertiary", hex: "#99A1B1" },
-    { name: "disabled", hex: "#B4BBCB" },
+    { name: "secondary", hex: "#697383" }, { name: "tertiary", hex: "#697383" },
+    { name: "disabled", hex: "#99A1B1" },
   ]},
   { group: "Primary", tokens: [
     { name: "regular", hex: "#0078FF" }, { name: "strong", hex: "#0069FF" },
@@ -64,10 +64,10 @@ const semanticTokens = [
   ]},
   { group: "Status", tokens: [
     { name: "info", hex: "#0078FF" }, { name: "positive", hex: "#04CA81" },
-    { name: "caution", hex: "#FF8800" }, { name: "negative", hex: "#FF3A5B" },
+    { name: "caution", hex: "#FF8800" }, { name: "negative", hex: "#F51441" },
   ]},
   { group: "Accent", tokens: [
-    { name: "red", hex: "#FF3A5B" }, { name: "orange", hex: "#FF8800" },
+    { name: "red", hex: "#F51441" }, { name: "orange", hex: "#FF8800" },
     { name: "green", hex: "#04CA81" }, { name: "lightblue", hex: "#00AEFF" },
     { name: "purple", hex: "#956BFF" }, { name: "indigo", hex: "#4B68FF" },
     { name: "magenta", hex: "#FF4397" }, { name: "cyan", hex: "#01C9D7" },
@@ -77,42 +77,48 @@ const semanticTokens = [
 
 const typography = [
   { category: "Heading", weight: "Bold (700)", items: [
-    { name: "Heading 1", size: "28px", lh: "38px" },
-    { name: "Heading 2", size: "24px", lh: "34px" },
-    { name: "Heading 3", size: "22px", lh: "30px" },
+    { name: "Heading 1", size: "28px", lh: "36px", ls: "0.38px" },
+    { name: "Heading 2", size: "24px", lh: "32px", ls: "0.07px" },
+    { name: "Heading 3", size: "22px", lh: "28px", ls: "-0.26px" },
+  ]},
+  { category: "Headline", weight: "Semi Bold (600)", items: [
+    { name: "Headline", size: "17px", lh: "22px", ls: "-0.43px" },
   ]},
   { category: "Title", weight: "Semi Bold (600)", items: [
-    { name: "Title 1", size: "20px", lh: "28px" },
-    { name: "Title 2", size: "18px", lh: "26px" },
-    { name: "Title 3", size: "16px", lh: "24px" },
+    { name: "Title 1", size: "20px", lh: "26px", ls: "-0.45px" },
+    { name: "Title 2", size: "18px", lh: "24px", ls: "-0.44px" },
+    { name: "Title 3", size: "16px", lh: "22px", ls: "-0.31px" },
+  ]},
+  { category: "Subhead", weight: "Regular (400)", items: [
+    { name: "Subhead", size: "15px", lh: "20px", ls: "-0.23px" },
   ]},
   { category: "Subtitle", weight: "Medium (500)", items: [
-    { name: "Subtitle 1", size: "16px", lh: "24px" },
-    { name: "Subtitle 2", size: "14px", lh: "22px" },
-    { name: "Subtitle 3", size: "13px", lh: "20px" },
+    { name: "Subtitle 1", size: "16px", lh: "22px", ls: "-0.31px" },
+    { name: "Subtitle 2", size: "14px", lh: "18px", ls: "-0.15px" },
+    { name: "Subtitle 3", size: "13px", lh: "18px", ls: "-0.08px" },
   ]},
   { category: "Body", weight: "Regular (400)", items: [
-    { name: "Body 1", size: "16px", lh: "24px" },
-    { name: "Body 2", size: "14px", lh: "22px" },
-    { name: "Body 3", size: "13px", lh: "20px" },
+    { name: "Body", size: "17px", lh: "22px", ls: "-0.43px" },
+    { name: "Body 1", size: "16px", lh: "22px", ls: "-0.31px" },
+    { name: "Body 2", size: "14px", lh: "18px", ls: "-0.15px" },
+    { name: "Body 3", size: "13px", lh: "18px", ls: "-0.08px" },
   ]},
-  { category: "Caption", weight: "Light (300)", items: [
-    { name: "Caption 1", size: "12px", lh: "18px" },
-    { name: "Caption 2", size: "11px", lh: "16px" },
+  { category: "Caption", weight: "Regular (400)", items: [
+    { name: "Caption 1", size: "12px", lh: "16px", ls: "0px" },
+    { name: "Caption 2", size: "11px", lh: "14px", ls: "0.06px" },
   ]},
 ];
 
 const contrastPairs = [
   { fg: "text-primary", fgHex: "#354153", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 10.33, aaPass: true, aaLargePass: true },
   { fg: "text-secondary", fgHex: "#697383", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.79, aaPass: true, aaLargePass: true },
-  { fg: "text-tertiary", fgHex: "#99A1B1", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 2.60, aaPass: false, aaLargePass: false },
-  { fg: "text-disabled", fgHex: "#B4BBCB", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 1.92, aaPass: false, aaLargePass: false },
+  { fg: "text-tertiary", fgHex: "#697383", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.79, aaPass: true, aaLargePass: true },
+  { fg: "text-disabled (WCAG 면제)", fgHex: "#99A1B1", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 2.60, aaPass: true, aaLargePass: true },
   { fg: "primary-strong", fgHex: "#0069FF", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.70, aaPass: true, aaLargePass: true },
   { fg: "on-primary", fgHex: "#FFFFFF", bg: "primary-strong", bgHex: "#0069FF", ratio: 4.70, aaPass: true, aaLargePass: true },
-  { fg: "status-negative", fgHex: "#FF3A5B", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 3.50, aaPass: false, aaLargePass: true },
+  { fg: "status-negative", fgHex: "#F51441", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.63, aaPass: true, aaLargePass: true },
   { fg: "text-primary", fgHex: "#354153", bg: "bg-primary", bgHex: "#F2F3F8", ratio: 9.32, aaPass: true, aaLargePass: true },
   { fg: "text-tertiary-high-contrast", fgHex: "#697383", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 4.79, aaPass: true, aaLargePass: true },
-  { fg: "text-disabled-high-contrast", fgHex: "#99A1B1", bg: "bg-secondary", bgHex: "#FFFFFF", ratio: 2.60, aaPass: false, aaLargePass: false },
 ];
 
 const components = [
@@ -219,6 +225,7 @@ export default function Home() {
                         style={{
                           fontSize: item.size,
                           lineHeight: item.lh,
+                          letterSpacing: item.ls,
                           fontWeight: cat.weight.includes("Bold") ? 700
                             : cat.weight.includes("Semi") ? 600
                             : cat.weight.includes("Medium") ? 500
@@ -228,7 +235,7 @@ export default function Home() {
                         {item.name}
                       </span>
                       <span className="text-xs text-text-tertiary font-mono whitespace-nowrap">
-                        {item.size} / {item.lh}
+                        {item.size} / {item.lh} / {item.ls}
                       </span>
                     </div>
                   ))}
@@ -314,7 +321,7 @@ export default function Home() {
             <p className="text-xs text-text-secondary leading-relaxed">
               <code className="bg-gray-200 px-1 rounded">text-tertiary-high-contrast</code> (gray-600, 4.79:1) — text-tertiary 대비 부족 시 대체 사용
               <br />
-              <code className="bg-gray-200 px-1 rounded">text-disabled-high-contrast</code> (gray-500, 2.60:1) — 대형 텍스트 전용 고대비 대체
+              <code className="bg-gray-200 px-1 rounded">text-disabled</code> (gray-500, 2.60:1) — 비활성 요소는 WCAG 대비 요구사항 면제
             </p>
           </div>
         </section>

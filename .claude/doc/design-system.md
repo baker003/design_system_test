@@ -243,26 +243,37 @@ Pretendard Variable 폰트를 사용합니다. (사용 불가 시 대체 폰트 
 
 SOCAR FRAME 2.0 타이포그래피 시스템:
 
-| Token | Tailwind 클래스 | Size | Line Height |
-|-------|-----------------|------|-------------|
-| Heading/1 | `typo-heading-1` | 28 | 38 |
-| Heading/2 | `typo-heading-2` | 24 | 34 |
-| Heading/3 | `typo-heading-3` | 22 | 30 |
-| Title/1 | `typo-title-1` | 20 | 28 |
-| Title/2 | `typo-title-2` | 18 | 26 |
-| Title/3 | `typo-title-3` | 16 | 24 |
-| Subtitle/1 | `typo-subtitle-1` | 16 | 24 |
-| Subtitle/2 | `typo-subtitle-2` | 14 | 22 |
-| Subtitle/3 | `typo-subtitle-3` | 13 | 20 |
-| Body/1 | `typo-body-1` | 16 | 24 |
-| Body/2 | `typo-body-2` | 14 | 22 |
-| Body/3 | `typo-body-3` | 13 | 20 |
-| Caption/1 | `typo-caption-1` | 12 | 18 |
-| Caption/2 | `typo-caption-2` | 11 | 16 |
+| Token | Tailwind 클래스 | Size | Line Height | Letter Spacing |
+|-------|-----------------|------|-------------|----------------|
+| Heading/1 | `typo-heading-1` | 28 | 36 | 0.38px |
+| Heading/2 | `typo-heading-2` | 24 | 32 | 0.07px |
+| Heading/3 | `typo-heading-3` | 22 | 28 | -0.26px |
+| Headline | `typo-headline` | 17 | 22 | -0.43px |
+| Title/1 | `typo-title-1` | 20 | 26 | -0.45px |
+| Title/2 | `typo-title-2` | 18 | 24 | -0.44px |
+| Title/3 | `typo-title-3` | 16 | 22 | -0.31px |
+| Subhead | `typo-subhead` | 15 | 20 | -0.23px |
+| Subtitle/1 | `typo-subtitle-1` | 16 | 22 | -0.31px |
+| Subtitle/2 | `typo-subtitle-2` | 14 | 18 | -0.15px |
+| Subtitle/3 | `typo-subtitle-3` | 13 | 18 | -0.08px |
+| Body | `typo-body` | 17 | 22 | -0.43px |
+| Body/1 | `typo-body-1` | 16 | 22 | -0.31px |
+| Body/2 | `typo-body-2` | 14 | 18 | -0.15px |
+| Body/3 | `typo-body-3` | 13 | 18 | -0.08px |
+| Caption/1 | `typo-caption-1` | 12 | 16 | 0px |
+| Caption/2 | `typo-caption-2` | 11 | 14 | 0.06px |
 
-> `typo-*` 클래스는 font-size + line-height만 포함합니다. font-weight는 별도 Tailwind 클래스(`font-bold`, `font-semibold`, `font-medium`, `font-normal` 등)로 적용하세요.
+> `typo-*` 클래스는 font-size + line-height + letter-spacing를 포함합니다. letter-spacing 값은 Apple HIG SF Pro tracking 기준입니다. font-weight는 별도 Tailwind 클래스(`font-bold`, `font-semibold`, `font-medium`, `font-normal` 등)로 적용하세요.
 >
 > 예시: `typo-body-2 font-semibold`, `typo-caption-1 font-medium`
+>
+> **Headline**: Apple HIG Headline 스타일. SemiBold(600) 권장. 예시: `typo-headline font-semibold`
+>
+> **Subhead**: Apple HIG Subhead 스타일 (15px). Regular(400) 권장. 예시: `typo-subhead font-normal`
+>
+> **Body**: Apple HIG 기본 Body 스타일 (17px). Regular(400) 권장. Headline과 동일 size/leading이지만 Regular weight로 사용. 예시: `typo-body font-normal`
+>
+> **Caption**: Regular(400) 권장 (Apple HIG 기준). Light(300) 사용 금지.
 
 ## 4. Tailwind 테마 등록 (Tailwind v4)
 
