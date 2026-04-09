@@ -18,6 +18,41 @@ import {
   TrailingButton,
   TopAppbarInstant,
 } from '@/components/TopAppbar';
+import {
+  ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight,
+  ChevronLeft as IconChevronLeft, ChevronRight as IconChevronRight,
+  ChevronUp as IconChevronUp, ChevronDown as IconChevronDown,
+  Menu as IconMenu, Close as IconClose,
+  Search as IconSearch, Plus as IconPlus, Minus as IconMinus,
+  Check as IconCheck, Edit as IconEdit, Delete as IconDelete,
+  Share as IconShare, Download as IconDownload, Upload as IconUpload,
+  Refresh as IconRefresh,
+  Notification as IconNotification, Mail as IconMail,
+  Chat as IconChat, Phone as IconPhone,
+  User as IconUser, Settings as IconSettings, Logout as IconLogout,
+  Info as IconInfo, Warning as IconWarning, Error as IconError,
+  Success as IconSuccess, Help as IconHelp,
+  Image as IconImage, Camera as IconCamera, Play as IconPlay, Pause as IconPause,
+  Home as IconHome, Bookmark as IconBookmark, Heart as IconHeart,
+  Star as IconStar, Filter as IconFilter, Eye as IconEye,
+  // Fill icons
+  ArrowLeftFill as IconArrowLeftFill, ArrowRightFill as IconArrowRightFill,
+  ChevronLeftFill as IconChevronLeftFill, ChevronRightFill as IconChevronRightFill,
+  ChevronUpFill as IconChevronUpFill, ChevronDownFill as IconChevronDownFill,
+  MenuFill as IconMenuFill, CloseFill as IconCloseFill,
+  SearchFill as IconSearchFill, PlusFill as IconPlusFill, MinusFill as IconMinusFill,
+  CheckFill as IconCheckFill, EditFill as IconEditFill, DeleteFill as IconDeleteFill,
+  ShareFill as IconShareFill, DownloadFill as IconDownloadFill, UploadFill as IconUploadFill,
+  RefreshFill as IconRefreshFill,
+  NotificationFill as IconNotificationFill, MailFill as IconMailFill,
+  ChatFill as IconChatFill, PhoneFill as IconPhoneFill,
+  UserFill as IconUserFill, SettingsFill as IconSettingsFill, LogoutFill as IconLogoutFill,
+  InfoFill as IconInfoFill, WarningFill as IconWarningFill, ErrorFill as IconErrorFill,
+  SuccessFill as IconSuccessFill, HelpFill as IconHelpFill,
+  ImageFill as IconImageFill, CameraFill as IconCameraFill, PlayFill as IconPlayFill, PauseFill as IconPauseFill,
+  HomeFill as IconHomeFill, BookmarkFill as IconBookmarkFill, HeartFill as IconHeartFill,
+  StarFill as IconStarFill, FilterFill as IconFilterFill, EyeFill as IconEyeFill,
+} from '@/components/Icons';
 
 /* ────────────────────────────────────────
    Foundation Data
@@ -1057,6 +1092,300 @@ export default function Home() {
                 instant={<TopAppbarInstant variant="label" title="설정" />}
                 trailing={<TrailingButton variant="textButton" label="저장" />}
               />
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ Component: Icons — Line ═══════════ */}
+        <section id="icons-line" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-2">아이콘 — Line</h2>
+          <p className="text-sm text-text-secondary mb-8">
+            Line 스타일 &middot; 40개 아이콘 &middot; viewBox 24x24 &middot; stroke 2px &middot; round cap/join
+          </p>
+
+          {/* Navigation */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">네비게이션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['ArrowLeft', IconArrowLeft], ['ArrowRight', IconArrowRight],
+                ['ChevronLeft', IconChevronLeft], ['ChevronRight', IconChevronRight],
+                ['ChevronUp', IconChevronUp], ['ChevronDown', IconChevronDown],
+                ['Menu', IconMenu], ['Close', IconClose],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Action */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">액션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['Search', IconSearch], ['Plus', IconPlus], ['Minus', IconMinus], ['Check', IconCheck],
+                ['Edit', IconEdit], ['Delete', IconDelete], ['Share', IconShare], ['Download', IconDownload],
+                ['Upload', IconUpload], ['Refresh', IconRefresh],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Communication */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">커뮤니케이션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['Notification', IconNotification], ['Mail', IconMail], ['Chat', IconChat], ['Phone', IconPhone],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* User */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">사용자</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['User', IconUser], ['Settings', IconSettings], ['Logout', IconLogout],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">상태</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['Info', IconInfo], ['Warning', IconWarning], ['Error', IconError],
+                ['Success', IconSuccess], ['Help', IconHelp],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Media */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">미디어</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['Image', IconImage], ['Camera', IconCamera], ['Play', IconPlay], ['Pause', IconPause],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Other */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">기타</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['Home', IconHome], ['Bookmark', IconBookmark], ['Heart', IconHeart],
+                ['Star', IconStar], ['Filter', IconFilter], ['Eye', IconEye],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Size comparison */}
+          <div>
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">사이즈 비교</h3>
+            <div className="flex items-end gap-6">
+              {[16, 20, 24, 32].map((s) => (
+                <div key={s} className="flex flex-col items-center gap-2">
+                  <IconHeart size={s} />
+                  <span className="text-[10px] text-text-tertiary">{s}px</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ Component: Icons — Fill ═══════════ */}
+        <section id="icons-fill" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-2">아이콘 — Fill</h2>
+          <p className="text-sm text-text-secondary mb-8">
+            Fill 스타일 &middot; 40개 아이콘 &middot; viewBox 24x24 &middot; fill currentColor &middot; stroke none
+          </p>
+
+          {/* Navigation */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">네비게이션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['ArrowLeftFill', IconArrowLeftFill], ['ArrowRightFill', IconArrowRightFill],
+                ['ChevronLeftFill', IconChevronLeftFill], ['ChevronRightFill', IconChevronRightFill],
+                ['ChevronUpFill', IconChevronUpFill], ['ChevronDownFill', IconChevronDownFill],
+                ['MenuFill', IconMenuFill], ['CloseFill', IconCloseFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Action */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">액션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['SearchFill', IconSearchFill], ['PlusFill', IconPlusFill], ['MinusFill', IconMinusFill], ['CheckFill', IconCheckFill],
+                ['EditFill', IconEditFill], ['DeleteFill', IconDeleteFill], ['ShareFill', IconShareFill], ['DownloadFill', IconDownloadFill],
+                ['UploadFill', IconUploadFill], ['RefreshFill', IconRefreshFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Communication */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">커뮤니케이션</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['NotificationFill', IconNotificationFill], ['MailFill', IconMailFill], ['ChatFill', IconChatFill], ['PhoneFill', IconPhoneFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* User */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">사용자</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['UserFill', IconUserFill], ['SettingsFill', IconSettingsFill], ['LogoutFill', IconLogoutFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">상태</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['InfoFill', IconInfoFill], ['WarningFill', IconWarningFill], ['ErrorFill', IconErrorFill],
+                ['SuccessFill', IconSuccessFill], ['HelpFill', IconHelpFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Media */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">미디어</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['ImageFill', IconImageFill], ['CameraFill', IconCameraFill], ['PlayFill', IconPlayFill], ['PauseFill', IconPauseFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Other */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">기타</h3>
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-4">
+              {([
+                ['HomeFill', IconHomeFill], ['BookmarkFill', IconBookmarkFill], ['HeartFill', IconHeartFill],
+                ['StarFill', IconStarFill], ['FilterFill', IconFilterFill], ['EyeFill', IconEyeFill],
+              ] as [string, React.FC<{ size?: number }>][]).map(([name, Icon]) => (
+                <div key={name} className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-background border border-border">
+                    <Icon size={24} />
+                  </div>
+                  <span className="text-[10px] text-text-tertiary text-center leading-tight">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Size comparison */}
+          <div>
+            <h3 className="text-sm font-semibold text-text-secondary mb-4">사이즈 비교</h3>
+            <div className="flex items-end gap-6">
+              {[16, 20, 24, 32].map((s) => (
+                <div key={s} className="flex flex-col items-center gap-2">
+                  <IconHeartFill size={s} />
+                  <span className="text-[10px] text-text-tertiary">{s}px</span>
+                </div>
+              ))}
             </div>
           </div>
         </section>

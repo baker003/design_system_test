@@ -21,6 +21,13 @@ const menuItems = [
       { label: 'Top Appbar', id: 'top-appbar' },
     ],
   },
+  {
+    group: '아이콘',
+    items: [
+      { label: 'Line', id: 'icons-line' },
+      { label: 'Fill', id: 'icons-fill' },
+    ],
+  },
 ];
 
 export default function Sidebar() {
