@@ -15,7 +15,8 @@ const menuItems = [
   {
     group: '컴포넌트',
     items: [
-      { label: 'Button', id: 'button' },
+      { label: 'CTA 버튼', id: 'cta-button' },
+      { label: '텍스트 버튼', id: 'text-button' },
       { label: 'Chip', id: 'chip' },
       { label: 'Tag', id: 'tag' },
       { label: 'Top Appbar', id: 'top-appbar' },

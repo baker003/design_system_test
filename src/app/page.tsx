@@ -8,7 +8,8 @@ import {
   IconButton,
   LinkTextButton,
 } from '@/components/Button';
-import { Chip, ChipGroup } from '@/components/Chip';
+import type { ActionButtonStyle, ActionButtonVariant, ActionButtonSize, ActionButtonWeight, TextButtonVariant, TextButtonSize, TextButtonWeight } from '@/components/Button';
+import { Chip } from '@/components/Chip';
 import type { ChipType, ChipSize } from '@/components/Chip';
 import { Tag, TagGroup } from '@/components/Tag';
 import type { TagType, TagSize, TagColor, TagGroupType } from '@/components/Tag';
@@ -342,13 +343,16 @@ function AppbarLabel({ text }: { text: string }) {
 }
 
 /* ────────────────────────────────────────
-   Button constants
+   Button constants (Figma 기준)
    ──────────────────────────────────────── */
 
-const btnSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
-const actionTypes = ['fill', 'outline', 'ghost'] as const;
-const actionVariants = ['primary', 'secondary', 'tertiary', 'destructive'] as const;
-const textVariants = ['primary', 'secondary', 'tertiary'] as const;
+const ctaStyles: ActionButtonStyle[] = ['fill', 'outline'];
+const ctaVariants: ActionButtonVariant[] = ['primary', 'secondary', 'tertiary'];
+const ctaSizes: ActionButtonSize[] = ['large', 'medium', 'small'];
+const ctaWeights: ActionButtonWeight[] = ['bold', 'light'];
+const textBtnVariants: TextButtonVariant[] = ['primary', 'secondary', 'tertiary', 'on-primary'];
+const textBtnSizes: TextButtonSize[] = [20, 18, 16, 14];
+const textBtnWeights: TextButtonWeight[] = ['bold', 'light'];
 const iconTypes = ['fill', 'outline', 'ghost'] as const;
 
 /* ────────────────────────────────────────
@@ -538,385 +542,198 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════ Component: Button ═══════════ */}
-        <section id="button" className="scroll-mt-6">
-          <h2 className="text-2xl font-bold text-text-strong mb-2">Button</h2>
-          <p className="text-text-secondary mb-10">
-            Button 컴포넌트 패밀리의 모든 variant / 사이즈 / 상태 조합입니다.
-          </p>
+        {/* ═══════════ Component: CTA 버튼 ═══════════ */}
+        <section id="cta-button" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-8">CTA 버튼</h2>
 
-          <SectionWrapper title="1. ActionButton">
-            {actionTypes.map((type) => (
-              <div key={type} className="mb-8">
-                <h3 className="text-base font-semibold text-text-primary mb-4 capitalize">
-                  타입: {type}
-                </h3>
-                {actionVariants.map((variant) => (
-                  <SubSection key={variant} title={`${type} / ${variant}`}>
-                    {btnSizes.map((size) => (
-                      <ActionButton key={size} type={type} variant={variant} size={size}>
-                        {size.toUpperCase()}
+          {ctaStyles.map((style) => (
+            <SectionWrapper key={style} title={`스타일: ${style}`}>
+              {ctaVariants.map((variant) => (
+                <SubSection key={variant} title={`위계: ${variant}`}>
+                  {ctaSizes.map((size) =>
+                    ctaWeights.map((weight) => (
+                      <ActionButton key={`${size}-${weight}`} style={style} variant={variant} size={size} weight={weight}>
+                        {size} / {weight}
                       </ActionButton>
-                    ))}
-                  </SubSection>
-                ))}
-              </div>
-            ))}
-
-            <SubSection title="아이콘 포함">
-              <ActionButton leftIcon={<PlusIcon />}>왼쪽 아이콘</ActionButton>
-              <ActionButton rightIcon={<ChevronRight />}>오른쪽 아이콘</ActionButton>
-              <ActionButton leftIcon={<PlusIcon />} rightIcon={<ChevronRight />}>
-                양쪽 아이콘
-              </ActionButton>
-            </SubSection>
-
-            <SubSection title="전체 너비">
-              <div className="w-full">
-                <ActionButton fullWidth>전체 너비 버튼</ActionButton>
-              </div>
-            </SubSection>
-
-            <SubSection title="로딩 상태">
-              {actionTypes.map((type) => (
-                <ActionButton key={type} type={type} loading>
-                  로딩
-                </ActionButton>
+                    ))
+                  )}
+                </SubSection>
               ))}
-            </SubSection>
-
-            <SubSection title="비활성 상태">
-              {actionTypes.map((type) =>
-                actionVariants.map((variant) => (
-                  <ActionButton key={`${type}-${variant}`} type={type} variant={variant} disabled>
-                    비활성
+              <SubSection title="아이콘: 왼쪽">
+                {ctaSizes.map((size) => (
+                  <ActionButton key={size} style={style} variant="primary" size={size} leftIcon={<IconSuccessFill />}>
+                    {size}
                   </ActionButton>
-                )),
-              )}
-            </SubSection>
-          </SectionWrapper>
+                ))}
+              </SubSection>
+              <SubSection title="아이콘: 오른쪽">
+                {ctaSizes.map((size) => (
+                  <ActionButton key={size} style={style} variant="primary" size={size} rightIcon={<IconChevronRight />}>
+                    {size}
+                  </ActionButton>
+                ))}
+              </SubSection>
+              <SubSection title="아이콘: 양쪽">
+                {ctaSizes.map((size) => (
+                  <ActionButton key={size} style={style} variant="primary" size={size} leftIcon={<IconSuccessFill />} rightIcon={<IconChevronRight />}>
+                    {size}
+                  </ActionButton>
+                ))}
+              </SubSection>
+              <SubSection title="상태: 로딩">
+                {ctaSizes.map((size) => (
+                  <ActionButton key={size} style={style} variant="primary" size={size} loading>
+                    {size}
+                  </ActionButton>
+                ))}
+              </SubSection>
+              <SubSection title="상태: 비활성">
+                {ctaVariants.map((variant) => (
+                  <ActionButton key={variant} style={style} variant={variant} size="medium" disabled>
+                    {variant}
+                  </ActionButton>
+                ))}
+              </SubSection>
+            </SectionWrapper>
+          ))}
+        </section>
 
-          <SectionWrapper title="2. TextButton">
-            {textVariants.map((variant) => (
-              <SubSection key={variant} title={`변형: ${variant}`}>
-                {btnSizes.map((size) => (
-                  <TextButton key={size} variant={variant} size={size}>
-                    {size.toUpperCase()}
+        {/* ═══════════ Component: 텍스트 버튼 ═══════════ */}
+        <section id="text-button" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-8">텍스트 버튼</h2>
+
+          {textBtnVariants.map((variant) => (
+            <SectionWrapper key={variant} title={`위계: ${variant}`}>
+              {textBtnWeights.map((weight) => (
+                <SubSection key={weight} title={`종류: ${weight}`}>
+                  {textBtnSizes.map((size) => (
+                    <TextButton key={`${size}-text`} variant={variant} size={size} weight={weight}>
+                      {size}px
+                    </TextButton>
+                  ))}
+                </SubSection>
+              ))}
+              <SubSection title="아이콘: 왼쪽 (활성화=yes)">
+                {textBtnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size} leftIcon={<IconSuccessFill />}>
+                    {size}px
                   </TextButton>
                 ))}
               </SubSection>
-            ))}
-
-            <SubSection title="아이콘 포함">
-              <TextButton leftIcon={<PlusIcon />}>왼쪽 아이콘</TextButton>
-              <TextButton rightIcon={<ChevronRight />}>오른쪽 아이콘</TextButton>
-            </SubSection>
-
-            <SubSection title="비활성">
-              {textVariants.map((variant) => (
-                <TextButton key={variant} variant={variant} disabled>
-                  비활성 {variant}
-                </TextButton>
-              ))}
-            </SubSection>
-          </SectionWrapper>
-
-          <SectionWrapper title="3. IconButton">
-            {iconTypes.map((type) => (
-              <SubSection key={type} title={`Type: ${type}`}>
-                {btnSizes.map((size) => (
-                  <IconButton
-                    key={size}
-                    type={type}
-                    size={size}
-                    icon={<CloseIcon />}
-                    aria-label={`닫기 (${size})`}
-                  />
+              <SubSection title="아이콘: 오른쪽">
+                {textBtnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size} rightIcon={<IconChevronRight />}>
+                    {size}px
+                  </TextButton>
                 ))}
               </SubSection>
-            ))}
-
-            <SubSection title="원형">
-              {btnSizes.map((size) => (
-                <IconButton
-                  key={size}
-                  shape="circle"
-                  size={size}
-                  icon={<HeartIcon />}
-                  aria-label={`좋아요 (${size})`}
-                />
-              ))}
-            </SubSection>
-
-            <SubSection title="원형 + 채움">
-              {btnSizes.map((size) => (
-                <IconButton
-                  key={size}
-                  shape="circle"
-                  type="fill"
-                  size={size}
-                  icon={<HeartIcon />}
-                  aria-label={`좋아요 (${size})`}
-                />
-              ))}
-            </SubSection>
-
-            <SubSection title="비활성">
-              {iconTypes.map((type) => (
-                <IconButton
-                  key={type}
-                  type={type}
-                  disabled
-                  icon={<CloseIcon />}
-                  aria-label={`닫기 (비활성 ${type})`}
-                />
-              ))}
-            </SubSection>
-          </SectionWrapper>
-
-          <SectionWrapper title="4. LinkTextButton">
-            <SubSection title="사이즈">
-              {btnSizes.map((size) => (
-                <LinkTextButton key={size} size={size}>
-                  링크 {size.toUpperCase()}
-                </LinkTextButton>
-              ))}
-            </SubSection>
-
-            <SubSection title="앵커 태그 (<a>)">
-              <LinkTextButton href="https://socar.kr">사이트 방문</LinkTextButton>
-            </SubSection>
-
-            <SubSection title="비활성">
-              <LinkTextButton disabled>비활성 링크</LinkTextButton>
-              <LinkTextButton href="https://socar.kr" disabled>
-                비활성 앵커
-              </LinkTextButton>
-            </SubSection>
-          </SectionWrapper>
+              <SubSection title="아이콘: 양쪽">
+                {textBtnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size} leftIcon={<IconSuccessFill />} rightIcon={<IconChevronRight />}>
+                    {size}px
+                  </TextButton>
+                ))}
+              </SubSection>
+              <SubSection title="상태: 로딩">
+                {textBtnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size} loading>
+                    {size}px
+                  </TextButton>
+                ))}
+              </SubSection>
+              <SubSection title="상태: 비활성">
+                {textBtnSizes.map((size) => (
+                  <TextButton key={size} variant={variant} size={size} disabled>
+                    {size}px
+                  </TextButton>
+                ))}
+              </SubSection>
+            </SectionWrapper>
+          ))}
         </section>
 
         {/* ═══════════ Component: Chip ═══════════ */}
-        <section id="chip" className="scroll-mt-6 space-y-10">
-          <h2 className="text-2xl font-bold text-text-strong">Chip</h2>
+        <section id="chip" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-8">Chip</h2>
 
-          <ChipSection title="1. 타입 x 상태">
-            {chipTypes.map((type) => (
-              <ChipSubSection key={type} title={`type="${type}"`}>
-                <div className="flex flex-wrap gap-3 items-center">
-                  <Chip type={type} label="미선택" />
-                  <Chip type={type} label="선택됨" selected />
-                  <Chip type={type} label="비활성" disabled />
-                  <Chip type={type} label="선택됨+비활성" selected disabled />
-                </div>
-              </ChipSubSection>
+          <SectionWrapper title="타입 × 상태">
+            {(['outlined', 'filled'] as const).map((type) => (
+              <SubSection key={type} title={`타입: ${type}`}>
+                <Chip type={type}>기본</Chip>
+                <Chip type={type} selected>선택됨</Chip>
+                <Chip type={type} disabled>비활성</Chip>
+              </SubSection>
             ))}
-          </ChipSection>
+          </SectionWrapper>
 
-          <ChipSection title="2. 사이즈">
-            {chipTypes.map((type) => (
-              <ChipSubSection key={type} title={`type="${type}"`}>
-                <div className="flex flex-wrap gap-3 items-center">
-                  {chipSizes.map((size) => (
-                    <Chip key={size} type={type} size={size} label={`사이즈 ${size}`} selected />
-                  ))}
-                </div>
-              </ChipSubSection>
+          <SectionWrapper title="사이즈">
+            {(['outlined', 'filled'] as const).map((type) => (
+              <SubSection key={type} title={`타입: ${type}`}>
+                {(['lg', 'md', 'sm', 'xs'] as const).map((size) => (
+                  <Chip key={size} type={type} size={size} selected>{size}</Chip>
+                ))}
+              </SubSection>
             ))}
-          </ChipSection>
+          </SectionWrapper>
 
-          <ChipSection title="3. 아이콘">
-            <div className="flex flex-wrap gap-3 items-center">
-              <Chip label="앞쪽" leadingIcon={<ChipStarIcon />} />
-              <Chip label="뒤쪽" trailingIcon={<ChipChevronDownIcon />} />
-              <Chip label="양쪽" leadingIcon={<ChipStarIcon />} trailingIcon={<ChipCloseIcon />} />
-              <Chip label="앞쪽 숨김" leadingIcon={<ChipStarIcon />} showLeadingIcon={false} />
-              <Chip label="뒤쪽 숨김" trailingIcon={<ChipChevronDownIcon />} showTrailingIcon={false} />
-            </div>
-            <ChipSubSection title="선택됨 + 아이콘">
-              <div className="flex flex-wrap gap-3 items-center">
-                <Chip label="아웃라인" type="outlined" selected leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
-                <Chip label="채움" type="filled" selected leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
-                <Chip label="비활성" type="filled" disabled leadingIcon={<ChipStarIcon />} trailingIcon={<ChipCloseIcon />} />
-              </div>
-            </ChipSubSection>
-          </ChipSection>
-
-          <ChipSection title="4. Chip 사이즈별 아이콘 크기">
-            <div className="flex flex-wrap gap-3 items-center">
-              {chipSizes.map((size) => (
-                <Chip key={size} size={size} selected label={size} leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} />
+          <SectionWrapper title="아이콘">
+            <SubSection title="왼쪽아이콘">
+              {(['outlined', 'filled'] as const).map((type) => (
+                <Chip key={type} type={type} leadingIcon={<IconSuccessFill size={16} />} showLeadingIcon>{type}</Chip>
               ))}
-            </div>
-          </ChipSection>
-
-          <ChipSection title="5. 카운트 뱃지">
-            <div className="flex flex-wrap gap-3 items-center">
-              <Chip label="필터" selected count={3} />
-              <Chip label="필터" selected count={12} type="filled" />
-              <Chip label="카운트 없음 (미선택)" count={5} />
-            </div>
-          </ChipSection>
-
-          <ChipSection title="6. NEW 뱃지 (빨간 점)">
-            <div className="flex flex-wrap gap-3 items-center">
-              <Chip label="새로운!" showNewBadge />
-              <Chip label="선택됨 새로운" showNewBadge selected />
-              <Chip label="채움 새로운" showNewBadge type="filled" />
-              <Chip label="비활성 새로운" showNewBadge disabled />
-            </div>
-          </ChipSection>
-
-          <ChipSection title="7. fontStyle 속성">
-            <div className="flex flex-wrap gap-3 items-center">
-              <Chip label="자동 (미선택=body)" />
-              <Chip label="자동 (선택됨=title)" selected />
-              <Chip label="강제 title" fontStyle="title" />
-              <Chip label="강제 body" fontStyle="body" selected />
-            </div>
-          </ChipSection>
-
-          <ChipSection title="8. ChipGroup - 캐러셀">
-            <ChipGroup layout="carousel">
-              {Array.from({ length: 12 }, (_, i) => (
-                <Chip
-                  key={i}
-                  label={`칩 ${i + 1}`}
-                  selected={i === 0}
-                  type={i % 2 === 0 ? 'outlined' : 'filled'}
-                />
+            </SubSection>
+            <SubSection title="오른쪽아이콘">
+              {(['outlined', 'filled'] as const).map((type) => (
+                <Chip key={type} type={type} trailingIcon={<IconSuccessFill size={16} />} showTrailingIcon>{type}</Chip>
               ))}
-            </ChipGroup>
-          </ChipSection>
+            </SubSection>
+            <SubSection title="양쪽아이콘 + 선택됨">
+              {(['outlined', 'filled'] as const).map((type) => (
+                <Chip key={type} type={type} leadingIcon={<IconSuccessFill size={16} />} showLeadingIcon trailingIcon={<IconSuccessFill size={16} />} showTrailingIcon selected>{type}</Chip>
+              ))}
+            </SubSection>
+          </SectionWrapper>
 
-          <ChipSection title="9. ChipGroup - 멀티라인">
-            <ChipGroup layout="multiline">
-              {['전체', '대형', '중형', '소형', 'SUV', '전기차', '하이브리드', '수소차'].map(
-                (name, i) => (
-                  <Chip key={name} label={name} selected={i === 0} type="filled" />
-                ),
-              )}
-            </ChipGroup>
-          </ChipSection>
-
-          <ChipSection title="10. ChipGroup - 커스텀 간격 (12px)">
-            <ChipGroup layout="multiline" gap={12}>
-              <Chip label="간격 12" />
-              <Chip label="사이" />
-              <Chip label="칩들" />
-            </ChipGroup>
-          </ChipSection>
-
-          <ChipSection title="11. 전체 조합">
-            <ChipGroup layout="multiline">
-              <Chip label="필터" type="outlined" selected count={5} leadingIcon={<ChipStarIcon />} trailingIcon={<ChipChevronDownIcon />} showNewBadge />
-              <Chip label="채움" type="filled" selected size="sm" leadingIcon={<ChipStarIcon />} />
-              <Chip label="XS 본문" type="outlined" size="xs" fontStyle="body" trailingIcon={<ChipCloseIcon />} />
-              <Chip label="비활성" type="filled" disabled leadingIcon={<ChipStarIcon />} showNewBadge />
-            </ChipGroup>
-          </ChipSection>
+          <SectionWrapper title="신규뱃지">
+            <SubSection title="">
+              <Chip showNewBadge>기본</Chip>
+              <Chip showNewBadge selected>선택됨</Chip>
+              <Chip showNewBadge type="filled">채움</Chip>
+              <Chip showNewBadge disabled>비활성</Chip>
+            </SubSection>
+          </SectionWrapper>
         </section>
 
         {/* ═══════════ Component: Tag ═══════════ */}
-        <section id="tag" className="scroll-mt-6 space-y-12">
-          <h2 className="text-2xl font-bold text-text-strong">Tag</h2>
+        <section id="tag" className="scroll-mt-6">
+          <h2 className="text-2xl font-bold text-text-strong mb-8">Tag</h2>
 
-          <section className="space-y-4">
-            <h3 className="typo-title-2 font-semibold text-text-strong">1. 타입</h3>
-            <div className="flex flex-wrap items-center gap-3">
-              {tagTypes.map((t) => (
-                <Tag key={t} type={t} label={t} color="indigo" leadingIcon={<TagStarIcon />} />
+          <SectionWrapper title="타입">
+            <SubSection title="">
+              {(['fill-light', 'fill-dark', 'fill', 'outlined', 'text'] as const).map((t) => (
+                <Tag key={t} type={t} label={t} color="indigo" leadingIcon={<TagStarIcon />} showLeadingIcon />
               ))}
-            </div>
-          </section>
+            </SubSection>
+          </SectionWrapper>
 
-          <section className="space-y-4">
-            <h3 className="typo-title-2 font-semibold text-text-strong">2. 사이즈</h3>
-            {tagSizes.map((s) => (
-              <div key={s} className="flex flex-wrap items-center gap-3 mb-2">
-                <span className="w-8 typo-caption-1 text-text-secondary font-medium">{s}</span>
-                <Tag size={s} label="라벨" leadingIcon={<TagStarIcon />} />
-                <Tag size={s} label="아이콘 없음" showLeadingIcon={false} />
-                <Tag size={s} label="굵게" bold leadingIcon={<TagStarIcon />} />
-              </div>
+          <SectionWrapper title="사이즈">
+            {(['xs', 'sm', 'md', 'lg'] as const).map((size) => (
+              <SubSection key={size} title={`size: ${size}`}>
+                <Tag size={size} label={size} leadingIcon={<TagStarIcon />} showLeadingIcon />
+                <Tag size={size} label={`${size} 아이콘 없음`} showLeadingIcon={false} />
+              </SubSection>
             ))}
-          </section>
+          </SectionWrapper>
 
-          <section className="space-y-4">
-            <h3 className="typo-title-2 font-semibold text-text-strong">3. 굵기</h3>
-            <div className="space-y-2">
-              {tagSizes.map((s) => (
-                <div key={s} className="flex items-center gap-3">
-                  <span className="w-8 typo-caption-1 text-text-secondary font-medium">{s}</span>
-                  <Tag size={s} label="기본" bold={false} />
-                  <Tag size={s} label="굵게" bold />
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <h3 className="typo-title-2 font-semibold text-text-strong">4. 컬러 x 타입</h3>
-            <div className="space-y-6">
-              {tagTypes.map((t) => (
-                <div key={t} className="space-y-2">
-                  <h4 className="typo-body-2 font-medium text-text-secondary">{t}</h4>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {tagColors.map((c) => (
-                      <Tag key={c} type={t} color={c} label={c} leadingIcon={<TagStarIcon />} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <h3 className="typo-title-2 font-semibold text-text-strong">5. 아이콘 (표시 / 숨김)</h3>
-            <div className="flex flex-wrap items-center gap-3">
-              <Tag label="아이콘 표시" leadingIcon={<TagStarIcon />} showLeadingIcon />
-              <Tag label="아이콘 숨김" leadingIcon={<TagStarIcon />} showLeadingIcon={false} />
-              <Tag label="아이콘 없음" />
-            </div>
-          </section>
-
-          <section className="space-y-6">
-            <h3 className="typo-title-2 font-semibold text-text-strong">6. TagGroup</h3>
-
-            <div className="space-y-4">
-              <h4 className="typo-body-2 font-medium text-text-secondary">그룹 타입</h4>
-              {groupTypes.map((gt) => (
-                <div key={gt} className="space-y-1">
-                  <p className="typo-caption-1 text-text-tertiary">type=&quot;{gt}&quot;</p>
-                  <TagGroup type={gt}>
-                    <Tag label="태그 1" color="indigo" leadingIcon={<TagStarIcon />} />
-                    <Tag label="태그 2" color="blue" leadingIcon={<TagStarIcon />} />
-                    <Tag label="태그 3" color="red" leadingIcon={<TagStarIcon />} />
-                  </TagGroup>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="typo-body-2 font-medium text-text-secondary">구분자</h4>
-              <div className="space-y-2">
-                <p className="typo-caption-1 text-text-tertiary">점(.) 구분자</p>
-                <TagGroup type="fill" showDivider dividerStyle="dot">
-                  <Tag label="서울" color="indigo" />
-                  <Tag label="제주" color="blue" />
-                  <Tag label="부산" color="red" />
-                </TagGroup>
-              </div>
-              <div className="space-y-2">
-                <p className="typo-caption-1 text-text-tertiary">슬래시(/) 구분자</p>
-                <TagGroup type="basic" showDivider dividerStyle="slash">
-                  <Tag label="서울" color="indigo" />
-                  <Tag label="제주" color="blue" />
-                  <Tag label="부산" color="red" />
-                </TagGroup>
-              </div>
-            </div>
-          </section>
+          <SectionWrapper title="컬러 × 타입">
+            {(['fill-light', 'fill-dark', 'fill', 'outlined', 'text'] as const).map((type) => (
+              <SubSection key={type} title={`type: ${type}`}>
+                {(['indigo', 'blue', 'red', 'orange', 'green', 'lightblue', 'purple', 'magenta', 'cyan', 'lime', 'redorange', 'gray'] as const).map((color) => (
+                  <Tag key={color} type={type} color={color} label={color} leadingIcon={<TagStarIcon />} showLeadingIcon />
+                ))}
+              </SubSection>
+            ))}
+          </SectionWrapper>
         </section>
 
         {/* ═══════════ Component: Top Appbar ═══════════ */}
