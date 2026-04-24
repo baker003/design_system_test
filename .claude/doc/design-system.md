@@ -17,6 +17,7 @@
 | TrailingButton | `@/components/TopAppbar` | 우측 액션 영역 (아이콘 버튼 그룹 / 텍스트 버튼) | variant, buttons, label, onClick |
 | TopAppbarInstant | `@/components/TopAppbar` | 중앙 콘텐츠 슬롯 (Heading, Label, TextButton, Input, Image) | variant, title, label, placeholder, src |
 | ProgressBar | `@/components/TopAppbar` | 프로그래스 바 (determinate / indeterminate) | progress |
+| InputField | `@/components/Input` | 텍스트 입력 필드 (폼, 검색, 필터) | size(lg/md/sm), variant(outline/fill), label, placeholder, helperText, errorMessage, error, disabled, readOnly, clearable, leadingIcon, trailingIcon, fullWidth, showCharCount, maxLength, success, required, trailingButton |
 
 > 새 위젯을 만들기 전에 이 표를 먼저 확인하세요.
 > 새로 만든 재사용 위젯은 반드시 여기에 등록하세요.
@@ -241,39 +242,35 @@ Apple Human Interface Guidelines 컬러 시스템의 시맨틱 구조를 DS_2에
 
 Pretendard Variable 폰트를 사용합니다. (사용 불가 시 대체 폰트 확인 후 진행)
 
-DS_2 타이포그래피 시스템:
+DS_2 타이포그래피 시스템 (globals.css `@utility` 기준):
 
-| Token | Tailwind 클래스 | Size | Line Height | Letter Spacing |
-|-------|-----------------|------|-------------|----------------|
-| Heading/1 | `typo-heading-1` | 28 | 36 | 0.38px |
-| Heading/2 | `typo-heading-2` | 24 | 32 | 0.07px |
-| Heading/3 | `typo-heading-3` | 22 | 28 | -0.26px |
-| Headline | `typo-headline` | 17 | 22 | -0.43px |
-| Title/1 | `typo-title-1` | 20 | 26 | -0.45px |
-| Title/2 | `typo-title-2` | 18 | 24 | -0.44px |
-| Title/3 | `typo-title-3` | 16 | 22 | -0.31px |
-| Subhead | `typo-subhead` | 15 | 20 | -0.23px |
-| Subtitle/1 | `typo-subtitle-1` | 16 | 22 | -0.31px |
-| Subtitle/2 | `typo-subtitle-2` | 14 | 18 | -0.15px |
-| Subtitle/3 | `typo-subtitle-3` | 13 | 18 | -0.08px |
-| Body | `typo-body` | 17 | 22 | -0.43px |
-| Body/1 | `typo-body-1` | 16 | 22 | -0.31px |
-| Body/2 | `typo-body-2` | 14 | 18 | -0.15px |
-| Body/3 | `typo-body-3` | 13 | 18 | -0.08px |
-| Caption/1 | `typo-caption-1` | 12 | 16 | 0px |
-| Caption/2 | `typo-caption-2` | 11 | 14 | 0.06px |
+| Tailwind 클래스 | Size | Line Height | Letter Spacing |
+|-----------------|------|-------------|----------------|
+| `typo-display1` | 56 | 72 | -1.79px |
+| `typo-display2` | 40 | 52 | -1.13px |
+| `typo-display3` | 36 | 48 | -0.97px |
+| `typo-title1` | 32 | 44 | -0.81px |
+| `typo-title2` | 28 | 38 | -0.66px |
+| `typo-title3` | 24 | 32 | -0.55px |
+| `typo-heading1` | 22 | 30 | -0.43px |
+| `typo-heading2` | 20 | 28 | -0.24px |
+| `typo-headline1` | 18 | 26 | -0.04px |
+| `typo-headline2` | 17 | 24 | 0px |
+| `typo-body1` | 16 | 24 | 0.09px |
+| `typo-body1-reading` | 16 | 26 | 0.09px |
+| `typo-body2` | 15 | 22 | 0.14px |
+| `typo-body2-reading` | 15 | 24 | 0.14px |
+| `typo-label1` | 14 | 20 | 0.20px |
+| `typo-label1-reading` | 14 | 22 | 0.20px |
+| `typo-label2` | 13 | 18 | 0.25px |
+| `typo-caption1` | 12 | 16 | 0.30px |
+| `typo-caption2` | 11 | 14 | 0.34px |
 
-> `typo-*` 클래스는 font-size + line-height + letter-spacing를 포함합니다. letter-spacing 값은 Apple HIG SF Pro tracking 기준입니다. font-weight는 별도 Tailwind 클래스(`font-bold`, `font-semibold`, `font-medium`, `font-normal` 등)로 적용하세요.
+> `typo-*` 클래스는 font-size + line-height + letter-spacing를 포함합니다. font-weight는 별도 Tailwind 클래스(`font-bold`, `font-semibold`, `font-medium`, `font-normal` 등)로 적용하세요.
 >
-> 예시: `typo-body-2 font-semibold`, `typo-caption-1 font-medium`
+> 예시: `typo-body1 font-semibold`, `typo-caption1 font-medium`
 >
-> **Headline**: Apple HIG Headline 스타일. SemiBold(600) 권장. 예시: `typo-headline font-semibold`
->
-> **Subhead**: Apple HIG Subhead 스타일 (15px). Regular(400) 권장. 예시: `typo-subhead font-normal`
->
-> **Body**: Apple HIG 기본 Body 스타일 (17px). Regular(400) 권장. Headline과 동일 size/leading이지만 Regular weight로 사용. 예시: `typo-body font-normal`
->
-> **Caption**: Regular(400) 권장 (Apple HIG 기준). Light(300) 사용 금지.
+> **Caption**: Regular(400) 권장. Light(300) 사용 금지.
 
 ## 4. Tailwind 테마 등록 (Tailwind v4)
 
