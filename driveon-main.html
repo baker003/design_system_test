@@ -258,7 +258,7 @@
       background: rgba(255,255,255,0.75);
       border: 1px solid rgba(29,29,31,0.1);
       border-radius: 18px; padding: 16px 20px;
-      display: flex; align-items: center; gap: 20px;
+      display: flex; align-items: center; gap: 8px;
       overflow: hidden; width: 100%; min-width: 0;
     }
     .review-info { flex: 1; min-width: 0; overflow: hidden; }
@@ -268,10 +268,141 @@
     .review-star { color: #E3E3E3; font-size: 20px; }
     .review-text {
       font-size: 16px; font-weight: 600; color: var(--ink-400);
-      letter-spacing: 0.04em; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
+      letter-spacing: 0.04em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      min-height: 1.5em;
     }
     .review-arrow { color: var(--ink-300); font-size: 16px; flex-shrink: 0; }
+
+    /* ════════════ 차량 마퀴 ════════════ */
+    /* 속도 조정: --marquee-duration 값을 바꾸면 됨. 현재 50s ≈ 42px/s */
+    :root { --marquee-duration: 50s; }
+
+    .marquee-section {
+      background: #FDFDFD;
+      padding: 56px 0 64px;
+      overflow: hidden;
+    }
+    .marquee-track-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    /* 좌우 엣지 페이드 — mask-image 대신 pseudo-element 오버레이 사용
+       (mask-image는 stacking context를 생성해 position:fixed 고스트와 충돌 가능) */
+    .marquee-track-wrap::before,
+    .marquee-track-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 6%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .marquee-track-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, #FDFDFD 0%, transparent 100%);
+    }
+    .marquee-track-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, #FDFDFD 0%, transparent 100%);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+    }
+    .marquee-track--ltr { animation: marquee-ltr var(--marquee-duration) linear infinite; }
+    .marquee-track--rtl { animation: marquee-rtl var(--marquee-duration) linear infinite; }
+    .marquee-track--ltr:hover,
+    .marquee-track--rtl:hover { animation-play-state: paused; }
+
+    @keyframes marquee-ltr {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+    @keyframes marquee-rtl {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .mq-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px 12px 12px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(29,29,31,0.1);
+      border-radius: 18px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+      transition: transform .3s cubic-bezier(.22,1,.36,1),
+                  box-shadow .3s ease,
+                  background .3s ease,
+                  padding-bottom .3s cubic-bezier(.22,1,.36,1);
+    }
+    .mq-card:hover {
+      padding-bottom: 44px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.05);
+      transform: translateY(-2px);
+      z-index: 10;
+    }
+    .mq-card::after {
+      content: '시승신청';
+      position: absolute;
+      left: 12px; right: 18px; bottom: 10px;
+      height: 26px; line-height: 26px;
+      text-align: center;
+      font-size: 12px; font-weight: 700; letter-spacing: -.01em;
+      color: #fff;
+      background: var(--brand);
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity .2s ease .08s, transform .25s cubic-bezier(.22,1,.36,1) .08s;
+      pointer-events: none;
+      font-family: var(--font);
+    }
+    .mq-card:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mq-thumb {
+      width: 58px; height: 48px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--ink-100);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mq-thumb img {
+      width: 96px; height: 60px;
+      object-fit: cover;
+      display: block;
+      max-width: none;
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+    }
+    .mq-card:hover .mq-thumb img {
+      transform: scale(1.1);
+    }
+    .mq-info { display: flex; flex-direction: column; gap: 4px; }
+    .mq-brand {
+      font-size: 18px; font-weight: 700;
+      color: #0A0A0B; line-height: 1;
+      transition: color .2s;
+    }
+    .mq-card:hover .mq-brand {
+      color: var(--brand);
+    }
+    .mq-model {
+      font-size: 16px; font-weight: 600;
+      color: #929292; line-height: 1;
+      letter-spacing: 0.04em;
+    }
 
     /* ════════════ 섹션 공통 ════════════ */
     .page-section {
@@ -715,6 +846,65 @@
   </div>
 </div>
 
+<!-- ══ 시승 가능 차량 마퀴 ══ -->
+<div class="marquee-section">
+  <!-- Row 1: 왼쪽 → 오른쪽 (ltr) -->
+  <div class="marquee-track-wrap" style="margin-bottom:12px;">
+    <div class="marquee-track marquee-track--ltr">
+      <!-- set A -->
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Grandeur</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">GV80</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">5 Series</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">E-Class</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">K8</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Cayenne</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">Q7</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">RX</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC90</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LAND ROVER</div><div class="mq-model">Defender</div></div></div>
+      <!-- set A 복제 (seamless loop) -->
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Grandeur</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">GV80</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">5 Series</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">E-Class</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">K8</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Cayenne</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">Q7</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">RX</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC90</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LAND ROVER</div><div class="mq-model">Defender</div></div></div>
+    </div>
+  </div>
+
+  <!-- Row 2: 오른쪽 → 왼쪽 (rtl) -->
+  <div class="marquee-track-wrap">
+    <div class="marquee-track marquee-track--rtl">
+      <!-- set B -->
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Palisade</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">G90</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">X5</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">GLE</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">EV6</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Panamera</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">A6</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">ES</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC60</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">JAGUAR</div><div class="mq-model">F-PACE</div></div></div>
+      <!-- set B 복제 (seamless loop) -->
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Palisade</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">G90</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">X5</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">GLE</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">EV6</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Panamera</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">A6</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">ES</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC60</div></div></div>
+      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">JAGUAR</div><div class="mq-model">F-PACE</div></div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ 왜 DRIVE:ON인가 (지도) ══ -->
 <div class="page-section section-bg-light">
   <div class="section-inner">
@@ -984,7 +1174,7 @@
   /* 썸네일 고스트 엘리먼트 생성 (풀카드↔컴팩트 바 사이 이동) */
   var ghosts = srcImgs.map(function (img) {
     var g  = document.createElement('div');
-    g.style.cssText = 'position:fixed;z-index:201;pointer-events:none;overflow:hidden;opacity:0;';
+    g.style.cssText = 'position:fixed;z-index:201;pointer-events:none;overflow:hidden;opacity:0;transform:translateZ(0);';
     var gi = document.createElement('img');
     gi.src = img.src;
     gi.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
@@ -1038,63 +1228,93 @@
   update();
 })();
 
-/* ── 리뷰 자동 순환 (3초) ── */
+/* ── 리뷰 타이핑 애니메이션 (5초 순환) ── */
 (function () {
   var reviews = {
     xc40: [
-      { score: '8.33', text: '꾸준한 관심과 관리가 필요! 품질 이슈에 비해 괜찮음 서비스가 소문보다 잘 처리됨' },
-      { score: '7.90', text: '실용성과 안전 사양이 훌륭해요. 다만 실내 소음은 개선이 필요한 부분' },
-      { score: '8.60', text: '북유럽 감성이 느껴지는 인테리어, 전기 모터의 부드러운 가속이 인상적' },
-      { score: '8.10', text: '4박 5일 시승 내내 ADAS가 빛을 발했어요. 고속도로 주행 보조는 정말 편함' },
+      { score: '8.33', text: '꾸준한 관심과 관리가 필요! 품질 이슈에 비해 괜찮음' },
+      { score: '7.90', text: '실용성과 안전 사양이 훌륭해요. 다만 실내 소음은 개선이 필요' },
+      { score: '8.60', text: '북유럽 감성의 인테리어, 전기 모터의 부드러운 가속이 인상적' },
+      { score: '8.10', text: '4박 5일 내내 ADAS가 빛을 발했어요. 고속도로 주행 보조가 정말 편함' },
     ],
     velar: [
-      { score: '9.12', text: '디자인이 압도적으로 아름다운 차. 에어 서스펜션이 제공하는 승차감은 타의 추종 불허' },
-      { score: '9.40', text: '터치스크린 인터페이스가 처음엔 낯설지만 이틀 후엔 완전히 적응됐어요' },
-      { score: '8.80', text: '오프로드 세팅까지 갖춘 SUV가 이렇게 우아할 수 있다니, 매일 출근길이 설렘' },
-      { score: '9.20', text: '연비가 걱정됐는데 시가지 주행에서도 생각보다 훨씬 효율적이었습니다' },
+      { score: '9.12', text: '에어 서스펜션이 제공하는 승차감은 타의 추종을 불허합니다' },
+      { score: '9.40', text: '터치스크린이 처음엔 낯설지만 이틀 후엔 완전히 적응됐어요' },
+      { score: '8.80', text: '오프로드 SUV가 이렇게 우아할 수 있다니, 매일 출근길이 설렘' },
+      { score: '9.20', text: '시가지 주행에서도 생각보다 훨씬 효율적이었습니다' },
     ],
     evoque: [
-      { score: '8.76', text: '콤팩트한 사이즈에 럭셔리함을 잘 담았고, 도심 주행에서 특히 빛을 발하는 모델' },
-      { score: '8.50', text: '후면 카메라 화질이 아쉽지만, 주차 어시스트가 좁은 골목에서 큰 도움이 됨' },
-      { score: '9.00', text: '파노라믹 선루프와 메리디안 사운드 시스템 조합이 완벽한 드라이브 경험을 만들어줌' },
-      { score: '8.30', text: '뒷좌석이 생각보다 좁지만, 혼자 또는 둘이서 장거리 여행엔 더없이 만족스러운 차' },
+      { score: '8.76', text: '콤팩트한 사이즈에 럭셔리함을 잘 담아, 도심 주행에서 특히 빛남' },
+      { score: '8.50', text: '주차 어시스트가 좁은 골목에서 큰 도움이 됩니다' },
+      { score: '9.00', text: '메리디안 사운드 시스템이 완벽한 드라이브 경험을 만들어줌' },
+      { score: '8.30', text: '혼자 또는 둘이서 장거리 여행엔 더없이 만족스러운 차' },
     ],
   };
 
-  var indices = { xc40: 0, velar: 0, evoque: 0 };
+  var indices  = { xc40: 0, velar: 0, evoque: 0 };
+  var TYPE_MS = 48; /* 글자당 타이핑 간격 */
 
-  function rotate(car) {
-    var cards = document.querySelectorAll('[data-car="' + car + '"]');
+  /* 진입용: 빈 칸에서 한 글자씩 타이핑 */
+  function typeIn(el, text) {
+    el.innerHTML = '';
+    var i = 0;
+    var t = setInterval(function () {
+      var s = document.createElement('span');
+      s.style.cssText = 'display:inline;';
+      s.textContent = text[i];
+      el.appendChild(s);
+      if (++i >= text.length) clearInterval(t);
+    }, TYPE_MS);
+  }
+
+  /* 순환용: el 전체 fade out → 클리어 → 새 텍스트 타이핑 */
+  function transitionTo(el, newText) {
+    var FADE_MS = 300;
+    var start = performance.now();
+
+    function step(now) {
+      var t = Math.min((now - start) / FADE_MS, 1);
+      el.style.opacity = String(1 - t);
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.style.opacity = '0';
+        typeIn(el, newText);
+        /* 타이핑 시작 직후 fade in */
+        var s2 = performance.now();
+        (function fadeIn(now2) {
+          var t2 = Math.min((now2 - s2) / FADE_MS, 1);
+          el.style.opacity = String(t2);
+          if (t2 < 1) requestAnimationFrame(fadeIn);
+          else el.style.opacity = '';
+        }(s2));
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  function cycle(car) {
+    var cards    = Array.prototype.slice.call(document.querySelectorAll('[data-car="' + car + '"]'));
+    indices[car] = (indices[car] + 1) % reviews[car].length;
+    var r        = reviews[car][indices[car]];
     cards.forEach(function (card) {
-      var slide = card.querySelector('.review-slide');
-      /* 1) 현재 콘텐츠 위로 슬라이드 아웃 */
-      slide.style.transition = 'transform 0.36s cubic-bezier(0.4, 0, 0.2, 1)';
-      slide.style.transform  = 'translateY(-110%)';
-
-      setTimeout(function () {
-        /* 2) 내용 교체 후 아래에서 대기 (즉시) */
-        indices[car] = (indices[car] + 1) % reviews[car].length;
-        var r = reviews[car][indices[car]];
-        card.querySelector('.review-score-num').textContent = r.score;
-        card.querySelector('.review-text').textContent      = r.text;
-
-        slide.style.transition = 'none';
-        slide.style.transform  = 'translateY(110%)';
-
-        /* 3) 한 프레임 후 위로 슬라이드 인 */
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            slide.style.transition = 'transform 0.36s cubic-bezier(0.4, 0, 0.2, 1)';
-            slide.style.transform  = 'translateY(0)';
-          });
-        });
-      }, 380);
+      card.querySelector('.review-score-num').textContent = r.score;
+      transitionTo(card.querySelector('.review-text'), r.text);
     });
   }
 
-  setInterval(function () { rotate('xc40');   }, 3000);
-  setInterval(function () { rotate('velar');  }, 3000 + 100);
-  setInterval(function () { rotate('evoque'); }, 3000 + 200);
+  /* 진입 시 첫 리뷰 타이핑 (차량별 200ms 순차) */
+  ['xc40', 'velar', 'evoque'].forEach(function (car, ci) {
+    setTimeout(function () {
+      Array.prototype.slice.call(document.querySelectorAll('[data-car="' + car + '"]'))
+        .forEach(function (card) { typeIn(card.querySelector('.review-text'), reviews[car][0].text); });
+    }, ci * 200);
+  });
+
+  /* 5초마다 순환 */
+  setInterval(function () { cycle('xc40');   }, 5000);
+  setInterval(function () { cycle('velar');  }, 5000 + 180);
+  setInterval(function () { cycle('evoque'); }, 5000 + 360);
 })();
 
 /* ── Scroll reveal ── */
