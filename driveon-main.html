@@ -21,6 +21,8 @@
       --ink-100: #E4E4E9;
       --ink-50:  #F8F8FA;
       --font: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+      --color-star: #F59E0B;
+      --color-success: #1B9E5A;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,7 +99,7 @@
     /* ════════════ HERO ════════════ */
     .hero {
       background: #FDFDFD;
-      padding: 80px 100px;
+      padding: 80px 100px 0;
       max-width: 1440px; margin: 0 auto;
       display: flex; flex-direction: column; gap: 56px; align-items: center;
     }
@@ -201,8 +203,8 @@
       background: rgba(255,255,255,0.75);
       border: 1px solid rgba(29,29,31,0.1);
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      transition: box-shadow 0.35s ease;
     }
-    .vehicle-card-main { transition: box-shadow 0.35s ease; }
     .vehicle-card-main:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.13), 0 4px 12px rgba(0,0,0,0.07); }
     .vehicle-card-main::after {
       content: '';
@@ -282,7 +284,7 @@
 
     .marquee-section {
       background: #FDFDFD;
-      padding: 56px 0 64px;
+      padding: 40px 0 64px;
       overflow: hidden;
     }
     .marquee-track-wrap {
@@ -327,49 +329,29 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* ── 마퀴 카드 ── */
     .mq-card {
       display: flex;
       align-items: center;
       gap: 14px;
       padding: 12px 18px 12px 12px;
       background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(29,29,31,0.1);
+      border: 1px solid rgba(29,29,31,0.08);
       border-radius: 18px;
       white-space: nowrap;
       flex-shrink: 0;
       position: relative;
       cursor: pointer;
-      transition: transform .3s cubic-bezier(.22,1,.36,1),
-                  box-shadow .3s ease,
-                  background .3s ease,
-                  padding-bottom .3s cubic-bezier(.22,1,.36,1);
+      overflow: hidden;
+      transition: opacity .25s ease;
     }
-    .mq-card:hover {
-      padding-bottom: 44px;
-      background: #fff;
-      box-shadow: 0 10px 30px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.05);
-      transform: translateY(-2px);
-      z-index: 10;
+    .mq-card.hovered {
+      background: rgba(255,255,255,0.2);
+      border-color: #0078ff;
     }
-    .mq-card::after {
-      content: '시승신청';
-      position: absolute;
-      left: 12px; right: 18px; bottom: 10px;
-      height: 26px; line-height: 26px;
-      text-align: center;
-      font-size: 12px; font-weight: 700; letter-spacing: -.01em;
-      color: #fff;
-      background: var(--brand);
-      border-radius: 999px;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity .2s ease .08s, transform .25s cubic-bezier(.22,1,.36,1) .08s;
-      pointer-events: none;
-      font-family: var(--font);
-    }
-    .mq-card:hover::after {
-      opacity: 1;
-      transform: translateY(0);
+    /* 나머지 카드 흐리게 */
+    .marquee-track:has(.mq-card.hovered) .mq-card:not(.hovered) {
+      opacity: 0.35;
     }
     .mq-thumb {
       width: 58px; height: 48px;
@@ -384,25 +366,97 @@
       object-fit: cover;
       display: block;
       max-width: none;
-      transition: transform .4s cubic-bezier(.22,1,.36,1);
-    }
-    .mq-card:hover .mq-thumb img {
-      transform: scale(1.1);
     }
     .mq-info { display: flex; flex-direction: column; gap: 4px; }
     .mq-brand {
       font-size: 18px; font-weight: 700;
-      color: #0A0A0B; line-height: 1;
-      transition: color .2s;
-    }
-    .mq-card:hover .mq-brand {
-      color: var(--brand);
+      color: #0A0A0B; line-height: 1.2;
     }
     .mq-model {
       font-size: 16px; font-weight: 600;
       color: #929292; line-height: 1;
       letter-spacing: 0.04em;
     }
+
+    /* ── 호버 팝업 카드 (position:fixed) ── */
+    .mq-popup {
+      position: fixed;
+      z-index: 9000;
+      width: 397px;
+      height: 300px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 18px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.32);
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px) scale(0.97);
+      transform-origin: top center;
+      transition: opacity .2s ease, transform .25s cubic-bezier(.22,1,.36,1);
+    }
+    .mq-popup.is-visible {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .mq-popup-img {
+      position: absolute;
+      inset: 0;
+    }
+    .mq-popup-img img {
+      width: 484px; height: 300px;
+      object-fit: cover;
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      display: block; max-width: none;
+    }
+    .mq-popup-blur {
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 95px;
+      background: linear-gradient(to top, rgba(255,255,255,0.15) 0%, transparent 100%);
+      backdrop-filter: blur(20px);
+      -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+      mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+      z-index: 1;
+    }
+    .mq-popup-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 24px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      z-index: 2;
+    }
+    .mq-popup-info {
+      flex: 1 0 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mq-popup-brand {
+      font-size: 16px; font-weight: 600;
+      color: white;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    }
+    .mq-popup-model {
+      font-size: 28px; font-weight: 700;
+      color: #0A0A0B; line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .mq-popup-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 12px 16px 12px 20px;
+      background: #0078ff; color: white;
+      border-radius: 999px;
+      font-size: 16px; font-weight: 600;
+      font-family: var(--font);
+      border: none; cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 6px 18px -4px rgba(0,113,227,0.4);
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .mq-popup-cta:hover { background: var(--brand-dark); }
 
     /* ════════════ 섹션 공통 ════════════ */
     .page-section {
@@ -500,7 +554,7 @@
     }
     .set-btn.ready { opacity: 1; }
     .set-btn.ready:hover { background: var(--brand-dark); }
-    .set-btn.done { background: #1B9E5A; opacity: 1; }
+    .set-btn.done { background: var(--color-success); opacity: 1; }
 
     .oos-toast {
       position: absolute; bottom: 86px; left: 50%; transform: translateX(-50%);
@@ -606,7 +660,9 @@
       z-index: 199;
       background: transparent;
       transform: translateY(-100%);
+      opacity: 0;
       pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
     .sticky-bar-inner {
@@ -668,6 +724,166 @@
     .footer-inner { max-width: 1440px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .footer-logo { font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.7); letter-spacing: -0.02em; }
     .footer-copy { font-size: 13px; }
+
+    /* ════════════ 상세 페이지 ════════════ */
+    #view-detail { background: #fdfdfd; min-width: 1280px; }
+
+    .detail-back-bar {
+      max-width: 1440px; margin: 0 auto;
+      padding: 16px 100px;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    .detail-back-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: var(--ink-500);
+      font-family: var(--font);
+      transition: color .15s;
+    }
+    .detail-back-btn:hover { color: var(--ink-900); }
+
+    .detail-layout {
+      max-width: 1440px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 400px;
+      gap: 72px; padding: 80px 100px;
+      align-items: start;
+    }
+
+    .detail-hero-img {
+      width: 100%; height: 441px;
+      border-radius: 24px; object-fit: cover; display: block;
+      background: var(--ink-100);
+    }
+
+    .detail-tabs {
+      display: flex; border-bottom: 1px solid var(--ink-100);
+      margin-top: 32px;
+      position: sticky; top: 60px; z-index: 10;
+      background: rgba(253,253,253,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .detail-tab {
+      background: none; border: none; border-bottom: 2px solid transparent;
+      padding: 12px 20px; margin-bottom: -1px;
+      font-size: 15px; font-weight: 500; color: var(--ink-400);
+      font-family: var(--font); cursor: pointer;
+      transition: color .15s;
+    }
+    .detail-tab.active {
+      color: var(--brand); font-weight: 700;
+      border-bottom-color: var(--brand);
+    }
+
+    .detail-section { padding-top: 48px; display: flex; flex-direction: column; gap: 24px; }
+    .detail-section-title { font-size: 18px; font-weight: 700; color: var(--ink-900); letter-spacing: -0.02em; }
+
+    .detail-spec-table { display: flex; flex-direction: column; }
+    .detail-spec-row {
+      display: flex; align-items: center;
+      padding: 16px 0; border-bottom: 1px solid var(--ink-100);
+    }
+    .detail-spec-row:last-child { border-bottom: none; }
+    .detail-spec-label { width: 120px; flex-shrink: 0; font-size: 14px; color: var(--ink-400); }
+    .detail-spec-value { font-size: 14px; color: var(--ink-900); font-weight: 500; flex: 1; }
+
+    .detail-schedule-card {
+      background: var(--brand-soft); border-radius: 16px;
+      padding: 20px 24px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .detail-schedule-title { font-size: 13px; font-weight: 600; color: var(--brand); }
+    .detail-schedule-date { font-size: 16px; font-weight: 700; color: var(--ink-900); }
+    .detail-schedule-sub { font-size: 13px; color: var(--ink-500); }
+
+    .detail-rating-summary {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 32px; font-weight: 800; color: var(--ink-900); letter-spacing: -0.03em;
+    }
+    .detail-rating-star { color: var(--color-star); font-size: 28px; }
+
+    .detail-review-card {
+      background: white; border: 1px solid var(--ink-100);
+      border-radius: 14px; padding: 20px 24px;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .detail-review-header { display: flex; align-items: center; gap: 8px; }
+    .detail-review-score { font-size: 14px; font-weight: 700; color: var(--ink-900); }
+    .detail-review-date { font-size: 13px; color: var(--ink-300); margin-left: auto; }
+    .detail-review-more-btn {
+      display: block; width: 100%; margin-top: 8px;
+      padding: 14px; border-radius: 12px;
+      border: 1.5px solid var(--ink-200); background: white;
+      font-size: 14px; font-weight: 600; color: var(--ink-500);
+      font-family: var(--font); cursor: pointer; transition: all .15s;
+    }
+    .detail-review-more-btn:hover { border-color: var(--ink-900); color: var(--ink-900); }
+    .detail-review-body { font-size: 15px; color: var(--ink-500); line-height: 1.6; }
+
+    /* 우측 스티키 폼 */
+    .detail-form-sticky { position: sticky; top: 80px; align-self: start; }
+    .detail-form-card {
+      background: white; border: 1px solid var(--ink-100);
+      border-radius: 24px; padding: 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .detail-form-brand { font-size: 20px; font-weight: 600; color: var(--ink-400); letter-spacing: 0.04em; }
+    .detail-form-model {
+      font-size: 32px; font-weight: 800; color: var(--ink-900);
+      letter-spacing: -0.04em; line-height: 1.1; margin-top: -4px;
+    }
+    .detail-field-group { display: flex; flex-direction: column; gap: 12px; }
+    .detail-input {
+      width: 100%; height: 52px;
+      border: 1.5px solid var(--ink-200); border-radius: 10px;
+      padding: 0 14px; font-size: 15px; font-family: var(--font);
+      color: var(--ink-900); background: white; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .detail-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0,120,255,0.12);
+    }
+    .detail-input::placeholder { color: var(--ink-300); }
+    .detail-input-with-icon { position: relative; }
+    .detail-input-with-icon .detail-input { padding-right: 44px; }
+    .detail-input-icon {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: var(--ink-300);
+    }
+    .detail-terms-divider { border: none; border-top: 1px solid var(--ink-100); margin: 0; }
+    .detail-terms { display: flex; flex-direction: column; gap: 12px; }
+    .detail-terms-all, .detail-terms-item {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+    }
+    .detail-terms-all { font-size: 15px; font-weight: 600; color: var(--ink-900); }
+    .detail-terms-item { font-size: 14px; color: var(--ink-500); }
+    .detail-checkbox {
+      width: 20px; height: 20px; border-radius: 6px;
+      border: 1.5px solid var(--ink-200); background: white;
+      flex-shrink: 0; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .detail-checkbox.checked { background: var(--brand); border-color: var(--brand); }
+    .detail-checkbox.checked::after {
+      content: '';
+      width: 5px; height: 9px;
+      border: solid white; border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translate(-1px, -1px);
+      display: block;
+    }
+    .detail-submit-btn {
+      width: 100%; height: 56px;
+      background: var(--brand); color: white;
+      border: none; border-radius: 999px;
+      font-size: 16px; font-weight: 700; font-family: var(--font);
+      cursor: pointer; transition: background .15s, opacity .15s;
+    }
+    .detail-submit-btn:hover:not(:disabled) { background: var(--brand-dark); }
+    .detail-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    body.detail-open .flip-ghost { opacity: 0 !important; }
+    .detail-submit-btn.success { background: var(--color-success); }
   </style>
 </head>
 <body>
@@ -693,6 +909,8 @@
     </div>
   </nav>
 </header>
+
+<div id="view-main">
 
 <!-- ══ STICKY VEHICLE BAR ══ -->
 <div class="sticky-bar" id="sticky-bar">
@@ -1029,12 +1247,158 @@
 </div>
 
 <!-- ══ FOOTER ══ -->
-<footer>
+<footer id="main-footer">
   <div class="footer-inner">
     <span class="footer-logo">DRIVE:ON</span>
     <span class="footer-copy">© 2026 DRIVE:ON. All rights reserved.</span>
   </div>
 </footer>
+
+</div><!-- /#view-main -->
+
+<!-- ══ 상세 페이지 뷰 ══ -->
+<div id="view-detail" style="display:none;">
+
+  <div class="detail-back-bar">
+    <button class="detail-back-btn">&#8592; 시승 차량 목록으로</button>
+  </div>
+
+  <div class="detail-layout">
+    <!-- 좌측 콘텐츠 -->
+    <div class="detail-left">
+      <img class="detail-hero-img" id="detail-car-img" src="" alt="차량 이미지" />
+
+      <nav class="detail-tabs" aria-label="상세 정보 탭">
+        <button class="detail-tab active" data-tab="spec">상세정보</button>
+        <button class="detail-tab" data-tab="how">이용방법</button>
+        <button class="detail-tab" data-tab="review">리뷰</button>
+      </nav>
+
+      <!-- 상세정보 -->
+      <section class="detail-section" id="detail-section-spec" aria-label="차량 제원">
+        <div class="detail-spec-table">
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">연료</span>
+            <span class="detail-spec-value" id="detail-spec-fuel">—</span>
+          </div>
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">구동방식</span>
+            <span class="detail-spec-value" id="detail-spec-drive">—</span>
+          </div>
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">최고출력</span>
+            <span class="detail-spec-value" id="detail-spec-power">—</span>
+          </div>
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">최대토크</span>
+            <span class="detail-spec-value" id="detail-spec-torque">—</span>
+          </div>
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">주행거리</span>
+            <span class="detail-spec-value" id="detail-spec-range">—</span>
+          </div>
+          <div class="detail-spec-row">
+            <span class="detail-spec-label">탑승인원</span>
+            <span class="detail-spec-value" id="detail-spec-seats">—</span>
+          </div>
+        </div>
+        <div class="detail-schedule-card">
+          <div class="detail-schedule-title">시승 일정</div>
+          <div class="detail-schedule-date">2026년 5월 3일 (토) — 5월 7일 (수)</div>
+          <div class="detail-schedule-sub">당첨자 발표: 4월 30일 (수) · 4박 5일간의 무료 시승</div>
+        </div>
+      </section>
+
+      <!-- 이용방법 -->
+      <section class="detail-section" id="detail-section-how" aria-label="이용방법">
+        <div class="steps-col">
+          <div class="step-card">
+            <span class="step-num">01</span>
+            <div class="step-content">
+              <p class="step-title">시승 차량 선택</p>
+              <p class="step-desc">원하는 차량을 선택해 주세요.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">02</span>
+            <div class="step-content">
+              <p class="step-title">응모 및 발표 일정</p>
+              <p class="step-desc">이번 주까지 응모할 수 있으며, 당첨자는 다음 주 수요일에 발표돼요.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">03</span>
+            <div class="step-content">
+              <p class="step-title">시승 정보 입력</p>
+              <p class="step-desc">시승을 시작할 위치와 시간을 입력해 주세요. 입력한 곳으로 차량을 배달해 드려요.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">04</span>
+            <div class="step-content">
+              <p class="step-title">차 받기</p>
+              <p class="step-desc">배달 기사님에게 차를 받고, 5일 동안 무료로 드라이브를 즐겨 보세요.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-num">05</span>
+            <div class="step-content">
+              <p class="step-title">반납</p>
+              <p class="step-desc">차를 받은 곳에서 배달 기사님에게 차량을 반납해 주세요.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 리뷰 -->
+      <section class="detail-section" id="detail-section-review" aria-label="시승 리뷰">
+        <div id="detail-review-list"></div>
+        <button id="detail-review-more" class="detail-review-more-btn" style="display:none;">더 보기</button>
+      </section>
+    </div>
+
+    <!-- 우측 스티키 폼 -->
+    <div class="detail-form-sticky">
+      <div class="detail-form-card">
+        <div class="detail-form-head">
+          <p class="detail-form-brand" id="detail-form-brand-name"></p>
+          <p class="detail-form-model" id="detail-form-model-name"></p>
+        </div>
+        <div class="detail-field-group">
+          <input class="detail-input" id="detail-name" type="text" placeholder="이름을 입력하세요" autocomplete="name" />
+          <input class="detail-input" id="detail-phone" type="tel" placeholder='"-" 없이 연락처를 입력하세요. (예: 01012341234)' autocomplete="tel" />
+          <div class="detail-input-with-icon">
+            <input class="detail-input" id="detail-address" type="text" placeholder="차 받을 곳의 주소를 입력하세요. (서울 지역만 가능)" autocomplete="street-address" />
+            <span class="detail-input-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </div>
+          <input class="detail-input" id="detail-address-detail" type="text" placeholder="상세 주소를 입력하세요." />
+        </div>
+        <hr class="detail-terms-divider" />
+        <div class="detail-terms">
+          <label class="detail-terms-all">
+            <div class="detail-checkbox" id="chk-all" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-all"></div>
+            <span id="label-chk-all">전체 약관에 동의합니다</span>
+          </label>
+          <label class="detail-terms-item">
+            <div class="detail-checkbox" id="chk-privacy" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-privacy"></div>
+            <span id="label-chk-privacy">[필수] 개인정보 수집 및 이용 동의</span>
+          </label>
+          <label class="detail-terms-item">
+            <div class="detail-checkbox" id="chk-terms" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-terms"></div>
+            <span id="label-chk-terms">[필수] 시승 프로그램 참여 동의</span>
+          </label>
+        </div>
+        <button class="detail-submit-btn" disabled>응모하기</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#view-detail -->
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -1171,9 +1535,15 @@
   var tgtThumbs = Array.prototype.slice.call(bar.querySelectorAll('.sticky-thumb'));
   var NAV_H     = 60;
 
+  /* 도킹 위치 사전 계산: bar를 잠깐 translateY(0)으로 옮겨 실제 thumb 좌표 측정 */
+  bar.style.transform = 'translateY(0%)';
+  var dockedRects = tgtThumbs.map(function (th) { return th.getBoundingClientRect(); });
+  bar.style.transform = 'translateY(-100%)';
+
   /* 썸네일 고스트 엘리먼트 생성 (풀카드↔컴팩트 바 사이 이동) */
   var ghosts = srcImgs.map(function (img) {
     var g  = document.createElement('div');
+    g.className = 'flip-ghost';
     g.style.cssText = 'position:fixed;z-index:201;pointer-events:none;overflow:hidden;opacity:0;transform:translateZ(0);';
     var gi = document.createElement('img');
     gi.src = img.src;
@@ -1191,9 +1561,16 @@
     var barH    = bar.offsetHeight || 112;
     var p       = Math.max(0, Math.min(1, overlap / barH)); /* 0→1 */
 
-    /* 컴팩트 바 전체 */
-    bar.style.transform     = 'translateY(' + (-100 * (1 - p)) + '%)';
-    bar.style.pointerEvents = p > 0 ? 'auto' : 'none';
+    /* 컴팩트 바: FLIP 완료(p=1) 후에만 표시 */
+    if (p >= 1) {
+      bar.style.transform     = 'translateY(0%)';
+      bar.style.opacity       = '1';
+      bar.style.pointerEvents = 'auto';
+    } else {
+      bar.style.transform     = 'translateY(-100%)';
+      bar.style.opacity       = '0';
+      bar.style.pointerEvents = 'none';
+    }
 
     /* 풀 카드: 축소·페이드 */
     grid.style.transformOrigin = 'top center';
@@ -1213,7 +1590,7 @@
       }
 
       var src = srcCards[i].getBoundingClientRect();
-      var tgt = tgtThumbs[i].getBoundingClientRect();
+      var tgt = dockedRects[i]; /* 사전 계산된 도킹 위치 */
 
       ghost.style.left         = lerp(src.left,   tgt.left,   p) + 'px';
       ghost.style.top          = lerp(src.top,    tgt.top,    p) + 'px';
@@ -1331,6 +1708,451 @@
   document.querySelectorAll('.reveal').forEach(function (el) {
     io.observe(el);
   });
+})();
+
+/* ── 마퀴 카드 호버 팝업 ── */
+(function () {
+  var popup = document.createElement('div');
+  popup.className = 'mq-popup';
+  popup.innerHTML =
+    '<div class="mq-popup-img"><img class="mq-popup-img-el" src="" alt=""></div>' +
+    '<div class="mq-popup-blur"></div>' +
+    '<div class="mq-popup-bottom">' +
+      '<div class="mq-popup-info">' +
+        '<div class="mq-popup-brand"></div>' +
+        '<div class="mq-popup-model"></div>' +
+      '</div>' +
+      '<button class="mq-popup-cta">시승신청 ›</button>' +
+    '</div>';
+  document.body.appendChild(popup);
+
+  var hideTimer;
+  var currentCard = null;
+
+  function show(card) {
+    clearTimeout(hideTimer);
+    if (currentCard && currentCard !== card) {
+      currentCard.classList.remove('hovered');
+    }
+    currentCard = card;
+
+    var imgEl   = card.querySelector('.mq-thumb img');
+    var brandEl = card.querySelector('.mq-brand');
+    var modelEl = card.querySelector('.mq-model');
+    popup.querySelector('.mq-popup-img-el').src         = imgEl   ? imgEl.src          : '';
+    popup.querySelector('.mq-popup-brand').textContent  = brandEl ? brandEl.textContent : '';
+    popup.querySelector('.mq-popup-model').textContent  = modelEl ? modelEl.textContent : '';
+
+    card.classList.add('hovered');
+    popup.style.visibility = 'hidden';
+    popup.classList.remove('is-visible');
+
+    requestAnimationFrame(function () {
+      var r   = card.getBoundingClientRect();
+      var vw  = window.innerWidth;
+      var vh  = window.innerHeight;
+      var pw  = 397, ph = 300, gap = 10;
+
+      var left = r.left + r.width / 2 - pw / 2;
+      left = Math.max(8, Math.min(left, vw - pw - 8));
+
+      var top;
+      if (r.bottom + gap + ph <= vh) {
+        top = r.bottom + gap;
+        popup.style.transformOrigin = 'top center';
+      } else {
+        top = r.top - gap - ph;
+        popup.style.transformOrigin = 'bottom center';
+      }
+
+      popup.style.left = left + 'px';
+      popup.style.top  = top  + 'px';
+      popup.style.visibility = '';
+      requestAnimationFrame(function () { popup.classList.add('is-visible'); });
+    });
+  }
+
+  function hide() {
+    hideTimer = setTimeout(function () {
+      popup.classList.remove('is-visible');
+      if (currentCard) { currentCard.classList.remove('hovered'); currentCard = null; }
+    }, 120);
+  }
+
+  document.querySelectorAll('.mq-card').forEach(function (card) {
+    card.addEventListener('mouseenter', function () { show(card); });
+    card.addEventListener('mouseleave', hide);
+  });
+
+  popup.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
+  popup.addEventListener('mouseleave', hide);
+})();
+</script>
+
+<script>
+/* ════════════ 상세 페이지 로직 ════════════ */
+(function () {
+  var imgXC40 = 'https://www.figma.com/api/mcp/asset/a1529992-816f-4a6c-bd6a-f9296bea39e3';
+
+  var VEHICLES = {
+    xc40:  { brand: 'VOLVO',       model: 'XC40',   img: imgXC40, fuel: '전기 (BEV)',             drive: '전륜구동', power: '231 PS', torque: '330 Nm', range: '418 km',    seats: '5인', rating: '8.33' },
+    velar: { brand: 'RANGE ROVER', model: 'Velar',  img: imgXC40, fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '250 PS', torque: '365 Nm', range: '13.2 km/L', seats: '5인', rating: '9.10' },
+    evoque:{ brand: 'RANGE ROVER', model: 'Evoque', img: imgXC40, fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '200 PS', torque: '320 Nm', range: '13.0 km/L', seats: '5인', rating: '8.75' },
+  };
+
+  var REVIEW_TEXTS = {
+    xc40: [
+      '전기차 특유의 조용한 주행감이 인상적이었어요. 5일 내내 충전 걱정 없이 편하게 탔습니다.',
+      '인테리어 퀄리티가 예상보다 훨씬 높아 놀랐습니다. 스칸디나비안 디자인이 실제로 보니 더 세련됐어요.',
+      'BLIS 기능 덕분에 차선 변경이 훨씬 편했습니다. 안전 기능들이 신뢰감을 줬어요.',
+      '회생 제동 설정이 다양해서 도심 주행에 최적화할 수 있었어요. 배터리 효율이 생각보다 좋았습니다.',
+      '트렁크 공간이 컴팩트 SUV치고 상당히 넓어요. 5일간 여행짐을 충분히 실을 수 있었습니다.',
+      '주행 모드별로 체감 차이가 확실해요. 에코 모드에서도 가속이 답답하지 않았습니다.',
+      '소프트웨어 인터페이스가 직관적이어서 처음 타도 금방 익숙해졌습니다.',
+      '가족과 함께 주말 드라이브를 즐겼는데 승차감이 부드러워 아이들도 좋아했습니다.',
+      '충전 인프라가 조금 더 많아졌으면 하는 아쉬움은 있지만, 주행 자체는 만족스러웠어요.',
+      '전기차를 처음 경험해봤는데 생각보다 적응이 빠르고 편했습니다. 구매를 진지하게 고려해볼 것 같아요.',
+      '야간 주행 시 LED 라이트가 시야를 탁 트이게 해줘서 안전하게 드라이브를 즐길 수 있었어요.',
+      '앱으로 차량 상태를 원격으로 확인할 수 있는 기능이 편리했습니다. 기술적으로 꽤 앞서있네요.',
+      '스웨덴 감성의 미니멀한 실내가 장시간 운전해도 눈이 피로하지 않아 좋았어요.',
+      '전비가 카탈로그 수치와 비슷하게 나왔어요. 주행 스타일만 잘 잡으면 충분합니다.',
+      '파이롯 어시스트 기능이 장거리 고속도로에서 정말 편했어요. 피로도가 확 줄었습니다.',
+      '겨울철에 히팅 시트와 스티어링 열선이 빠르게 작동해서 체감 온도가 굉장히 따뜻했어요.',
+      '어댑티브 크루즈 컨트롤이 자연스럽게 앞차와 간격을 조절해줘서 신뢰감이 높았습니다.',
+      '시내에서 U턴이 다소 어려운 편이었지만 전체적인 핸들링 정밀도는 만족스러웠어요.',
+      '스칸디나비안 디자인이 취향 저격이에요. 도심 주행 시 회생 제동이 잘 작동해 효율적이었습니다.',
+      'XC40 리차지를 5일간 타봤는데 실용성이 훌륭합니다. 트렁크 공간도 넉넉하고 가족 나들이에 딱이에요.',
+    ],
+    velar: [
+      '외관 디자인이 진짜 독보적이에요. 주차할 때마다 사람들이 쳐다볼 정도였습니다.',
+      '에어 서스펜션이 도로 노면을 완벽하게 흡수해줘서 마치 구름 위를 달리는 기분이었어요.',
+      '터치스크린 인포테인먼트 시스템이 직관적이고 반응 속도도 빨라서 운전 중 불편함이 없었습니다.',
+      '가솔린 마일드 하이브리드라 정차 시 진동이 거의 없어요. 고급스러운 정숙성이 인상적이었습니다.',
+      '파노라믹 선루프로 들어오는 햇살이 실내를 더 넓고 쾌적하게 만들어줬어요.',
+      '사륜구동 덕분에 비 오는 날 급커브에서도 안정감이 남달랐습니다.',
+      '가죽 시트 품질이 정말 좋아요. 장거리 드라이브에서도 허리가 아프지 않았습니다.',
+      '헤드업 디스플레이가 운전에 집중하면서도 속도를 확인하기 편리했습니다.',
+      '마일드 하이브리드 덕분에 연비가 예상보다 좋았어요. 고급차이지만 유지비가 부담스럽지 않을 것 같습니다.',
+      '차 크기에 비해 주차가 생각보다 쉬웠어요. 서라운드 카메라가 큰 도움이 됐습니다.',
+      '실내 앰비언트 라이팅이 야간 드라이브 분위기를 완전히 바꿔줬어요. 정말 럭셔리한 감성이었습니다.',
+      '메리디안 사운드 시스템이 기대 이상으로 훌륭했어요. 음악 감상이 즐거운 드라이브였습니다.',
+      '주행 중 외부 소음이 거의 들리지 않아 대화를 나누기 편했어요. 방음 처리가 탁월합니다.',
+      '5일이 너무 짧게 느껴졌어요. 돌려보내기 정말 아쉬웠습니다.',
+      '이 차를 경험한 후 다른 차들이 조금 평범하게 느껴지더라고요. 기준이 달라졌습니다.',
+      '클로즈드 도어 시 울리는 소리에서부터 고급감이 느껴졌습니다. 디테일이 살아있어요.',
+      '오프로드 모드를 실험해봤는데 차의 능력이 정말 다재다능하다고 느꼈어요.',
+      '전방 카메라가 좁은 골목을 지날 때 정말 유용했어요. 안전 기능들이 잘 구성되어 있습니다.',
+      '시승 첫날부터 차에 완전히 빠졌습니다. 에어 서스펜션 덕분에 노면이 울퉁불퉁해도 편안했어요.',
+      '클래스가 다른 승차감이었어요. 5일이 너무 짧게 느껴졌습니다. 구매 욕구가 확 올라왔어요.',
+    ],
+    evoque: [
+      '컴팩트한 크기 덕분에 좁은 도심 골목에서도 자유롭게 다닐 수 있었어요.',
+      'ClearSight 후방 카메라가 주차를 크게 편리하게 해줬습니다. 처음에도 쉽게 적응했어요.',
+      '도심형 SUV이지만 고속도로에서도 주행 안정감이 뛰어났어요. 기대보다 훨씬 완성도가 높았습니다.',
+      '인테리어 소재 퀄리티가 이 급에서는 최상급이라고 느꼈습니다. 손이 닿는 모든 곳이 고급스러워요.',
+      '패밀리카로도, 혼자 타기에도 딱 적당한 크기였어요. 범용성이 높은 차입니다.',
+      '레인지로버 특유의 브랜드 헤리티지가 이 차에서도 느껴집니다. 명성이 괜한 게 아니더라고요.',
+      '주행 모드를 바꾸니 확실히 체감이 달라졌어요. 다이내믹 모드에서의 가속이 꽤 짜릿했습니다.',
+      '소형 SUV치고 실내 공간이 넉넉했어요. 뒷좌석도 성인이 앉기 불편하지 않았습니다.',
+      '연비가 생각보다 좋았습니다. 마일드 하이브리드 시스템 덕분인지 도심 주행이 효율적이었어요.',
+      '외관 디자인이 젊고 세련되어서 다양한 연령대에 어울릴 것 같아요.',
+      '트렁크가 크지는 않지만 여행 짐 두어 개는 충분히 들어갔습니다. 실용적으로 쓸 수 있었어요.',
+      '안전 기능들이 잘 작동해요. 차선 이탈 경고와 자동 긴급 제동이 신뢰감을 줬습니다.',
+      '주말 나들이에 완벽한 차였습니다. 아이들도 타는 것을 좋아했어요.',
+      '도로 위에서 존재감이 있는 차예요. 컴팩트하지만 절대 작아 보이지 않습니다.',
+      '시트 조절 범위가 넓어서 키가 큰 편인 저도 편안하게 앉을 수 있었습니다.',
+      '소음 차단이 생각보다 훌륭했어요. 고속 주행에서도 실내가 조용했습니다.',
+      '가격 대비 경험할 수 있는 고급감이 상당합니다. 시승 기회를 잘 활용했다는 생각이 들었어요.',
+      '브레이크 반응이 예민한 편이어서 처음에 적응이 필요했지만, 이틀 지나니 오히려 안전하게 느껴졌습니다.',
+      '컴팩트 SUV이지만 공간 활용이 훌륭합니다. 도심에서 다루기 쉬운 크기에 럭셔리한 감성까지 갖췄어요.',
+      '레인지로버 특유의 고급스러움을 더 합리적인 크기로 경험할 수 있어서 좋았어요.',
+    ],
+  };
+
+  var REVIEW_SCORES = {
+    xc40:   [8.3,8.5,8.1,8.4,7.9,8.6,8.2,8.7,8.0,8.8,7.8,8.3,8.5,8.1,8.9,8.4,8.2,7.7,8.6,8.3],
+    velar:  [9.2,9.0,9.1,9.3,8.8,9.4,9.0,9.5,8.9,9.2,9.1,9.6,9.0,8.7,9.3,9.4,9.1,9.2,9.0,9.5],
+    evoque: [8.8,8.6,8.9,8.7,8.4,8.5,9.0,8.8,8.3,8.7,8.9,8.5,8.6,8.8,8.4,8.7,8.9,8.6,8.3,8.8],
+  };
+
+  function buildReviews(vehicleId) {
+    var texts  = REVIEW_TEXTS[vehicleId];
+    var scores = REVIEW_SCORES[vehicleId];
+    var reviews = [];
+    var year = 2026, month = 4;
+    for (var i = 0; i < 100; i++) {
+      var m = month < 10 ? '0' + month : '' + month;
+      reviews.push({
+        score: scores[i % scores.length].toFixed(1),
+        date:  year + '.' + m,
+        text:  texts[i % texts.length],
+      });
+      if (i % 2 === 1) {
+        month--;
+        if (month < 1) { month = 12; year--; }
+      }
+    }
+    return reviews;
+  }
+
+  var REVIEWS = { xc40: null, velar: null, evoque: null };
+  var reviewPage = { current: 0, data: [] };
+  var PAGE_SIZE = 20;
+
+  var savedScrollY = 0;
+
+  /* ── 리뷰 렌더링 ── */
+  function renderMoreReviews() {
+    var list = document.getElementById('detail-review-list');
+    var moreBtn = document.getElementById('detail-review-more');
+    var start = reviewPage.current * PAGE_SIZE;
+    var slice = reviewPage.data.slice(start, start + PAGE_SIZE);
+
+    slice.forEach(function (r) {
+      var card = document.createElement('div');
+      card.className = 'detail-review-card';
+      card.innerHTML = '<div class="detail-review-header">'
+        + '<span class="detail-rating-star">&#9733;</span>'
+        + '<span class="detail-review-score">' + r.score + '</span>'
+        + '<span class="detail-review-date">' + r.date + '</span>'
+        + '</div>'
+        + '<p class="detail-review-body">' + r.text + '</p>';
+      list.appendChild(card);
+    });
+
+    reviewPage.current++;
+    moreBtn.style.display = (reviewPage.current * PAGE_SIZE < reviewPage.data.length) ? 'block' : 'none';
+  }
+
+  document.getElementById('detail-review-more').addEventListener('click', renderMoreReviews);
+
+  /* ── 폼 초기화 ── */
+  function resetDetailForm() {
+    document.getElementById('detail-name').value = '';
+    document.getElementById('detail-phone').value = '';
+    document.getElementById('detail-address').value = '';
+    document.getElementById('detail-address-detail').value = '';
+    ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
+      var el = document.getElementById(id);
+      el.classList.remove('checked');
+      el.setAttribute('aria-checked', 'false');
+    });
+    var btn = document.querySelector('.detail-submit-btn');
+    btn.disabled = true;
+    btn.textContent = '응모하기';
+    btn.classList.remove('success');
+  }
+
+  /* ── 뷰 열기 ── */
+  window.openDetail = function (vehicleId) {
+    /* 마퀴 팝업 강제 숨김 */
+    var mqPopup = document.querySelector('.mq-popup');
+    if (mqPopup) mqPopup.classList.remove('is-visible');
+
+    /* FLIP ghost 엘리먼트 숨김 */
+    document.body.classList.add('detail-open');
+
+    var v = VEHICLES[vehicleId];
+    if (!v) return;
+
+    /* 차량 이미지 */
+    document.getElementById('detail-car-img').src = v.img;
+
+    /* 폼 헤드 */
+    document.getElementById('detail-form-brand-name').textContent = v.brand;
+    document.getElementById('detail-form-model-name').textContent = v.model;
+
+    /* 제원 */
+    document.getElementById('detail-spec-fuel').textContent   = v.fuel;
+    document.getElementById('detail-spec-drive').textContent  = v.drive;
+    document.getElementById('detail-spec-power').textContent  = v.power;
+    document.getElementById('detail-spec-torque').textContent = v.torque;
+    document.getElementById('detail-spec-range').textContent  = v.range;
+    document.getElementById('detail-spec-seats').textContent  = v.seats;
+
+    /* 리뷰 */
+    if (!REVIEWS[vehicleId]) REVIEWS[vehicleId] = buildReviews(vehicleId);
+    reviewPage.data = REVIEWS[vehicleId];
+    reviewPage.current = 0;
+    document.getElementById('detail-review-list').innerHTML = '';
+    renderMoreReviews();
+
+    /* 폼 초기화 */
+    resetDetailForm();
+
+    /* 뷰 전환 */
+    savedScrollY = window.scrollY;
+    document.getElementById('view-main').style.display = 'none';
+    document.getElementById('view-detail').style.display = 'block';
+    window.scrollTo(0, 0);
+
+    /* 탭 초기화 */
+    document.querySelectorAll('.detail-tab').forEach(function (t) { t.classList.remove('active'); });
+    document.querySelector('.detail-tab[data-tab="spec"]').classList.add('active');
+  };
+
+  /* ── 뷰 닫기 ── */
+  window.closeDetail = function () {
+    document.getElementById('view-detail').style.display = 'none';
+    document.getElementById('view-main').style.display = 'block';
+    window.scrollTo(0, savedScrollY);
+    document.body.classList.remove('detail-open');
+  };
+
+  document.querySelector('.detail-back-btn').addEventListener('click', function () {
+    window.closeDetail();
+  });
+
+  /* ── 탭 인터랙션 ── */
+  var TAB_OFFSET = 104; /* NAV 60px + 탭바 44px */
+  var isTabScrolling = false;
+
+  function setActiveTab(tabId) {
+    document.querySelectorAll('.detail-tab').forEach(function (t) { t.classList.remove('active'); });
+    var target = document.querySelector('.detail-tab[data-tab="' + tabId + '"]');
+    if (target) target.classList.add('active');
+  }
+
+  document.querySelectorAll('.detail-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      setActiveTab(tab.dataset.tab);
+      isTabScrolling = true;
+      var section = document.getElementById('detail-section-' + tab.dataset.tab);
+      if (section) {
+        var targetY = section.getBoundingClientRect().top + window.scrollY - TAB_OFFSET;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+      setTimeout(function () { isTabScrolling = false; }, 800);
+    });
+  });
+
+  /* 스크롤 감지 → 탭 자동 활성화 */
+  window.addEventListener('scroll', function () {
+    if (isTabScrolling) return;
+    if (document.getElementById('view-detail').style.display === 'none') return;
+
+    var sections = ['spec', 'how', 'review'].map(function (id) {
+      var el = document.getElementById('detail-section-' + id);
+      return { id: id, top: el ? el.getBoundingClientRect().top : Infinity };
+    });
+
+    var active = 'spec';
+    sections.forEach(function (s) {
+      if (s.top <= TAB_OFFSET) active = s.id;
+    });
+    setActiveTab(active);
+  }, { passive: true });
+
+  /* ── 체크박스 헬퍼 ── */
+  function setChecked(el, val) {
+    el.classList.toggle('checked', val);
+    el.setAttribute('aria-checked', val ? 'true' : 'false');
+  }
+
+  function updateSubmitBtn() {
+    var ok = document.getElementById('chk-privacy').classList.contains('checked')
+          && document.getElementById('chk-terms').classList.contains('checked');
+    var btn = document.querySelector('.detail-submit-btn');
+    btn.disabled = !ok;
+  }
+
+  /* 전체 동의 */
+  document.getElementById('chk-all').addEventListener('click', function () {
+    var allChecked = this.classList.contains('checked');
+    ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
+      setChecked(document.getElementById(id), !allChecked);
+    });
+    updateSubmitBtn();
+  });
+
+  /* 개별 체크 */
+  ['chk-privacy', 'chk-terms'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function () {
+      setChecked(this, !this.classList.contains('checked'));
+      var allChecked = ['chk-privacy', 'chk-terms'].every(function (i) {
+        return document.getElementById(i).classList.contains('checked');
+      });
+      setChecked(document.getElementById('chk-all'), allChecked);
+      updateSubmitBtn();
+    });
+  });
+
+  /* 키보드 접근성: Space/Enter로 체크박스 토글 */
+  ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
+    document.getElementById(id).addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  });
+
+  /* ── 응모 제출 ── */
+  document.querySelector('.detail-submit-btn').addEventListener('click', function () {
+    if (this.disabled) return;
+    var btn = this;
+    btn.textContent = '응모 중...';
+    btn.disabled = true;
+    setTimeout(function () {
+      btn.textContent = '응모 완료 ✓';
+      btn.classList.add('success');
+    }, 1500);
+  });
+
+  /* ── 기존 CTA 버튼 연결 ── */
+  /* .cta-pill: vehicle-card 내부 */
+  document.querySelectorAll('.vehicle-card-main').forEach(function (card, idx) {
+    var carIds = ['xc40', 'velar', 'evoque'];
+    var pill = card.querySelector('.cta-pill');
+    if (pill) {
+      pill.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.openDetail(carIds[idx]);
+      });
+    }
+  });
+
+  /* .vehicle-card-review: 리뷰 카드 클릭 */
+  document.querySelectorAll('.vehicle-card-review[data-car]').forEach(function (card) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function () {
+      window.openDetail(card.dataset.car);
+    });
+  });
+
+  /* sticky-bar 시승신청 버튼 */
+  var stickyCards = document.querySelectorAll('.sticky-card');
+  var carIds = ['xc40', 'velar', 'evoque'];
+  stickyCards.forEach(function (card, idx) {
+    var cta = card.querySelector('.sticky-cta');
+    if (cta) {
+      cta.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.openDetail(carIds[idx]);
+      });
+    }
+    card.addEventListener('click', function (e) {
+      if (!e.target.closest('.sticky-cta')) {
+        window.openDetail(carIds[idx]);
+      }
+    });
+  });
+
+  /* mq-popup CTA */
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('mq-popup-cta')) {
+      e.preventDefault();
+      /* 팝업에 표시된 모델명으로 vehicleId 추정 */
+      var modelEl = document.querySelector('.mq-popup-model');
+      var model = modelEl ? modelEl.textContent.toLowerCase() : '';
+      var vid = model.indexOf('xc40') !== -1 ? 'xc40'
+              : model.indexOf('velar') !== -1 ? 'velar'
+              : model.indexOf('evoque') !== -1 ? 'evoque'
+              : 'xc40';
+      window.openDetail(vid);
+    }
+  });
+
 })();
 </script>
 </body>
