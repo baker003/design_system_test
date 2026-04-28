@@ -17,6 +17,7 @@
       --ink-500: #6B6B75;
       --ink-400: #646F7C;
       --ink-300: #9A9AA3;
+      --gray-500: #99a1b1;
       --ink-200: #C9C9D1;
       --ink-100: #E4E4E9;
       --ink-50:  #F8F8FA;
@@ -95,6 +96,113 @@
       transition: background .15s;
     }
     .btn-brand-sm:hover { background: var(--brand-dark); }
+
+    /* ════════════ 로그인 팝업 ════════════ */
+    .login-dim {
+      position: fixed; inset: 0; z-index: 9100;
+      background: rgba(10,10,15,0.48);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .login-dim.open { opacity: 1; pointer-events: auto; }
+    .login-popup {
+      width: 400px; background: white;
+      border-radius: 20px; padding: 36px 32px 32px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(10,10,15,.18);
+      transform: translateY(10px);
+      transition: transform .25s ease;
+    }
+    .login-dim.open .login-popup { transform: translateY(0); }
+    .login-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-400); font-size: 18px; line-height: 1;
+      transition: background .15s, color .15s;
+    }
+    .login-close:hover { background: var(--ink-100); color: var(--ink-900); }
+    .login-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 17px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--ink-900); margin-bottom: 28px;
+    }
+    .login-logo-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--ink-900); position: relative; overflow: hidden; flex-shrink: 0;
+    }
+    .login-logo-mark::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand) 50%, transparent 50%);
+    }
+    .login-logo-mark::after {
+      content: ''; position: absolute; right: 5px; bottom: 5px;
+      width: 7px; height: 7px; border-radius: 50%; background: white;
+    }
+    .login-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .login-label {
+      font-size: 13px; font-weight: 600; color: var(--ink-700);
+      margin-bottom: 6px; display: block;
+    }
+    .login-input {
+      width: 100%; height: 52px; padding: 0 14px;
+      border: 1.5px solid var(--ink-200); border-radius: 10px;
+      font-size: 15px; font-family: var(--font); color: var(--ink-900);
+      background: white; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .login-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0,120,255,0.12);
+    }
+    .login-input::placeholder { color: var(--ink-300); }
+    .login-btn {
+      width: 100%; height: 52px; border-radius: 10px;
+      background: var(--brand); color: white; border: none;
+      font-size: 15px; font-weight: 700; font-family: var(--font);
+      cursor: pointer; transition: background .15s;
+      margin-bottom: 12px;
+    }
+    .login-btn:hover { background: var(--brand-dark); }
+    .login-error {
+      font-size: 13px; color: #D0342C; margin-top: -4px;
+      display: none;
+    }
+    .login-error.visible { display: block; }
+    .login-signup-btn {
+      width: 100%; height: 44px; border-radius: 10px;
+      background: none; border: none; cursor: pointer;
+      font-size: 14px; font-weight: 600; color: var(--ink-500);
+      font-family: var(--font); transition: color .15s, background .15s;
+    }
+    .login-signup-btn:hover { background: var(--ink-50); color: var(--ink-900); }
+
+    /* ════════════ 프로필 팝오버 ════════════ */
+    .profile-popover {
+      position: fixed; z-index: 9050;
+      background: rgba(255,255,255,0.20);
+      backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(10,10,15,0.14), 0 2px 8px rgba(10,10,15,0.08);
+      padding: 6px; min-width: 176px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .profile-popover.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .profile-popover-item {
+      display: block; width: 100%;
+      padding: 10px 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: var(--ink-900);
+      text-align: left; background: none; border: none; cursor: pointer;
+      font-family: var(--font); white-space: nowrap;
+      transition: background 0.12s;
+    }
+    .profile-popover-item:hover { background: rgba(255,255,255,0.30); }
+    .profile-popover-item.logout { color: #D0342C; }
 
     /* ════════════ HERO ════════════ */
     .hero {
@@ -796,31 +904,44 @@
     /* ════════════ 상세 페이지 ════════════ */
     #view-detail { background: #fdfdfd; min-width: 1280px; }
 
-    .detail-back-bar {
-      max-width: 1440px; margin: 0 auto;
-      padding: 16px 100px;
-      border-bottom: 1px solid var(--ink-100);
-    }
-    .detail-back-btn {
-      background: none; border: none; cursor: pointer;
-      font-size: 14px; font-weight: 500; color: var(--ink-500);
-      font-family: var(--font);
-      transition: color .15s;
-    }
-    .detail-back-btn:hover { color: var(--ink-900); }
 
     .detail-layout {
       max-width: 1440px; margin: 0 auto;
       display: grid; grid-template-columns: 1fr 400px;
-      gap: 72px; padding: 80px 100px;
+      gap: 40px; padding: 80px 100px;
       align-items: start;
     }
 
-    .detail-hero-img {
+    .detail-carousel {
       width: 100%; height: 441px;
-      border-radius: 24px; object-fit: cover; display: block;
-      background: var(--ink-100);
+      border-radius: 24px; overflow: hidden;
+      position: relative; background: var(--ink-100);
     }
+    .detail-carousel-track {
+      display: flex; height: 100%;
+      will-change: transform;
+    }
+    .detail-carousel-slide {
+      flex-shrink: 0; width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .detail-carousel-ctrl {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(0,0,0,0.44); border-radius: 100px;
+      padding: 4px 8px; pointer-events: auto;
+    }
+    .carousel-btn {
+      width: 20px; height: 20px;
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0; flex-shrink: 0;
+    }
+    .carousel-counter {
+      font-size: 16px; font-weight: 500; color: white;
+      font-family: var(--font); white-space: nowrap;
+    }
+    .carousel-sep, #carousel-total { color: var(--gray-500); }
 
     .detail-tabs {
       display: flex; border-bottom: 1px solid var(--ink-100);
@@ -889,18 +1010,48 @@
 
     /* 우측 스티키 폼 */
     .detail-form-sticky { position: sticky; top: 80px; align-self: start; }
+    /* 비로그인 guest 패널 */
+    .guest-features { display: flex; flex-direction: column; gap: 8px; }
+    .guest-feature-chip {
+      background: #f2f3f8; border-radius: 20px;
+      padding: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .guest-feature-icon { flex-shrink: 0; width: 24px; height: 24px; }
+    .guest-feature-text { font-size: 16px; font-weight: 500; color: var(--ink-900); }
+    .guest-login-cta {
+      border: 1px solid #e5e8ef; border-radius: 20px;
+      padding: 20px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .guest-login-title { font-size: 22px; font-weight: 800; color: var(--ink-900); line-height: 1.3; margin-bottom: 6px; }
+    .guest-login-desc { font-size: 14px; color: #697383; letter-spacing: 0.03em; line-height: 1.5; }
+    .guest-login-btns { display: flex; gap: 8px; }
+    .guest-signup-btn {
+      flex: 1; height: 52px; border-radius: 12px;
+      border: 1.5px solid var(--ink-200); background: white;
+      font-size: 15px; font-weight: 600; color: var(--ink-900);
+      font-family: var(--font); cursor: pointer; transition: border-color .15s;
+    }
+    .guest-signup-btn:hover { border-color: var(--ink-900); }
+    .guest-cta-login-btn {
+      flex: 1; height: 52px; border-radius: 12px;
+      border: none; background: var(--brand);
+      font-size: 15px; font-weight: 700; color: white;
+      font-family: var(--font); cursor: pointer; transition: background .15s;
+    }
+    .guest-cta-login-btn:hover { background: var(--brand-dark); }
     .detail-form-card {
-      background: white; border: 1px solid var(--ink-100);
-      border-radius: 24px; padding: 32px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      background: white;
       display: flex; flex-direction: column; gap: 24px;
+    }
+    #detail-logged-panel {
+      display: flex; flex-direction: column; gap: 20px;
     }
     .detail-form-brand { font-size: 20px; font-weight: 600; color: var(--ink-400); letter-spacing: 0.04em; }
     .detail-form-model {
       font-size: 32px; font-weight: 800; color: var(--ink-900);
       letter-spacing: -0.04em; line-height: 1.1; margin-top: -4px;
     }
-    .detail-field-group { display: flex; flex-direction: column; gap: 12px; }
+    .detail-field-group { display: flex; flex-direction: column; gap: 8px; }
     .detail-input {
       width: 100%; height: 52px;
       border: 1.5px solid var(--ink-200); border-radius: 10px;
@@ -1160,33 +1311,6 @@
     </div>
   </div>
 
-  <!-- Row 2: 오른쪽 → 왼쪽 (rtl) -->
-  <div class="marquee-track-wrap">
-    <div class="marquee-track marquee-track--rtl">
-      <!-- set B -->
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Palisade</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">G90</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">X5</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">GLE</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">EV6</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Panamera</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">A6</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">ES</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC60</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">JAGUAR</div><div class="mq-model">F-PACE</div></div></div>
-      <!-- set B 복제 (seamless loop) -->
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">HYUNDAI</div><div class="mq-model">Palisade</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">GENESIS</div><div class="mq-model">G90</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">BMW</div><div class="mq-model">X5</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">MERCEDES</div><div class="mq-model">GLE</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">KIA</div><div class="mq-model">EV6</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">PORSCHE</div><div class="mq-model">Panamera</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">AUDI</div><div class="mq-model">A6</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">LEXUS</div><div class="mq-model">ES</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">VOLVO</div><div class="mq-model">XC60</div></div></div>
-      <div class="mq-card"><div class="mq-thumb"><img src="https://www.figma.com/api/mcp/asset/6232733b-3713-487b-94d0-e5617b37a207" alt=""></div><div class="mq-info"><div class="mq-brand">JAGUAR</div><div class="mq-model">F-PACE</div></div></div>
-    </div>
-  </div>
 </div>
 
 <!-- ══ 왜 DRIVE:ON인가 (지도) ══ -->
@@ -1325,14 +1449,22 @@
 <!-- ══ 상세 페이지 뷰 ══ -->
 <div id="view-detail" style="display:none;">
 
-  <div class="detail-back-bar">
-    <button class="detail-back-btn">&#8592; 시승 차량 목록으로</button>
-  </div>
 
   <div class="detail-layout">
     <!-- 좌측 콘텐츠 -->
     <div class="detail-left">
-      <img class="detail-hero-img" id="detail-car-img" src="" alt="차량 이미지" />
+      <div class="detail-carousel" id="detail-carousel">
+        <div class="detail-carousel-track" id="detail-carousel-track"></div>
+        <div class="detail-carousel-ctrl">
+          <button class="carousel-btn" id="carousel-prev">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="carousel-counter"><span id="carousel-curr">1</span><span class="carousel-sep">/</span><span id="carousel-total">6</span></span>
+          <button class="carousel-btn" id="carousel-next">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
 
       <nav class="detail-tabs" aria-label="상세 정보 탭">
         <button class="detail-tab active" data-tab="spec">상세정보</button>
@@ -1423,43 +1555,75 @@
       </section>
     </div>
 
-    <!-- 우측 스티키 폼 -->
+    <!-- 우측 스티키 패널 (비로그인) -->
     <div class="detail-form-sticky">
       <div class="detail-form-card">
         <div class="detail-form-head">
           <p class="detail-form-brand" id="detail-form-brand-name"></p>
           <p class="detail-form-model" id="detail-form-model-name"></p>
         </div>
-        <div class="detail-field-group">
-          <input class="detail-input" id="detail-name" type="text" placeholder="이름을 입력하세요" autocomplete="name" />
-          <input class="detail-input" id="detail-phone" type="tel" placeholder='"-" 없이 연락처를 입력하세요. (예: 01012341234)' autocomplete="tel" />
-          <div class="detail-input-with-icon">
-            <input class="detail-input" id="detail-address" type="text" placeholder="차 받을 곳의 주소를 입력하세요. (서울 지역만 가능)" autocomplete="street-address" />
-            <span class="detail-input-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+
+        <!-- 비로그인 패널 -->
+        <div id="detail-guest-panel">
+          <div class="guest-features">
+            <div class="guest-feature-chip">
+              <svg class="guest-feature-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v7c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-7l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5zm-11.5-1c-.83 0-1.5-.67-1.5-1.5S6.67 13 7.5 13s1.5.67 1.5 1.5S8.33 16 7.5 16zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="var(--brand)"/>
               </svg>
-            </span>
+              <span class="guest-feature-text">집앞까지 시승차를 무료 배달</span>
+            </div>
+            <div class="guest-feature-chip">
+              <svg class="guest-feature-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 3 3 3.9 3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM10.56 17.46l-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z" fill="var(--color-star)"/>
+              </svg>
+              <span class="guest-feature-text">5일간 거리 제한없이 자유로운 시승 가능</span>
+            </div>
           </div>
-          <input class="detail-input" id="detail-address-detail" type="text" placeholder="상세 주소를 입력하세요." />
+          <div class="guest-login-cta">
+            <div>
+              <p class="guest-login-title">로그인하고 시승 기회를 잡아보세요!</p>
+              <p class="guest-login-desc">시승 응모는 로그인한 회원님만 참여할 수 있습니다.</p>
+            </div>
+            <div class="guest-login-btns">
+              <button class="guest-signup-btn">회원가입</button>
+              <button class="guest-cta-login-btn" id="guest-login-btn">로그인</button>
+            </div>
+          </div>
         </div>
-        <hr class="detail-terms-divider" />
-        <div class="detail-terms">
-          <label class="detail-terms-all">
-            <div class="detail-checkbox" id="chk-all" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-all"></div>
-            <span id="label-chk-all">전체 약관에 동의합니다</span>
-          </label>
-          <label class="detail-terms-item">
-            <div class="detail-checkbox" id="chk-privacy" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-privacy"></div>
-            <span id="label-chk-privacy">[필수] 개인정보 수집 및 이용 동의</span>
-          </label>
-          <label class="detail-terms-item">
-            <div class="detail-checkbox" id="chk-terms" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-terms"></div>
-            <span id="label-chk-terms">[필수] 시승 프로그램 참여 동의</span>
-          </label>
+
+        <!-- 로그인 후 응모 패널 -->
+        <div id="detail-logged-panel" style="display:none;">
+          <div class="detail-field-group">
+            <input class="detail-input" id="detail-name" type="text" placeholder="이름을 입력하세요" autocomplete="name" />
+            <input class="detail-input" id="detail-phone" type="tel" placeholder='"-" 없이 연락처를 입력하세요. (예: 01012341234)' autocomplete="tel" />
+            <div class="detail-input-with-icon">
+              <input class="detail-input" id="detail-address" type="text" placeholder="차 받을 곳의 주소를 입력하세요. (서울 지역만 가능)" autocomplete="street-address" />
+              <span class="detail-input-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </div>
+            <input class="detail-input" id="detail-address-detail" type="text" placeholder="상세 주소를 입력하세요." />
+          </div>
+          <hr class="detail-terms-divider" />
+          <div class="detail-terms">
+            <label class="detail-terms-all">
+              <div class="detail-checkbox" id="chk-all" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-all"></div>
+              <span id="label-chk-all">전체 약관에 동의합니다</span>
+            </label>
+            <label class="detail-terms-item">
+              <div class="detail-checkbox" id="chk-privacy" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-privacy"></div>
+              <span id="label-chk-privacy">[필수] 개인정보 수집 및 이용 동의</span>
+            </label>
+            <label class="detail-terms-item">
+              <div class="detail-checkbox" id="chk-terms" role="checkbox" aria-checked="false" tabindex="0" aria-labelledby="label-chk-terms"></div>
+              <span id="label-chk-terms">[필수] 시승 프로그램 참여 동의</span>
+            </label>
+          </div>
+          <button class="detail-submit-btn" id="detail-submit-btn" disabled>시승 신청하기</button>
         </div>
-        <button class="detail-submit-btn" disabled>응모하기</button>
       </div>
     </div>
   </div>
@@ -1477,6 +1641,37 @@
     <div class="vl-grid" id="vl-grid"></div>
   </div>
 </div><!-- /#view-vehicles -->
+
+<!-- ══ 로그인 팝업 ══ -->
+<div class="login-dim" id="login-dim">
+  <div class="login-popup" id="login-popup">
+    <button class="login-close" id="login-close" aria-label="닫기">✕</button>
+    <div class="login-logo">
+      <span class="login-logo-mark"></span>
+      DRIVE:ON
+    </div>
+    <div class="login-fields">
+      <div>
+        <label class="login-label" for="login-id">아이디</label>
+        <input class="login-input" id="login-id" type="text" placeholder="아이디를 입력하세요" autocomplete="username" />
+      </div>
+      <div>
+        <label class="login-label" for="login-pw">비밀번호</label>
+        <input class="login-input" id="login-pw" type="password" placeholder="비밀번호를 입력하세요" autocomplete="current-password" />
+      </div>
+    </div>
+    <p class="login-error" id="login-error">아이디 또는 비밀번호가 올바르지 않습니다.</p>
+    <button class="login-btn" id="login-submit-btn">로그인</button>
+    <button class="login-signup-btn">회원가입</button>
+  </div>
+</div>
+
+<div class="profile-popover" id="profile-popover" role="menu">
+  <button class="profile-popover-item" role="menuitem">계정 관리</button>
+  <button class="profile-popover-item" role="menuitem">이용내역</button>
+  <button class="profile-popover-item" role="menuitem">알림</button>
+  <button class="profile-popover-item logout" role="menuitem">로그아웃</button>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -1875,11 +2070,17 @@
 /* ════════════ 상세 페이지 로직 ════════════ */
 (function () {
   var imgXC40 = 'https://www.figma.com/api/mcp/asset/a1529992-816f-4a6c-bd6a-f9296bea39e3';
+  var imgFigma = 'https://www.figma.com/api/mcp/asset/73199a5a-5050-4037-99b3-51d1aa045a16';
+
+  /* 캐로셀용 임시 이미지 — 실제 차량별 촬영 이미지로 교체 필요 */
+  var xc40Images  = [imgXC40, imgFigma, imgXC40, imgFigma, imgXC40, imgFigma];
+  var velarImages = [imgFigma, imgXC40, imgFigma, imgXC40, imgFigma, imgXC40];
+  var evoqueImages= [imgXC40, imgFigma, imgXC40, imgFigma, imgXC40, imgFigma];
 
   var VEHICLES = {
-    xc40:  { brand: 'VOLVO',       model: 'XC40',   img: imgXC40, fuel: '전기 (BEV)',             drive: '전륜구동', power: '231 PS', torque: '330 Nm', range: '418 km',    seats: '5인', rating: '8.33' },
-    velar: { brand: 'RANGE ROVER', model: 'Velar',  img: imgXC40, fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '250 PS', torque: '365 Nm', range: '13.2 km/L', seats: '5인', rating: '9.10' },
-    evoque:{ brand: 'RANGE ROVER', model: 'Evoque', img: imgXC40, fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '200 PS', torque: '320 Nm', range: '13.0 km/L', seats: '5인', rating: '8.75' },
+    xc40:  { brand: 'VOLVO',       model: 'XC40',   img: imgXC40, images: xc40Images,   fuel: '전기 (BEV)',             drive: '전륜구동', power: '231 PS', torque: '330 Nm', range: '418 km',    seats: '5인', rating: '8.33' },
+    velar: { brand: 'RANGE ROVER', model: 'Velar',  img: imgXC40, images: velarImages,  fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '250 PS', torque: '365 Nm', range: '13.2 km/L', seats: '5인', rating: '9.10' },
+    evoque:{ brand: 'RANGE ROVER', model: 'Evoque', img: imgXC40, images: evoqueImages, fuel: '가솔린 마일드 하이브리드', drive: '사륜구동', power: '200 PS', torque: '320 Nm', range: '13.0 km/L', seats: '5인', rating: '8.75' },
   };
 
   var REVIEW_TEXTS = {
@@ -2009,21 +2210,65 @@
 
   document.getElementById('detail-review-more').addEventListener('click', renderMoreReviews);
 
-  /* ── 폼 초기화 ── */
+  /* ── 체크박스 헬퍼 ── */
+  function setChecked(el, val) {
+    el.classList.toggle('checked', val);
+    el.setAttribute('aria-checked', val ? 'true' : 'false');
+  }
+  function updateSubmitBtn() {
+    var termsOk = document.getElementById('chk-privacy').classList.contains('checked')
+               && document.getElementById('chk-terms').classList.contains('checked');
+    var fieldsOk = document.getElementById('detail-name').value.trim() !== ''
+                && document.getElementById('detail-phone').value.trim() !== ''
+                && document.getElementById('detail-address').value.trim() !== ''
+                && document.getElementById('detail-address-detail').value.trim() !== '';
+    document.getElementById('detail-submit-btn').disabled = !(termsOk && fieldsOk);
+  }
+  ['detail-name', 'detail-phone', 'detail-address', 'detail-address-detail'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', updateSubmitBtn);
+  });
+  document.getElementById('chk-all').addEventListener('click', function () {
+    var allChecked = this.classList.contains('checked');
+    ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
+      setChecked(document.getElementById(id), !allChecked);
+    });
+    updateSubmitBtn();
+  });
+  ['chk-privacy', 'chk-terms'].forEach(function (id) {
+    document.getElementById(id).addEventListener('click', function () {
+      setChecked(this, !this.classList.contains('checked'));
+      var all = ['chk-privacy', 'chk-terms'].every(function (i) {
+        return document.getElementById(i).classList.contains('checked');
+      });
+      setChecked(document.getElementById('chk-all'), all);
+      updateSubmitBtn();
+    });
+  });
+  ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
+    document.getElementById(id).addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); this.click(); }
+    });
+  });
+  document.getElementById('detail-submit-btn').addEventListener('click', function () {
+    if (this.disabled) return;
+    var btn = this;
+    btn.textContent = '응모 중...'; btn.disabled = true;
+    setTimeout(function () {
+      btn.textContent = '응모 완료 ✓';
+      btn.classList.add('success');
+    }, 1500);
+  });
+
   function resetDetailForm() {
     document.getElementById('detail-name').value = '';
     document.getElementById('detail-phone').value = '';
     document.getElementById('detail-address').value = '';
     document.getElementById('detail-address-detail').value = '';
     ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
-      var el = document.getElementById(id);
-      el.classList.remove('checked');
-      el.setAttribute('aria-checked', 'false');
+      setChecked(document.getElementById(id), false);
     });
-    var btn = document.querySelector('.detail-submit-btn');
-    btn.disabled = true;
-    btn.textContent = '응모하기';
-    btn.classList.remove('success');
+    var btn = document.getElementById('detail-submit-btn');
+    btn.disabled = true; btn.textContent = '시승 신청하기'; btn.classList.remove('success');
   }
 
   /* ── 뷰 열기 ── */
@@ -2038,8 +2283,8 @@
     var v = VEHICLES[vehicleId];
     if (!v) return;
 
-    /* 차량 이미지 */
-    document.getElementById('detail-car-img').src = v.img;
+    /* 캐로셀 초기화 */
+    initCarousel(v.images || [v.img]);
 
     /* 폼 헤드 */
     document.getElementById('detail-form-brand-name').textContent = v.brand;
@@ -2062,6 +2307,10 @@
 
     /* 폼 초기화 */
     resetDetailForm();
+
+    /* 로그인 상태에 따라 패널 전환 */
+    document.getElementById('detail-guest-panel').style.display = isLoggedIn ? 'none' : 'block';
+    document.getElementById('detail-logged-panel').style.display = isLoggedIn ? 'flex' : 'none';
 
     /* 뷰 전환 */
     savedScrollY = window.scrollY;
@@ -2089,9 +2338,82 @@
     document.body.classList.remove('detail-open');
   };
 
-  document.querySelector('.detail-back-btn').addEventListener('click', function () {
-    history.back();
+
+  /* ── 캐로셀 (clone 기반 무한 루프) ── */
+  /* track 구조: [clone_last] [slide_0..N-1] [clone_first]
+     실제 슬라이드는 position 1 ~ N, 0과 N+1은 wrap용 clone      */
+  var carouselIdx = 0;   /* 0-based 실제 인덱스 */
+  var carouselLen = 0;
+  var carouselBusy = false;
+  var CAROUSEL_DUR = 400;
+
+  function initCarousel(images) {
+    carouselIdx = 0;
+    carouselLen = images.length;
+    var track = document.getElementById('detail-carousel-track');
+    track.innerHTML = '';
+
+    function addSlide(src) {
+      var img = document.createElement('img');
+      img.className = 'detail-carousel-slide';
+      img.src = src; img.alt = '';
+      track.appendChild(img);
+    }
+
+    addSlide(images[carouselLen - 1]); /* clone of last */
+    images.forEach(function (src) { addSlide(src); });
+    addSlide(images[0]);               /* clone of first */
+
+    /* 애니메이션 없이 첫 번째 실 슬라이드(position 1)로 이동 */
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-100%)';
+    updateCounter();
+  }
+
+  function updateCounter() {
+    document.getElementById('carousel-curr').textContent = carouselIdx + 1;
+    document.getElementById('carousel-total').textContent = carouselLen;
+  }
+
+  function slideTo(pos, onDone) {
+    var track = document.getElementById('detail-carousel-track');
+    track.style.transition = 'transform ' + CAROUSEL_DUR + 'ms cubic-bezier(0.4,0,0.2,1)';
+    track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+    setTimeout(onDone, CAROUSEL_DUR);
+  }
+
+  function jumpTo(pos) {
+    var track = document.getElementById('detail-carousel-track');
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (pos * 100) + '%)';
+  }
+
+  document.getElementById('carousel-next').addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (carouselBusy) return;
+    carouselBusy = true;
+    var nextPos = carouselIdx + 2; /* +1 clone offset, +1 next */
+    carouselIdx = (carouselIdx + 1) % carouselLen;
+    updateCounter();
+    slideTo(nextPos, function () {
+      if (carouselIdx === 0) jumpTo(1); /* clone_first → real first */
+      carouselBusy = false;
+    });
   });
+
+  document.getElementById('carousel-prev').addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (carouselBusy) return;
+    carouselBusy = true;
+    var prevPos = carouselIdx; /* +1 clone offset, -1 prev → idx */
+    carouselIdx = (carouselIdx - 1 + carouselLen) % carouselLen;
+    updateCounter();
+    slideTo(prevPos, function () {
+      if (carouselIdx === carouselLen - 1) jumpTo(carouselLen); /* clone_last → real last */
+      carouselBusy = false;
+    });
+  });
+
 
   window.addEventListener('popstate', function (e) {
     if (document.getElementById('view-detail').style.display !== 'none') {
@@ -2141,61 +2463,8 @@
     setActiveTab(active);
   }, { passive: true });
 
-  /* ── 체크박스 헬퍼 ── */
-  function setChecked(el, val) {
-    el.classList.toggle('checked', val);
-    el.setAttribute('aria-checked', val ? 'true' : 'false');
-  }
-
-  function updateSubmitBtn() {
-    var ok = document.getElementById('chk-privacy').classList.contains('checked')
-          && document.getElementById('chk-terms').classList.contains('checked');
-    var btn = document.querySelector('.detail-submit-btn');
-    btn.disabled = !ok;
-  }
-
-  /* 전체 동의 */
-  document.getElementById('chk-all').addEventListener('click', function () {
-    var allChecked = this.classList.contains('checked');
-    ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
-      setChecked(document.getElementById(id), !allChecked);
-    });
-    updateSubmitBtn();
-  });
-
-  /* 개별 체크 */
-  ['chk-privacy', 'chk-terms'].forEach(function (id) {
-    document.getElementById(id).addEventListener('click', function () {
-      setChecked(this, !this.classList.contains('checked'));
-      var allChecked = ['chk-privacy', 'chk-terms'].every(function (i) {
-        return document.getElementById(i).classList.contains('checked');
-      });
-      setChecked(document.getElementById('chk-all'), allChecked);
-      updateSubmitBtn();
-    });
-  });
-
-  /* 키보드 접근성: Space/Enter로 체크박스 토글 */
-  ['chk-all', 'chk-privacy', 'chk-terms'].forEach(function (id) {
-    document.getElementById(id).addEventListener('keydown', function (e) {
-      if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        this.click();
-      }
-    });
-  });
-
-  /* ── 응모 제출 ── */
-  document.querySelector('.detail-submit-btn').addEventListener('click', function () {
-    if (this.disabled) return;
-    var btn = this;
-    btn.textContent = '응모 중...';
-    btn.disabled = true;
-    setTimeout(function () {
-      btn.textContent = '응모 완료 ✓';
-      btn.classList.add('success');
-    }, 1500);
-  });
+  /* ── guest 패널 로그인 버튼 ── */
+  document.getElementById('guest-login-btn').addEventListener('click', openLogin);
 
   /* ── 차량 카드 클릭: 상세 뷰 진입 ── */
   document.querySelectorAll('.vehicle-card-main').forEach(function (card, idx) {
@@ -2395,6 +2664,100 @@
   document.querySelector('.nav-link[data-view="vehicles"]').addEventListener('click', function (e) {
     e.preventDefault();
     window.openVehicles();
+  });
+
+  /* ── 로그인 팝업 ── */
+  var isLoggedIn = false;
+
+  function openLogin() {
+    document.getElementById('login-dim').classList.add('open');
+    document.getElementById('login-error').classList.remove('visible');
+    document.getElementById('login-id').focus();
+  }
+  function closeLogin() {
+    document.getElementById('login-dim').classList.remove('open');
+    document.getElementById('login-id').value = '';
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-error').classList.remove('visible');
+  }
+  function doLogin() {
+    var id = document.getElementById('login-id').value.trim();
+    var pw = document.getElementById('login-pw').value;
+    if (id === 'socar' && pw === 'socar') {
+      isLoggedIn = true;
+      closeLogin();
+      /* GNB 업데이트 */
+      document.querySelectorAll('.nav-cta .btn-ghost-sm').forEach(function (btn) {
+        if (btn.textContent.trim() === '로그인' || btn.textContent.trim() === '회원가입') {
+          btn.style.display = 'none';
+        }
+      });
+      var userBtn = document.createElement('button');
+      userBtn.className = 'btn-ghost-sm';
+      userBtn.id = 'profile-btn';
+      userBtn.textContent = 'socar님';
+      userBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleProfilePopover();
+      });
+      document.querySelector('.nav-cta').appendChild(userBtn);
+      /* 상세 화면에 있으면 패널 전환 */
+      if (document.getElementById('view-detail').style.display !== 'none') {
+        document.getElementById('detail-guest-panel').style.display = 'none';
+        document.getElementById('detail-logged-panel').style.display = 'flex';
+        resetDetailForm();
+      }
+    } else {
+      document.getElementById('login-error').classList.add('visible');
+    }
+  }
+
+  document.getElementById('login-submit-btn').addEventListener('click', doLogin);
+  document.getElementById('login-pw').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  /* GNB 로그인 버튼 */
+  document.querySelectorAll('.nav-cta .btn-ghost-sm').forEach(function (btn) {
+    if (btn.textContent.trim() === '로그인') {
+      btn.addEventListener('click', openLogin);
+    }
+  });
+
+  /* X 닫기 */
+  document.getElementById('login-close').addEventListener('click', closeLogin);
+
+  /* dim 클릭 닫기 (popup 내부 클릭은 제외) */
+  document.getElementById('login-dim').addEventListener('click', function (e) {
+    if (e.target === this) closeLogin();
+  });
+
+  /* ESC 키 닫기 */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeLogin(); closeProfilePopover(); }
+  });
+
+  /* ── 프로필 팝오버 ── */
+  function toggleProfilePopover() {
+    var popover = document.getElementById('profile-popover');
+    if (popover.classList.contains('open')) {
+      closeProfilePopover();
+    } else {
+      var btn = document.getElementById('profile-btn');
+      var rect = btn.getBoundingClientRect();
+      popover.style.top = (rect.bottom + 8) + 'px';
+      popover.style.right = (window.innerWidth - rect.right) + 'px';
+      popover.classList.add('open');
+    }
+  }
+  function closeProfilePopover() {
+    document.getElementById('profile-popover').classList.remove('open');
+  }
+  document.addEventListener('click', function (e) {
+    var popover = document.getElementById('profile-popover');
+    if (popover.classList.contains('open') && !popover.contains(e.target)) {
+      closeProfilePopover();
+    }
   });
 
   /* ── 로고 클릭: 메인으로 복귀 ── */
