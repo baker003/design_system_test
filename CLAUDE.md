@@ -38,6 +38,29 @@ PM -> (승인) -> Designer -> (승인) -> Frontend -> Reviewer -> Figma 반영
 - Figma 반영 → 반드시 `figma-sync` 에이전트 사용 (`.claude/agents/figma-sync.md`)
 - general-purpose 에이전트로 아이콘을 직접 그리거나 Figma MCP를 직접 호출하지 않는다
 
+## Figma 작업 효율화 규칙
+
+### 기능당 에이전트 1개, 병렬 실행
+여러 기능을 한 에이전트에 몰아주지 않는다. tool calls 30개 이상은 중단 위험이 있다.
+```
+❌ 에이전트 1개 → 기능A + 기능B + 기능C
+✅ 에이전트 A, B, C를 동시에 실행 (병렬)
+```
+
+### node ID를 프롬프트에 명시
+분석 단계에서 확인한 node ID는 다음 에이전트 프롬프트에 직접 넣는다.
+에이전트가 구조를 재탐색하는 데 tool calls를 낭비하지 않도록 한다.
+```
+❌ "InputField_SingleLine 컴포넌트를 찾아서 수정해"
+✅ "ComponentSet ID: 938:199에 직접 접근해서 수정해"
+```
+
+### 타겟 유형을 명확히 지정
+Figma에서 "Style 정의 수정"과 "텍스트 노드 수정"은 다른 작업이다.
+프롬프트에 반드시 어느 쪽인지 명시한다:
+- `"Text Style 정의의 fontFamily를 변경해"` → Style API 사용
+- `"이 텍스트 노드에 Text Style을 연결해"` → 노드의 textStyleId 수정
+
 ## 작업 규칙
 
 ### 명령 판단 기준 (최우선)
