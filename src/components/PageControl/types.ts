@@ -1,9 +1,7 @@
 export interface PageControlProps {
   total: number;
   current: number;
-  onChange?: (index: number) => void;
-  variant?: 'dot' | 'bar' | 'number';
-  clickable?: boolean;
-  maxVisible?: number;
+  size?: 'medium' | 'small';
+  alternative?: boolean;
   className?: string;
 }

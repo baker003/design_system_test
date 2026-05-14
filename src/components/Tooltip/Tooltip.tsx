@@ -19,47 +19,39 @@ interface Position {
 
 const ARROW_SIZE = 8;
 const GAP = 6; // gap between anchor and tooltip
+const MAX_WIDTH = 200;
 
 function computePosition(
   anchor: DOMRect,
   tooltip: DOMRect,
   preferred: TooltipPlacement,
-  maxWidth: number,
 ): Position {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  const placements: TooltipPlacement[] = [preferred, getOpposite(preferred), 'top', 'bottom', 'left', 'right'];
-  const uniquePlacements = [...new Set(placements)];
+  const placements: TooltipPlacement[] = [preferred, getOpposite(preferred)];
 
-  for (const p of uniquePlacements) {
-    const pos = calcPos(anchor, tooltip, p, maxWidth);
-    if (fitsInViewport(pos, tooltip, maxWidth, vw, vh)) {
+  for (const p of placements) {
+    const pos = calcPos(anchor, tooltip, p);
+    if (fitsInViewport(pos, tooltip, vw, vh)) {
       return { ...pos, placement: p };
     }
   }
 
   // Fallback: use preferred even if it overflows
-  return { ...calcPos(anchor, tooltip, preferred, maxWidth), placement: preferred };
+  return { ...calcPos(anchor, tooltip, preferred), placement: preferred };
 }
 
 function getOpposite(p: TooltipPlacement): TooltipPlacement {
-  const map: Record<TooltipPlacement, TooltipPlacement> = {
-    top: 'bottom',
-    bottom: 'top',
-    left: 'right',
-    right: 'left',
-  };
-  return map[p];
+  return p === 'top' ? 'bottom' : 'top';
 }
 
 function calcPos(
   anchor: DOMRect,
   tooltip: DOMRect,
   placement: TooltipPlacement,
-  maxWidth: number,
 ): { top: number; left: number } {
-  const effectiveWidth = Math.min(tooltip.width || maxWidth, maxWidth);
+  const effectiveWidth = Math.min(tooltip.width || MAX_WIDTH, MAX_WIDTH);
   const tooltipHeight = tooltip.height || 32;
 
   switch (placement) {
@@ -73,27 +65,16 @@ function calcPos(
         top: anchor.bottom + GAP + ARROW_SIZE / 2,
         left: anchor.left + anchor.width / 2 - effectiveWidth / 2,
       };
-    case 'left':
-      return {
-        top: anchor.top + anchor.height / 2 - tooltipHeight / 2,
-        left: anchor.left - effectiveWidth - GAP - ARROW_SIZE / 2,
-      };
-    case 'right':
-      return {
-        top: anchor.top + anchor.height / 2 - tooltipHeight / 2,
-        left: anchor.right + GAP + ARROW_SIZE / 2,
-      };
   }
 }
 
 function fitsInViewport(
   pos: { top: number; left: number },
   tooltip: DOMRect,
-  maxWidth: number,
   vw: number,
   vh: number,
 ): boolean {
-  const w = Math.min(tooltip.width || maxWidth, maxWidth);
+  const w = Math.min(tooltip.width || MAX_WIDTH, MAX_WIDTH);
   const h = tooltip.height || 32;
   return pos.top >= 0 && pos.left >= 0 && pos.top + h <= vh && pos.left + w <= vw;
 }
@@ -104,21 +85,17 @@ function getArrowClass(placement: TooltipPlacement): string {
       return 'bottom-[-4px] left-1/2 -translate-x-1/2';
     case 'bottom':
       return 'top-[-4px] left-1/2 -translate-x-1/2';
-    case 'left':
-      return 'right-[-4px] top-1/2 -translate-y-1/2';
-    case 'right':
-      return 'left-[-4px] top-1/2 -translate-y-1/2';
   }
 }
 
 export function Tooltip({
   content,
   placement = 'top',
+  size = 'medium',
   trigger = ['hover', 'focus'],
   delay = 200,
   hideDelay = 100,
   disabled = false,
-  maxWidth = 200,
   children,
   className,
 }: TooltipProps) {
@@ -142,9 +119,9 @@ export function Tooltip({
     if (!anchorRef.current || !tooltipRef.current) return;
     const anchorRect = anchorRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    const pos = computePosition(anchorRect, tooltipRect, placement, maxWidth);
+    const pos = computePosition(anchorRect, tooltipRect, placement);
     setPosition(pos);
-  }, [placement, maxWidth]);
+  }, [placement]);
 
   const scheduleShow = useCallback(() => {
     if (disabled) return;
@@ -175,7 +152,6 @@ export function Tooltip({
   // Update position after tooltip renders
   useEffect(() => {
     if (visible) {
-      // Use rAF to allow tooltip to render first
       requestAnimationFrame(() => {
         updatePosition();
       });
@@ -222,6 +198,7 @@ export function Tooltip({
   }
 
   const arrowClass = getArrowClass(position.placement);
+  const sizeClass = size === 'small' ? 'typo-caption2 font-medium px-2.5 py-1.5' : 'typo-caption1 font-medium px-3 py-2';
 
   return (
     <>
@@ -234,11 +211,11 @@ export function Tooltip({
             role="tooltip"
             className={`fixed z-50 pointer-events-none
               bg-text-strong text-on-primary
-              typo-caption1 font-medium
-              px-3 py-2 rounded-lg
+              rounded-lg
               animate-scale-in
+              ${sizeClass}
               ${className ?? ''}`}
-            style={{ top: position.top, left: position.left, maxWidth }}
+            style={{ top: position.top, left: position.left, maxWidth: MAX_WIDTH }}
           >
             {content}
             <div

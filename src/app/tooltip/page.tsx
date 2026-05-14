@@ -12,11 +12,11 @@ export default function TooltipPage() {
         <div>
           <h1 className="typo-title3 font-bold text-text-strong mb-2">Tooltip</h1>
           <p className="typo-body1 text-text-secondary">
-            DS_2 Tooltip 컴포넌트 — placement, trigger, delay, maxWidth 변형
+            DS_2 Tooltip 컴포넌트 — Size(Medium/Small) × Position(Bottom/Top)
           </p>
         </div>
 
-        {/* 4방향 placement */}
+        {/* Placement */}
         <section>
           <h2 className="typo-headline2 font-semibold text-text-primary mb-6">Placement</h2>
           <div className="flex items-center justify-center gap-6 flex-wrap min-h-[160px] bg-surface rounded-2xl p-8">
@@ -31,16 +31,22 @@ export default function TooltipPage() {
                 Bottom
               </button>
             </Tooltip>
+          </div>
+        </section>
 
-            <Tooltip content="왼쪽 툴팁" placement="left">
-              <button className="px-4 py-2 rounded-xl bg-primary-regular text-on-primary typo-label1 font-medium">
-                Left
+        {/* Size */}
+        <section>
+          <h2 className="typo-headline2 font-semibold text-text-primary mb-6">Size</h2>
+          <div className="bg-surface rounded-2xl p-8 flex gap-6 flex-wrap items-center">
+            <Tooltip content="Medium 툴팁" placement="top" size="medium">
+              <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
+                Medium
               </button>
             </Tooltip>
 
-            <Tooltip content="오른쪽 툴팁" placement="right">
-              <button className="px-4 py-2 rounded-xl bg-primary-regular text-on-primary typo-label1 font-medium">
-                Right
+            <Tooltip content="Small 툴팁" placement="top" size="small">
+              <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
+                Small
               </button>
             </Tooltip>
           </div>
@@ -108,42 +114,6 @@ export default function TooltipPage() {
             <Tooltip content="이 툴팁은 활성" placement="top">
               <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
                 Active tooltip
-              </button>
-            </Tooltip>
-          </div>
-        </section>
-
-        {/* maxWidth / 긴 텍스트 */}
-        <section>
-          <h2 className="typo-headline2 font-semibold text-text-primary mb-6">maxWidth & 긴 텍스트</h2>
-          <div className="bg-surface rounded-2xl p-8 flex gap-6 flex-wrap items-center">
-            <Tooltip
-              content="짧은 툴팁"
-              placement="top"
-              maxWidth={120}
-            >
-              <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
-                maxWidth 120
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              content="이 툴팁은 최대 너비가 200px로 제한되어 있어서 긴 텍스트가 자동으로 줄바꿈됩니다."
-              placement="top"
-              maxWidth={200}
-            >
-              <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
-                maxWidth 200 (긴 텍스트)
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              content="너비 300px: 더 많은 텍스트를 한 줄에 표시할 수 있습니다. 툴팁 너비가 넓어집니다."
-              placement="bottom"
-              maxWidth={300}
-            >
-              <button className="px-4 py-2 rounded-xl border border-border typo-label1 text-text-primary hover:bg-background transition-colors">
-                maxWidth 300
               </button>
             </Tooltip>
           </div>

@@ -118,7 +118,7 @@ export function ActionSheet({
           {/* Items */}
           {items.map((item, i) => (
             <React.Fragment key={item.label}>
-              {i > 0 && <Divider strength="weak" decorative />}
+              {i > 0 && <Divider strength="weak" />}
               <button
                 type="button"
                 disabled={item.variant === 'disabled'}

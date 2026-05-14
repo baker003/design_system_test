@@ -29,9 +29,18 @@
 | DatePicker | `@/components/DatePicker` | 날짜/기간 선택 (single/range, inline, min/max/disabled 제약) | mode(single/range), value, rangeValue, onChange, onRangeChange, minDate, maxDate, disabledDates, placeholder, locale, inline, disabled |
 | Calendar | `@/components/DatePicker` | 달력 그리드 (DatePicker 내부 또는 단독 사용) | year, month, mode, value, rangeValue, hoverDate, onDateClick, onDateHover, onMonthChange, minDate, maxDate, disabledDates, locale |
 | Stepper | `@/components/Stepper` | 단계 진행 표시기 (horizontal/vertical, clickable, error 상태) | steps, activeStep, orientation(horizontal/vertical), clickable, onStepClick |
-| PageControl | `@/components/PageControl` | 페이지/캐러셀 인디케이터 (dot/bar/number, 슬라이딩 윈도우) | total, current, onChange, variant(dot/bar/number), clickable, maxVisible |
+| PageControl | `@/components/PageControl` | 페이지 인디케이터 — "current / total" 숫자 표시 (Figma: Page Indicator) | total, current, size(medium/small), alternative |
 | ActionSheet | `@/components/ActionSheet` | iOS 패턴 바텀 액션 시트 (Main Card + Cancel Card 분리) | open, onClose, title, description, items, cancelLabel, hideCancel, closeOnBackdropClick |
 | Accordion | `@/components/Accordion` | 확장/축소 콘텐츠 패널 (single/multiple 모드, CSS Grid 애니메이션) | items, mode(single/multiple), value, onChange, showDivider, bordered |
+| Checkbox | `@/components/Controls` | 다중 선택 체크박스 (checked/indeterminate/disabled 상태) | checked, indeterminate, defaultChecked, disabled, label, labelPlacement, onChange |
+| Radio | `@/components/Controls` | 단일 선택 라디오 버튼 (RadioGroup Context 연동) | radioValue, value, disabled, label, labelPlacement, onChange |
+| RadioGroup | `@/components/Controls` | Radio 그룹 컨테이너 (Context로 name/value/onChange/disabled 전파) | name, value, defaultValue, onChange, orientation, disabled |
+| Toggle | `@/components/Controls` | on/off 스위치 (role="switch", sm/md 크기, 슬라이드 애니메이션) | checked, defaultChecked, size(sm/md), disabled, label, labelPlacement, onChange |
+| Overlay | `@/components/Overlay` | Modal/Dialog (포커스 트랩, 4가지 크기, 3가지 닫기 수단) | open, onClose, size(sm/md/lg/fullscreen), title, showCloseButton, header, children, footer, closeOnBackdropClick, closeOnEscape, aria-label |
+| Card | `@/components/Card` | 콘텐츠 그룹화 컨테이너 (elevated/outlined/filled, header/content/footer 슬롯) | variant, header, children, footer, onClick, disabled, noPadding, aria-label, className |
+| BottomTabBar | `@/components/BottomTabBar` | 모바일 하단 네비게이션 (3~5탭, dot/count 배지, safe area, roving tabindex) | items, activeKey, onChange, safeAreaBottom, className |
+| Avatar | `@/components/Avatar` | 사용자 프로필 이미지 (이미지/이니셜/아이콘 fallback, 상태 dot) | size(xs/sm/md/lg/xl), shape(circle/square), src, alt, initials, status(online/offline/busy/away), aria-label |
+| ListCell | `@/components/ListCell` | 리스트 아이템 단위 (leading icon/avatar, title, subtitle, trailing 5종) | title, subtitle, leadingIcon, leadingAvatar, trailingType(none/icon/text/switch/badge), trailingIcon, trailingText, switchChecked, onSwitchChange, trailingBadge, onClick, showDivider, disabled |
 
 > 새 위젯을 만들기 전에 이 표를 먼저 확인하세요.
 > 새로 만든 재사용 위젯은 반드시 여기에 등록하세요.

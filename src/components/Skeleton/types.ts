@@ -1,9 +1,4 @@
 export interface SkeletonProps {
-  variant?: 'text' | 'circular' | 'rectangular' | 'rounded';
-  width?: number | string;
-  height?: number | string;
-  lines?: number;
-  lastLineWidthRatio?: number;
-  animate?: boolean;
+  length?: '100%' | '75%' | '50%' | '25%';
   className?: string;
 }

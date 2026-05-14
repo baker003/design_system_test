@@ -135,6 +135,9 @@
   /* Location */
   --location-return: var(--indigo-700);
 
+  /* z-index */
+  --z-toast: 9000;
+
   /* Apple HIG Semantic — Background */
   --bg-primary: var(--gray-100);          /* systemBackground */
   --bg-secondary: #FFFFFF;                /* secondarySystemBackground */
@@ -190,6 +193,7 @@
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
   --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
   --color-gray-800: var(--gray-800);
   --color-gray-900: var(--gray-900);
   --color-gray-1000: var(--gray-1000);
@@ -256,11 +260,31 @@
   --color-surface-variant: var(--gray-200);
   --color-outline-variant: var(--gray-100);
 
+  /* Inverse surface (Toast / Snackbar) */
+  --color-surface-inverse: var(--gray-900);
+  --color-text-on-inverse: #FFFFFF;
+
+  /* Fill tokens (Toggle track/thumb) */
+  --color-fill-disabled: var(--gray-100);
+  --color-fill-track-off: var(--gray-200);
+  --color-fill-thumb-disabled: var(--gray-300);
+
+  /* Dimmed overlay */
+  --color-dimmed: var(--dimmed-regular);
+
   /* Animations */
   --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out infinite;
   --animate-wiggle: wiggle 0.5s ease-in-out;
   --animate-breathe: breathe 2s ease-in-out infinite;
   --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-toast-in: toast-in-bottom 200ms ease-out;
+  --animate-toast-out: toast-out 150ms ease-in forwards;
+
+  /* Overlay / Modal animations */
+  --animate-overlay-in: scale-in 150ms ease-out;
+  --animate-overlay-out: scale-out 150ms ease-in forwards;
+  --animate-backdrop-in: fade-in 150ms ease;
+  --animate-backdrop-out: fade-out 150ms ease forwards;
 }
 
 /* ProgressBar indeterminate animation */
@@ -299,6 +323,38 @@
   background-size: 200% 100%;
 }
 
+/* Overlay / Modal animations */
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Toast / Snackbar animations */
+@keyframes toast-in-bottom {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+@keyframes toast-in-top {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes toast-out {
+  from { opacity: 1; }
+  to   { transform: translateY(4px); opacity: 0; }
+}
+
 /* ── Typography Tokens (Wanted DS 구조) ── */
 @utility typo-display1       { font-size: 56px; line-height: 72px; letter-spacing: -1.79px; }
 @utility typo-display2       { font-size: 40px; line-height: 52px; letter-spacing: -1.13px; }
@@ -319,3 +375,11 @@
 @utility typo-label2         { font-size: 13px; line-height: 18px; letter-spacing: 0.25px; }
 @utility typo-caption1       { font-size: 12px; line-height: 16px; letter-spacing: 0.30px; }
 @utility typo-caption2       { font-size: 11px; line-height: 14px; letter-spacing: 0.34px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

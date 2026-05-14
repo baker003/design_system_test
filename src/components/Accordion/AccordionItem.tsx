@@ -45,7 +45,7 @@ export function AccordionItem({
 
   return (
     <div>
-      {index > 0 && showDivider && <Divider strength="weak" decorative />}
+      {index > 0 && showDivider && <Divider strength="weak" />}
 
       {/* Header Button */}
       <button
