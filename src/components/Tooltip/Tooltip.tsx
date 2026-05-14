@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import React, {
   cloneElement,
   useCallback,
   useId,
@@ -200,7 +200,7 @@ export function Tooltip({
     };
   }, []);
 
-  const extraProps: Record<string, unknown> = {
+  const extraProps: React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> } = {
     ref: (el: HTMLElement | null) => {
       anchorRef.current = el;
     },
@@ -233,7 +233,7 @@ export function Tooltip({
             id={tooltipId}
             role="tooltip"
             className={`fixed z-50 pointer-events-none
-              bg-gray-900 text-on-primary
+              bg-text-strong text-on-primary
               typo-caption1 font-medium
               px-3 py-2 rounded-lg
               animate-scale-in
@@ -242,7 +242,7 @@ export function Tooltip({
           >
             {content}
             <div
-              className={`absolute w-2 h-2 bg-gray-900 rotate-45 ${arrowClass}`}
+              className={`absolute w-2 h-2 bg-text-strong rotate-45 ${arrowClass}`}
               aria-hidden="true"
             />
           </div>,

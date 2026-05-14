@@ -137,22 +137,22 @@ export function Calendar({
         </button>
       </div>
 
-      {/* Weekday headers */}
-      <div role="row" className="grid grid-cols-7 mb-1">
-        {WEEKDAYS.map((day) => (
-          <div
-            key={day}
-            role="columnheader"
-            aria-label={day}
-            className="text-center typo-caption1 text-text-tertiary py-1 font-medium"
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-
-      {/* Date grid */}
+      {/* Date grid — weekday header row is first row inside role="grid" */}
       <div role="grid" className="grid grid-cols-7">
+        {/* Weekday headers */}
+        <div role="row" className="contents">
+          {WEEKDAYS.map((day) => (
+            <div
+              key={day}
+              role="columnheader"
+              aria-label={day}
+              className="text-center typo-caption1 text-text-tertiary py-1 font-medium"
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+
         {days.map(({ date, isCurrentMonth }, idx) => {
           const disabled = checkDisabled(date, minDate, maxDate, disabledDates);
           const today = isToday(date);

@@ -220,7 +220,7 @@ export function Slider({
               {showTooltip && isDragging && (
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-900 px-2 py-0.5 typo-caption1 text-on-primary"
+                  className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-text-strong px-2 py-0.5 typo-caption1 text-on-primary"
                 >
                   {thumbVal}
                 </div>

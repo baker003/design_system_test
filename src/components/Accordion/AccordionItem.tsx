@@ -44,7 +44,7 @@ export function AccordionItem({
   const panelId = `accordion-panel-${item.key}`;
 
   return (
-    <div role="listitem">
+    <div>
       {index > 0 && showDivider && <Divider strength="weak" decorative />}
 
       {/* Header Button */}

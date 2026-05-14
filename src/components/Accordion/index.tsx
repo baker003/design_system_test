@@ -67,7 +67,6 @@ export function Accordion({
 
   return (
     <div
-      role="list"
       className={`
         ${bordered ? 'border border-border rounded-xl overflow-hidden' : ''}
         ${className}

@@ -1,6 +1,13 @@
 export type ChipType = 'outlined' | 'filled';
 export type ChipSize = 'lg' | 'md' | 'sm' | 'xs';
 
+export interface ChipGroupProps {
+  layout?: 'carousel' | 'multiline';
+  gap?: number;
+  children?: React.ReactNode;
+  className?: string;
+}
+
 export interface ChipProps {
   /** 칩 배경 스타일 */
   type?: ChipType;

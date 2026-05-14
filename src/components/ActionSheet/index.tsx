@@ -32,10 +32,42 @@ export function ActionSheet({
     }
   }, [open]);
 
+  // Focus first button when sheet opens
+  useEffect(() => {
+    if (!open || !sheetRef.current) return;
+    const focusableSelector = 'button:not([disabled])';
+    const firstFocusable = sheetRef.current.querySelector<HTMLElement>(focusableSelector);
+    firstFocusable?.focus();
+  }, [open]);
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape' && open) {
         onClose();
+        return;
+      }
+
+      if (e.key === 'Tab' && open && sheetRef.current) {
+        const focusableSelector = 'button:not([disabled])';
+        const focusables = Array.from(
+          sheetRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+        );
+        if (focusables.length === 0) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     }
     document.addEventListener('keydown', handleKeyDown);
@@ -48,8 +80,7 @@ export function ActionSheet({
     <div className="fixed inset-0 z-50">
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}
-        style={{ backgroundColor: 'var(--dimmed-regular)' }}
+        className={`absolute inset-0 bg-[var(--dimmed-regular)] transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}
         onClick={closeOnBackdropClick ? onClose : undefined}
         aria-hidden="true"
       />

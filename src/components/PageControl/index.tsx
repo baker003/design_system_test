@@ -23,7 +23,7 @@ function getVisibleDots(total: number, current: number, maxVisible: number): num
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 }
 
-function getDotSize(dotIndex: number, current: number, visibleDots: number[]): string {
+function getDotSize(dotIndex: number, current: number): string {
   if (dotIndex === current) return 'w-2.5 h-2.5 bg-primary-regular';
 
   const distFromCurrent = Math.abs(dotIndex - current);
@@ -46,7 +46,10 @@ export function PageControl({
 
   if (variant === 'number') {
     return (
-      <span className={`typo-label1 text-text-secondary ${className}`}>
+      <span
+        aria-live="polite"
+        className={`typo-label1 text-text-secondary ${className}`}
+      >
         <span className="text-text-strong font-semibold">{current + 1}</span>
         &nbsp;/&nbsp;{total}
       </span>
@@ -78,24 +81,26 @@ export function PageControl({
 
   return (
     <div
-      role="tablist"
+      role="group"
       aria-label="페이지 인디케이터"
       className={`flex items-center gap-2 ${className}`}
     >
-      {visibleDots.map((dotIndex) => (
-        <button
-          key={dotIndex}
-          role="tab"
-          type="button"
-          aria-label={`페이지 ${dotIndex + 1}`}
-          aria-selected={dotIndex === current}
-          disabled={!clickable}
-          onClick={() => clickable && onChange?.(dotIndex)}
-          className={`rounded-full transition-all duration-200
-            ${getDotSize(dotIndex, current, visibleDots)}
-            ${clickable ? 'cursor-pointer' : 'cursor-default'}`}
-        />
-      ))}
+      {visibleDots.map((dotIndex) => {
+        const isCurrent = dotIndex === current;
+        return (
+          <button
+            key={dotIndex}
+            type="button"
+            aria-label={`페이지 ${dotIndex + 1}`}
+            aria-current={isCurrent ? 'true' : undefined}
+            disabled={!clickable}
+            onClick={() => clickable && onChange?.(dotIndex)}
+            className={`rounded-full transition-all duration-200
+              ${getDotSize(dotIndex, current)}
+              ${clickable ? 'cursor-pointer' : 'cursor-default'}`}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -252,10 +252,15 @@
   --color-text-tertiary-high-contrast: var(--text-tertiary-high-contrast);
   --color-text-disabled-high-contrast: var(--text-disabled-high-contrast);
 
+  /* Surface Variant (Skeleton shimmer 등에 사용) */
+  --color-surface-variant: var(--gray-200);
+  --color-outline-variant: var(--gray-100);
+
   /* Animations */
   --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out infinite;
   --animate-wiggle: wiggle 0.5s ease-in-out;
   --animate-breathe: breathe 2s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
 }
 
 /* ProgressBar indeterminate animation */
@@ -275,6 +280,23 @@
 @keyframes breathe {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(0.92); }
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Skeleton base utility */
+@utility skeleton-base {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-variant) 25%,
+    var(--color-outline-variant) 50%,
+    var(--color-surface-variant) 75%
+  );
+  background-size: 200% 100%;
 }
 
 /* ── Typography Tokens (Wanted DS 구조) ── */

@@ -3,7 +3,6 @@
 import { Chip, ChipGroup } from '@/components/Chip';
 import type { ChipType, ChipSize } from '@/components/Chip';
 
-/* ── 간단한 인라인 SVG 아이콘 ── */
 function StarIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor">
@@ -28,7 +27,6 @@ function CloseIcon() {
   );
 }
 
-/* ── 섹션 래퍼 ── */
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
@@ -53,37 +51,31 @@ const sizes: ChipSize[] = ['lg', 'md', 'sm', 'xs'];
 export default function ChipPage() {
   return (
     <div className="min-h-screen bg-white p-8 space-y-10 max-w-3xl mx-auto">
-      <h1 className="typo-title2 font-bold text-text-strong">
-        Chip 컴포넌트 프리뷰
-      </h1>
+      <h1 className="typo-title2 font-bold text-text-strong">Chip 컴포넌트 프리뷰</h1>
 
-      {/* 1. Type x State 매트릭스 */}
+      {/* 1. Type x State */}
       <Section title="1. 타입 x 상태">
         {types.map((type) => (
           <SubSection key={type} title={`type="${type}"`}>
             <div className="flex flex-wrap gap-3 items-center">
-              <Chip type={type} label="미선택" />
-              <Chip type={type} label="선택됨" selected />
-              <Chip type={type} label="비활성" disabled />
-              <Chip type={type} label="선택됨+비활성" selected disabled />
+              <Chip type={type}>미선택</Chip>
+              <Chip type={type} selected>선택됨</Chip>
+              <Chip type={type} disabled>비활성</Chip>
+              <Chip type={type} selected disabled>선택됨+비활성</Chip>
             </div>
           </SubSection>
         ))}
       </Section>
 
-      {/* 2. Size 비교 */}
+      {/* 2. Size */}
       <Section title="2. 사이즈">
         {types.map((type) => (
           <SubSection key={type} title={`type="${type}"`}>
             <div className="flex flex-wrap gap-3 items-center">
               {sizes.map((size) => (
-                <Chip
-                  key={size}
-                  type={type}
-                  size={size}
-                  label={`사이즈 ${size}`}
-                  selected
-                />
+                <Chip key={size} type={type} size={size} selected>
+                  {`사이즈 ${size}`}
+                </Chip>
               ))}
             </div>
           </SubSection>
@@ -93,168 +85,86 @@ export default function ChipPage() {
       {/* 3. 아이콘 조합 */}
       <Section title="3. 아이콘">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="앞쪽" leadingIcon={<StarIcon />} />
-          <Chip label="뒤쪽" trailingIcon={<ChevronDownIcon />} />
-          <Chip
-            label="양쪽"
-            leadingIcon={<StarIcon />}
-            trailingIcon={<CloseIcon />}
-          />
-          <Chip
-            label="앞쪽 숨김"
-            leadingIcon={<StarIcon />}
-            showLeadingIcon={false}
-          />
-          <Chip
-            label="뒤쪽 숨김"
-            trailingIcon={<ChevronDownIcon />}
-            showTrailingIcon={false}
-          />
+          <Chip leadingIcon={<StarIcon />}>앞쪽</Chip>
+          <Chip trailingIcon={<ChevronDownIcon />}>뒤쪽</Chip>
+          <Chip leadingIcon={<StarIcon />} trailingIcon={<CloseIcon />}>양쪽</Chip>
+          <Chip leadingIcon={<StarIcon />} showLeadingIcon={false}>앞쪽 숨김</Chip>
+          <Chip trailingIcon={<ChevronDownIcon />} showTrailingIcon={false}>뒤쪽 숨김</Chip>
         </div>
         <SubSection title="선택됨 + 아이콘">
           <div className="flex flex-wrap gap-3 items-center">
-            <Chip
-              label="아웃라인"
-              type="outlined"
-              selected
-              leadingIcon={<StarIcon />}
-              trailingIcon={<ChevronDownIcon />}
-            />
-            <Chip
-              label="채움"
-              type="filled"
-              selected
-              leadingIcon={<StarIcon />}
-              trailingIcon={<ChevronDownIcon />}
-            />
-            <Chip
-              label="비활성"
-              type="filled"
-              disabled
-              leadingIcon={<StarIcon />}
-              trailingIcon={<CloseIcon />}
-            />
+            <Chip type="outlined" selected leadingIcon={<StarIcon />} trailingIcon={<ChevronDownIcon />}>
+              아웃라인
+            </Chip>
+            <Chip type="filled" selected leadingIcon={<StarIcon />} trailingIcon={<ChevronDownIcon />}>
+              채움
+            </Chip>
+            <Chip type="filled" disabled leadingIcon={<StarIcon />} trailingIcon={<CloseIcon />}>
+              비활성
+            </Chip>
           </div>
         </SubSection>
       </Section>
 
-      {/* 4. Icon sizes per chip size */}
+      {/* 4. 사이즈별 아이콘 */}
       <Section title="4. Chip 사이즈별 아이콘 크기">
         <div className="flex flex-wrap gap-3 items-center">
           {sizes.map((size) => (
-            <Chip
-              key={size}
-              size={size}
-              selected
-              label={size}
-              leadingIcon={<StarIcon />}
-              trailingIcon={<ChevronDownIcon />}
-            />
+            <Chip key={size} size={size} selected leadingIcon={<StarIcon />} trailingIcon={<ChevronDownIcon />}>
+              {size}
+            </Chip>
           ))}
         </div>
       </Section>
 
-      {/* 5. Count 뱃지 */}
-      <Section title="5. 카운트 뱃지">
+      {/* 5. NEW 뱃지 */}
+      <Section title="5. NEW 뱃지">
         <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="필터" selected count={3} />
-          <Chip label="필터" selected count={12} type="filled" />
-          <Chip label="카운트 없음 (미선택)" count={5} />
+          <Chip showNewBadge>새로운!</Chip>
+          <Chip showNewBadge selected>선택됨 새로운</Chip>
+          <Chip showNewBadge type="filled">채움 새로운</Chip>
+          <Chip showNewBadge disabled>비활성 새로운</Chip>
         </div>
       </Section>
 
-      {/* 6. NEW 뱃지 */}
-      <Section title="6. NEW 뱃지 (빨간 점)">
-        <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="새로운!" showNewBadge />
-          <Chip label="선택됨 새로운" showNewBadge selected />
-          <Chip label="채움 새로운" showNewBadge type="filled" />
-          <Chip label="비활성 새로운" showNewBadge disabled />
-        </div>
-      </Section>
-
-      {/* 7. fontStyle */}
-      <Section title="7. fontStyle 속성">
-        <div className="flex flex-wrap gap-3 items-center">
-          <Chip label="자동 (미선택=body)" />
-          <Chip label="자동 (선택됨=title)" selected />
-          <Chip label="강제 title" fontStyle="title" />
-          <Chip label="강제 body" fontStyle="body" selected />
-        </div>
-      </Section>
-
-      {/* 8. ChipGroup -- Carousel */}
-      <Section title="8. ChipGroup - 캐러셀">
+      {/* 6. ChipGroup - Carousel */}
+      <Section title="6. ChipGroup - 캐러셀">
         <ChipGroup layout="carousel">
           {Array.from({ length: 12 }, (_, i) => (
-            <Chip
-              key={i}
-              label={`칩 ${i + 1}`}
-              selected={i === 0}
-              type={i % 2 === 0 ? 'outlined' : 'filled'}
-            />
+            <Chip key={i} selected={i === 0} type={i % 2 === 0 ? 'outlined' : 'filled'}>
+              {`칩 ${i + 1}`}
+            </Chip>
           ))}
         </ChipGroup>
       </Section>
 
-      {/* 9. ChipGroup -- Multiline */}
-      <Section title="9. ChipGroup - 멀티라인">
+      {/* 7. ChipGroup - Multiline */}
+      <Section title="7. ChipGroup - 멀티라인">
         <ChipGroup layout="multiline">
-          {['전체', '대형', '중형', '소형', 'SUV', '전기차', '하이브리드', '수소차'].map(
-            (name, i) => (
-              <Chip
-                key={name}
-                label={name}
-                selected={i === 0}
-                type="filled"
-              />
-            ),
-          )}
+          {['전체', '대형', '중형', '소형', 'SUV', '전기차', '하이브리드', '수소차'].map((name, i) => (
+            <Chip key={name} selected={i === 0} type="filled">{name}</Chip>
+          ))}
         </ChipGroup>
       </Section>
 
-      {/* 10. ChipGroup -- Custom gap */}
-      <Section title="10. ChipGroup - 커스텀 간격 (12px)">
+      {/* 8. ChipGroup - 커스텀 간격 */}
+      <Section title="8. ChipGroup - 커스텀 간격 (12px)">
         <ChipGroup layout="multiline" gap={12}>
-          <Chip label="간격 12" />
-          <Chip label="사이" />
-          <Chip label="칩들" />
+          <Chip>간격 12</Chip>
+          <Chip>사이</Chip>
+          <Chip>칩들</Chip>
         </ChipGroup>
       </Section>
 
-      {/* 11. 종합 -- 다양한 조합 */}
-      <Section title="11. 전체 조합">
+      {/* 9. 전체 조합 */}
+      <Section title="9. 전체 조합">
         <ChipGroup layout="multiline">
-          <Chip
-            label="필터"
-            type="outlined"
-            selected
-            count={5}
-            leadingIcon={<StarIcon />}
-            trailingIcon={<ChevronDownIcon />}
-            showNewBadge
-          />
-          <Chip
-            label="채움"
-            type="filled"
-            selected
-            size="sm"
-            leadingIcon={<StarIcon />}
-          />
-          <Chip
-            label="XS 본문"
-            type="outlined"
-            size="xs"
-            fontStyle="body"
-            trailingIcon={<CloseIcon />}
-          />
-          <Chip
-            label="비활성"
-            type="filled"
-            disabled
-            leadingIcon={<StarIcon />}
-            showNewBadge
-          />
+          <Chip type="outlined" selected showNewBadge leadingIcon={<StarIcon />} trailingIcon={<ChevronDownIcon />}>
+            필터
+          </Chip>
+          <Chip type="filled" selected size="sm" leadingIcon={<StarIcon />}>채움</Chip>
+          <Chip type="outlined" size="xs" trailingIcon={<CloseIcon />}>XS 본문</Chip>
+          <Chip type="filled" disabled leadingIcon={<StarIcon />} showNewBadge>비활성</Chip>
         </ChipGroup>
       </Section>
     </div>

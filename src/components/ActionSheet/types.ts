@@ -1,6 +1,8 @@
+import type { ReactNode } from 'react';
+
 export interface ActionSheetItem {
   label: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   variant?: 'default' | 'destructive' | 'disabled';
   onClick?: () => void;
 }

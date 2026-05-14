@@ -22,7 +22,7 @@ export function Stepper({
 
   return (
     <ol
-      role="list"
+      aria-label="단계 목록"
       className={`${isHorizontal ? 'flex items-start' : 'flex flex-col'} ${className}`}
     >
       {steps.map((step, index) => {

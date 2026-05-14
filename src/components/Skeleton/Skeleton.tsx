@@ -43,6 +43,7 @@ function SingleBone({
       role="status"
       aria-busy="true"
       aria-label="로딩 중"
+      aria-hidden="true"
       className={`skeleton-base ${shapeClass} ${animateClass} ${className}`}
       style={inlineStyle}
     />

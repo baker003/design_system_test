@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, KeyboardEvent } from 'react';
 import type { SegmentedControlProps } from './types';
 
 const SIZE_CLASSES = {
@@ -52,6 +52,40 @@ export function SegmentedControl({
     return () => window.removeEventListener('resize', updateIndicator);
   }, [updateIndicator]);
 
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (disabled) return;
+      const enabledItems = items.filter((item) => !item.disabled);
+      const currentIndex = enabledItems.findIndex((item) => item.value === value);
+      if (currentIndex === -1) return;
+
+      let nextIndex = currentIndex;
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextIndex = (currentIndex + 1) % enabledItems.length;
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        nextIndex = (currentIndex - 1 + enabledItems.length) % enabledItems.length;
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        nextIndex = 0;
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        nextIndex = enabledItems.length - 1;
+      } else {
+        return;
+      }
+
+      const nextItem = enabledItems[nextIndex];
+      onChange(nextItem.value);
+      // Move focus to the newly selected button
+      const allItems = items;
+      const allIndex = allItems.findIndex((item) => item.value === nextItem.value);
+      segmentRefs.current[allIndex]?.focus();
+    },
+    [disabled, items, value, onChange]
+  );
+
   const containerClasses = [
     'relative flex bg-background rounded-xl p-1 gap-1',
     fullWidth ? 'w-full' : 'w-fit',
@@ -62,7 +96,12 @@ export function SegmentedControl({
     .join(' ');
 
   return (
-    <div role="group" aria-label="세그먼트 선택" className={containerClasses}>
+    <div
+      role="radiogroup"
+      aria-label="세그먼트 선택"
+      className={containerClasses}
+      onKeyDown={handleKeyDown}
+    >
       {/* Sliding Indicator */}
       <div
         aria-hidden="true"
@@ -93,6 +132,7 @@ export function SegmentedControl({
             type="button"
             role="radio"
             aria-checked={isSelected}
+            tabIndex={isSelected ? 0 : -1}
             disabled={isItemDisabled || disabled}
             className={buttonClasses}
             onClick={() => !isItemDisabled && !disabled && onChange(item.value)}
