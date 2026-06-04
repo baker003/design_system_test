@@ -65,6 +65,7 @@ export function Chip({
   trailingIcon,
   children,
   onClick,
+  tabIndex,
   className,
 }: ChipProps) {
   const hasLeading = !!leadingIcon && showLeadingIcon;
@@ -80,6 +81,7 @@ export function Chip({
       aria-pressed={selected}
       aria-disabled={disabled || undefined}
       onClick={disabled ? undefined : onClick}
+      tabIndex={tabIndex}
       className={clsx(
         /* base */
         'relative inline-flex items-center justify-center',

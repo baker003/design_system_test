@@ -8,7 +8,7 @@
 | TextButton | `@/components/Button` | 보조 텍스트 버튼 (취소, 보조 액션) | variant, size, disabled, leftIcon, rightIcon |
 | IconButton | `@/components/Button` | 아이콘 전용 버튼 (닫기, 메뉴) | size, shape, type, icon, aria-label |
 | LinkTextButton | `@/components/Button` | 인라인 링크 텍스트 버튼 | size, href, disabled |
-| Chip | `@/components/Chip` | 개별 칩 아이템 (필터, 태그, 선택) | type, size(lg/md/sm/xs), selected, disabled, label, fontStyle, count, leadingIcon, trailingIcon, showNewBadge |
+| Chip | `@/components/Chip` | 개별 칩 아이템 (필터, 태그, 선택) | type, size(lg/md/sm/xs), selected, disabled, children, leadingIcon, trailingIcon, showLeadingIcon, showTrailingIcon, showNewBadge, tabIndex |
 | ChipGroup | `@/components/Chip` | 칩 그룹 레이아웃 컨테이너 (Carousel/Multiline) | layout, gap |
 | Tag | `@/components/Tag` | 읽기 전용 라벨 (상태 표시, 카테고리, 속성 강조) | type, size(xs/sm/md/lg), bold, color, label, leadingIcon, showLeadingIcon |
 | TagGroup | `@/components/Tag` | Tag 그룹 컨테이너 (Divider 포함) | type, showDivider, dividerStyle, gap |
@@ -41,6 +41,7 @@
 | BottomTabBar | `@/components/BottomTabBar` | 모바일 하단 네비게이션 (3~5탭, dot/count 배지, safe area, roving tabindex) | items, activeKey, onChange, safeAreaBottom, className |
 | Avatar | `@/components/Avatar` | 사용자 프로필 이미지 (이미지/이니셜/아이콘 fallback, 상태 dot) | size(xs/sm/md/lg/xl), shape(circle/square), src, alt, initials, status(online/offline/busy/away), aria-label |
 | ListCell | `@/components/ListCell` | 리스트 아이템 단위 (leading icon/avatar, title, subtitle, trailing 5종) | title, subtitle, leadingIcon, leadingAvatar, trailingType(none/icon/text/switch/badge), trailingIcon, trailingText, switchChecked, onSwitchChange, trailingBadge, onClick, showDivider, disabled |
+| StarRatingInput | `@/components/StarRatingInput` | 별점 입력 (1~5, radiogroup 패턴, hover/selected/error/disabled 상태, 키보드 ArrowLeft/ArrowRight) | value(number\|null), onChange, disabled, error, aria-label |
 
 > 새 위젯을 만들기 전에 이 표를 먼저 확인하세요.
 > 새로 만든 재사용 위젯은 반드시 여기에 등록하세요.

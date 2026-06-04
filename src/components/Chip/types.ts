@@ -31,6 +31,8 @@ export interface ChipProps {
   children?: React.ReactNode;
   /** 클릭 핸들러 */
   onClick?: () => void;
+  /** 탭 인덱스 (aria-hidden 영역 내 키보드 포커스 차단 시 -1) */
+  tabIndex?: number;
   /** 추가 className */
   className?: string;
 }
