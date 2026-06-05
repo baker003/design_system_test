@@ -1,0 +1,3 @@
+{"date":"2026-06-05","domain":"ds2","component":"StarRatingInput","topic":"color-token","decision":"별점 selected 색상에 --color-status-caution 시맨틱 토큰 사용","rationale":"팔레트 토큰 직접 사용 금지 원칙. 시맨틱 토큰 경유"}
+{"date":"2026-06-05","domain":"ds2","component":"ReturnSatisfaction","topic":"layout-structure","decision":"수직 6섹션 배치 (AppBar→완료헤더→별점→Chip→코멘트→CTA)","rationale":"반납 직후 입력 부담 최소화, 입력 우선순위 순서"}
+{"date":"2026-06-05","domain":"ds2","component":"ReturnSatisfaction","topic":"submission-policy","decision":"별점 미선택 시 ActionButton disabled, 선택 즉시 활성","rationale":"유효하지 않은 제출 원천 차단"}
